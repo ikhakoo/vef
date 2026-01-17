@@ -1,0 +1,72 @@
+{% comment %}
+  Passes global shopify settings to CSS custom properties and
+  Theme global object. Use good old ES5 in this file!
+
+  Usage:
+  {%- render 'head-settings' -%}
+{% endcomment %}
+
+{% comment %} Style/Liquid Settings {% endcomment %}
+
+
+{%- style -%}
+  {% comment %}font face{% endcomment %}
+  @font-face {
+    font-family: 'Alias Didot Light';
+    src: url('{{ "AliasDidot-Light.woff2" | asset_url }}') format("woff2"),
+        url('{{ "AliasDidot-Light.woff" | asset_url }}') format("woff"),
+        url('{{ "AliasDidot-Light.ttf" | asset_url }}') format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Chassi M Regular';
+    src: url('{{ "ChassiTestM-Regular.woff2" | asset_url }}') format("woff2"),
+        url('{{ "ChassiTestM-Regular.woff" | asset_url }}') format("woff"),
+        url('{{ "ChassiTestM-Regular.ttf" | asset_url }}') format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Chassi M Regular';
+    src: url('{{ "ChassiTestM-Italic.woff2" | asset_url }}') format("woff2"),
+        url('{{ "ChassiTestM-Italic.woff" | asset_url }}') format("woff"),
+        url('{{ "ChassiTestM-Italic.ttf" | asset_url }}') format("truetype");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Chassi M Italic';
+    src: url('{{ "ChasstM-Italic.woff2" | asset_url }}') format("woff2"),
+        url('{{ "ChassiM-Italic.woff" | asset_url }}') format("woff"),
+        url('{{ "ChassiM-Italic.ttf" | asset_url }}') format("truetype");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+  }
+
+
+  @font-face {
+    font-family: 'Favorit Std-Book';
+    src: url('{{ "FavoritStd-BookExtended.woff2" | asset_url }}') format("woff2"),
+        url('{{ "FavoritStd-BookExtended.woff" | asset_url }}') format("woff"),
+        url('{{ "FavoritStd-BookExtended.ttf" | asset_url }}') format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  {% comment %}root css variables{% endcomment %}
+  :root {
+    --alias-didot-light: 'Alias Didot Light';
+    --chassi-m-regular: 'Chassi M Regular', Times, serif;
+    --chassi-m-italic: 'Chassi M Italic';
+    --favorit-std-book: 'Favorit Std-Book'
+  }
+{%- endstyle -%}

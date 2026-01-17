@@ -1,0 +1,25 @@
+{% liquid
+  assign c = "ArticleExternalSources"
+  assign metafields = metafields.external_sources
+  assign sources = metafields.source
+  assign sources_size = 0
+  for source in sources
+    if source.html != blank
+      assign sources_size = sources_size | plus: 1
+    endif
+  endfor
+%}
+<div class="{{c}}">
+  {% if sources_size > 0 %}
+    <div class="{{c}}__inner">
+      <ul class="{{c}}__list">
+        <div class="{{c}}__list-header subheader">External Sources</div>
+        {% for source in sources %}
+          {% if source.html != blank %}
+            <li class="{{c}}__list-item">{{ source.html }}</li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+</div>

@@ -1,0 +1,22 @@
+{%
+  render 'swym-wishlist-page',
+  section: section.settings,
+%}
+
+{% schema %}
+{
+  "name": "Wishlist Page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Empty Wishlist Text Overrides"
+    },
+    {
+      "type": "textarea",
+      "id": "empty_wishlist_text",
+      "label": "Text",
+      "default": "Access your wishlist from any device. Create and manage multiple wishlists, and share them with friends and loved ones."
+    }
+  ]
+}
+{% endschema %}

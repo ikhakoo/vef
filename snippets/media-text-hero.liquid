@@ -1,0 +1,65 @@
+{% liquid
+  assign c = "MediaTextHero"
+  assign index = index
+  assign nav_ref = nav_ref | handleize | default: false
+  assign header = header[index] | default: false
+  assign subheader = subheader[index] | default: false
+  assign image = image[0] | default: false
+  assign image_mobile = image_mobile[0] | default: false
+  assign color = color[index] | default: false
+  assign title_under_hero = title_under_hero[index] | default: false
+  assign title_position = 'overlay'
+  assign image_component_class = c | append: "__image-container"
+  assign image_class = c | append: "__image"
+
+  if title_under_hero
+    assign title_position = 'under_hero'
+  endif
+
+%}
+
+<div
+  class="{{c}} {{ title_position }}"
+  {% unless title_under_hero %}style="color: {{ color }};"{% endunless %}
+  data-section-target="location--{{ nav_ref }}"
+  id="location--{{ nav_ref }}"
+>
+  {% if index == 0 %}
+
+    <div class="{{c}}__text-container">
+      {% if header %}
+        <h1 class="{{c}}__header h3">
+          {{ header }}
+        </h1>
+      {% endif %}
+
+      {% if subheader %}
+        <h2 class="{{c}}__subheader body">
+          {{ subheader }}
+        </h2> 
+      {% endif %}
+    </div>
+
+  {% else %}  
+
+    <div class="{{c}}__text-container">
+      <h3 class="{{c}}__header h3">
+        {{ header }}
+      </h3>
+      <h4 class="{{c}}__subheader body">
+        {{ subheader }}
+      </h4>
+    </div>
+
+  {% endif %}
+
+  {% render 'image',
+    component_class: image_component_class,
+    class: image_class,
+    image: image_mobile,
+    sizes: "350",
+    image_2: image,
+    sizes_2: "768, 1024, 1200",
+    use_original_accentuate: true,
+  %}
+</div>

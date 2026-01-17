@@ -1,0 +1,82 @@
+{% liquid
+  assign c = "EmptyCartCollectionCards"
+  assign settings = settings
+
+  assign image_component_class = c | append: "__image-container"
+  assign image_class = c | append: "__image"
+  assign video_component_class = c | append: '__video-container'
+  assign video_class = c | append: '__video'
+  assign control_modifier_class = c | append: '__video-control'
+%}
+
+<div
+  class="{{c}}"
+  
+>
+  <div class="{{c}}__cards">
+    <a class="{{c}}__card" href="{{ settings.url_one }}">
+      <div class="{{c}}__content">
+        <div class="{{c}}__image-container">
+          {% if settings.bg_video_one %}
+            {% liquid
+              assign video_src = settings.bg_video_one.sources | where: 'mime_type', 'video/mp4'
+              assign poster = settings.bg_video_one.preview_image | image_url: width: 780
+            %}
+
+            {% 
+              render 'video',
+              component_class: video_component_class,
+              class: video_class,
+              video: video_src[0].url,
+              poster: poster,
+              control_modifier_class: control_modifier_class,
+            %}
+          {% else %}
+            {% 
+              render 'image',
+              component_class: image_component_class,
+              class: image_class,
+              image: settings.bg_image_one,
+              sizes: '325,425,525,600,768,820,1024',
+            %}
+          {% endif %}
+        </div>
+        <div class="{{c}}__card-title h5 {{ settings.text_color_one }}">
+          {{ settings.text_one }}
+        </div>
+      </div>
+    </a>
+    <a class="{{c}}__card" href="{{ settings.url_two }}">
+      <div class="{{c}}__content">
+        <div class="{{c}}__image-container">
+          {% if settings.bg_video_two %}
+            {% liquid
+              assign video_src = settings.bg_video_two.sources | where: 'mime_type', 'video/mp4'
+              assign poster = settings.bg_video_two.preview_image | image_url: width: 780
+            %}
+
+            {% 
+              render 'video',
+              component_class: video_component_class,
+              class: video_class,
+              video: video_src[0].url,
+              poster: poster,
+              control_modifier_class: control_modifier_class,
+            %}
+          {% else %}
+            {% 
+              render 'image',
+              component_class: image_component_class,
+              class: image_class,
+              image: settings.bg_image_two,
+              sizes: '325,425,525,600,768,820,1024',
+            %}
+          {% endif %}
+        </div>
+        <div class="{{c}}__card-title h5 {{ settings.text_color_two }}">
+          {{ settings.text_two }}
+        </div>
+      </div>
+    </a>
+  </div>
+</div>

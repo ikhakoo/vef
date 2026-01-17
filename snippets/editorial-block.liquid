@@ -1,0 +1,59 @@
+{% liquid
+  assign c = "EditorialBlock"
+  assign field = field
+  assign index = index
+  assign video = field.video[index][0] | default: false
+  assign image = field.image[index][0] | default: false
+  assign title = field.title[index] | default: false
+  assign text = field.text[index] | default: false
+  assign url = field.url[index] | default: false
+  assign left_align_text = field.left_align_text[index] | default: false
+  assign cta_text = field.cta_text[index] | default: 'Shop Now'
+  assign video_component_class = c | append: '__video-wrap'
+  assign video_class = c | append: '__video'
+  assign image_component_class = c | append: '__image-wrap'
+  assign image_class = c | append: '__image'
+%}
+
+<div class="{{c}} {% if left_align_text %} left-align-text {% endif %}">
+  {% if video %}
+    {%
+      render 'video'
+      component_class: video_component_class,
+      class: video_class,
+      video: video.src,
+      poster: image.src,
+    %}  
+  {% else %}
+    {%
+      render 'image'
+      component_class: image_component_class,
+      class: image_class,
+      image: image,
+      sizes: '325,425,600,768,1024'
+    %}
+  {% endif %}
+
+  <div class="{{c}}__content">
+    {% if title %}
+      <div class="{{c}}__title subheader">
+        {{ title }}
+      </div>
+    {% endif %}
+
+    {% if text %}
+      <div class="{{c}}__text body">
+        {{ text }}
+      </div>
+    {% endif %}
+
+    {% if url %}
+      <a 
+        class="{{c}}__cta cta cta--black"
+        href="{{ url }}"
+      >
+        {{ cta_text }}
+      </a>
+    {% endif %}
+  </div>
+</div>

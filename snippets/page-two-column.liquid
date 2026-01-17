@@ -1,0 +1,100 @@
+{% liquid
+  assign c = "PageTwoColumn"
+  assign nav_ref = nav_ref | handleize | default: false
+  assign index = index | default: 0
+  assign top_margin = top_margin | default: 0
+  assign bottom_margin = bottom_margin | default: 0
+  assign text_first = text_first | default: false
+  assign video_url = video_url | default: false
+  assign video_url_mobile = video_url_mobile | default: false
+  assign video_component_class = c | append: '__video-wrap'
+  assign video_class = c | append: '__video'
+  assign image = image | default: false
+  assign header = header | default: false
+  assign body = body | default: false
+  assign cta_text = cta_text | default: false
+  assign cta_link = cta_link | default: false
+  assign enable_shoppable = enable_shoppable | default: false
+  assign shoppable_id = shoppable_id | default: false
+  assign shoppable_cta = shoppable_cta | default: false
+  assign shoppable_products = shop.metaobjects.shoppable_content[shoppable_id] | default: false
+
+  assign image_component_klass = c | append: "__image-container"
+  assign image_klass = c | append: "__image"
+  assign modifiers = ''
+
+  if text_first == "true"
+    assign modifiers = c | append: '--text-first'
+  endif
+
+%}
+
+{% style %}
+  .set-margin--section{{ index }} {
+    margin: {{ top_margin | divided_by: 2 }}px 0px {{ bottom_margin | divided_by: 2 }}px 0px;
+  }
+
+  @media only screen and (min-width: 768px) {
+    .set-margin--section{{ index }} {
+      margin: {{ top_margin }}px 0px {{ bottom_margin }}px 0px;
+    }
+  }
+{% endstyle %}
+
+<section
+  class="{{c}} {{ modifiers }} set-margin--section{{ index }} js-section-target"
+  data-section-target="location--{{ nav_ref }}"
+  id="location--{{ nav_ref }}"
+>
+
+  <div class="{{c}}__container">
+    <div class="{{c}}__media-container">
+
+      {% if video_url_mobile != blank and video_url != blank %}
+        {% render 'video',
+          component_class: video_component_class,
+          class: video_class,
+          video: video_url,
+          mobile_video: video_url_mobile,
+          poster: image.src
+        %}
+      {% else %}
+        {% render 'image',
+          component_class: image_component_klass,
+          class: image_klass,
+          image: image,
+          sizes: '300, 768, 1024, 1440'
+        %}
+      {% endif %}
+
+      {% if enable_shoppable %}
+        <div
+          class="{{c}}__shoppable-cta body-s js-toggleShoppable"
+          data-id="{{ shoppable_id }}"
+        >
+          {{ shoppable_cta }}
+        </div>
+      {% endif %}
+    </div>
+
+    <div
+      class="{{c}}__text-container"
+    >
+      <h2 class="{{c}}__header h3">
+        {{ header }}
+      </h2>
+
+      <div class="{{c}}__body body">
+        {{ body }}
+      </div>
+
+      {% if cta_text and cta_link %}
+        <div class="{{c}}__cta-wrapper">
+          <a href="{{ cta_link }}" class="{{c}}__cta cta cta--black">
+            {{ cta_text }}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>

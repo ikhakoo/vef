@@ -1,0 +1,91 @@
+{% liquid
+  assign c = "FilterCategory"
+  assign filter = filter
+  assign label = filter.label
+  assign id = filter.label | handleize
+  assign active_values_count = filter.active_values | size
+  assign is_price_filter = false
+  assign hidden_options = settings.product_variant_values_to_hide | split: ","
+  assign custom_order = false
+
+  if filter.type == 'price_range'
+    assign is_price_filter = true
+  endif
+
+  if id == 'floral-color'
+    assign custom_order = shop.metafields.globals.color_filter_order
+  endif
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  data-category="{{ filter.param_name }}"
+>
+  <button
+    class="{{c}}__toggle js-categoryToggle"
+    aria-label="Show {{ label }} filter options"
+    aria-controls="#{{ id }}"
+  >
+    <span class="subheader">
+      {{ label }}:
+
+      {% unless is_price_filter %}
+        <span
+          class="js-filterOptionCount"
+          data-param="{{ filter.param_name }}"
+        >
+          {% if active_values_count > 0 %}
+            ({{ active_values_count }})
+          {% endif %}
+        </span>
+      {% endunless %}
+    </span>
+
+    {%
+      render 'component-icon',
+      icon: 'chevron-icon'
+    %}
+  </button>
+
+  <div
+    id="{{ id }}"
+    class="{{c}}__content js-categoryContent {% if is_price_filter %} price-filter {% endif %}"
+    aria-hidden="true"
+    aria-expanded="false"
+  >
+    <div class="{{c}}__content-wrap">
+      {% if is_price_filter %}
+        {%
+          render 'price-filter'
+          filter: filter,
+        %}
+
+      {% else %}
+        {% for value in filter.values %}
+          {% liquid
+            assign hide_option = false
+
+            for option in hidden_options
+              if option == value.label
+                assign hide_option = true
+              endif
+            endfor
+          %}
+
+          {% unless hide_option %}
+            {%
+              render 'filter-option',
+              value: value,
+              label: label,
+              index: forloop.index,
+              custom_order: custom_order
+            %}
+
+          {% endunless %}
+
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</div>

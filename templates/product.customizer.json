@@ -1,0 +1,51 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product-customizer",
+      "blocks": {
+        "e34e687c-98f5-4972-a00c-471c2dd385c7": {
+          "type": "card",
+          "settings": {
+            "card_image": "shopify://shop_images/signature.jpg",
+            "card_title": "Signature"
+          }
+        },
+        "87528e88-e801-4a6c-a354-31be684c4a2b": {
+          "type": "card",
+          "disabled": true,
+          "settings": {
+            "card_image": "shopify://shop_images/Love.jpg",
+            "card_title": "Love & Romance"
+          }
+        },
+        "5b289d47-17b8-4837-b63e-3c52db4ba8a8": {
+          "type": "slogan",
+          "disabled": true,
+          "settings": {
+            "slogan_selector": "customizer"
+          }
+        }
+      },
+      "block_order": [
+        "e34e687c-98f5-4972-a00c-471c2dd385c7",
+        "87528e88-e801-4a6c-a354-31be684c4a2b",
+        "5b289d47-17b8-4837-b63e-3c52db4ba8a8"
+      ],
+      "settings": {
+        "default_collection": "picture-frames"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

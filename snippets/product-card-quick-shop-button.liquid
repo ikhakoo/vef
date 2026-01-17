@@ -1,0 +1,30 @@
+{% liquid
+  assign c = "ProductCardQuickShopButton"
+  assign handle = handle
+  assign current_variant = current_variant
+  assign variant_sku = variant_sku
+  assign product_title = product_title
+%}
+
+<button
+  class="{{c}} js-quickShopBtn"
+  data-product-handle="{{ handle }}"
+  data-variant-id="{{ current_variant.id }}"
+  data-variant-sku="{{ variant_sku }}"
+  data-product-title="{{ product_title }}"
+  aria-label="Open product quick shop"
+>
+  <div class="{{c}}__icon">
+    {%
+      render 'component-icon',
+      icon: 'quick-shop-bag',
+    %}
+  </div>
+
+  <span class="caption js-quickShopPrice" data-variant-id="{{ current_variant.id }}">
+    {{ current_variant.price | money_without_trailing_zeros }}    
+  </span>
+  <span class="{{c}}__compare-at caption js-compareAtPrice" data-variant-id="{{ current_variant.id }}">
+    {{ current_variant.compare_at_price | money_without_trailing_zeros }}
+  </span>
+</button>

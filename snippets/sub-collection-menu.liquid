@@ -1,0 +1,50 @@
+{% liquid
+  assign c = "SubCollectionMenu"
+  assign field = field
+  assign sub_collections = field.sub_collections | split: "|"
+  assign sub_collection_images = field.sub_collection_images | default: false
+
+  if sub_collections == empty
+    assign empty_section = true
+  endif
+%}
+
+<div 
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  {% unless empty_section %}
+    <div class="{{c}}__wrapper ">
+      <div class="{{c}}__cards-container swiper js-carousel">
+        <div class="{{c}}__controls-wrap">
+          <button 
+            class="{{c}}__arrow {{c}}__arrow--left js-carouselPrev"
+            aria-label="Navigate to previous slide"
+          >
+            {% render 'icon', icon: 'arrow-left' %}
+          </button>
+          <button 
+            class="{{c}}__arrow {{c}}__arrow--right js-carouselNext"
+            aria-label="Navigate to next slide"
+          >
+            {% render 'icon', icon: 'arrow-right' %}
+          </button>
+        </div>
+        <div class="{{c}}__cards-wrapper swiper-wrapper">
+          {% for ref in sub_collections %}
+            {% assign sub_collection = collections[ref] %}
+            {% assign image = sub_collection_images[forloop.index0] %}
+            <div class="{{c}}__sub-collection-item {{c}}__card-container swiper-slide">
+              {% render 'landing-three-card-module-card',
+                image: image,
+                caption: '',
+                title: sub_collection.title,
+                link: sub_collection.url
+              %}
+            </div> 
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endunless %}
+</div>

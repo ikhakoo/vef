@@ -1,0 +1,35 @@
+{% render 'product-carousel',
+  settings: section.settings
+%}
+
+{% schema %}
+{
+  "name": "Product Carousel",
+  "settings": [
+    {
+      "type": "text",
+      "id": "header",
+      "label": "Carousel Header"
+    },
+    {
+      "type": "text",
+      "id": "subheader",
+      "label": "Carousel Subheader"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collections"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Carousel",
+      "category": "Homepage"
+    }
+  ],
+  "templates": [
+    "index"
+  ]
+}
+{% endschema %}

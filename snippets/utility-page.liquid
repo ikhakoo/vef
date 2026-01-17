@@ -1,0 +1,35 @@
+{% liquid
+  assign c = "UtilityPage"
+  assign settings = settings | default: false
+  assign utility_nav = linklists[settings.utility_nav].links | default: false
+%}
+
+<div
+  class="{{c}}"
+>
+
+  {% render 'utility-hero' %}
+
+  <div class="{{c}}__container">
+
+    <div class="{{c}}__content">
+
+      {% render 'utility-navigation'
+        utility_nav: utility_nav
+      %}
+
+      <div class="{{c}}__main">
+
+        {% if page.url contains "faq" %}
+          {% render 'faq-blocks' %}
+        {% endif %}
+
+        {% if page.content != blank %}
+          <div class="{{c}}__body">
+            {{ page.content }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

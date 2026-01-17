@@ -1,0 +1,37 @@
+{% liquid
+  assign c = "AccountDrawer"
+  assign settings = settings
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  aria-expanded="false"
+  aria-hidden="true"
+>
+
+  <div class="{{c}}__container">
+
+    <div class="{{c}}__top">
+      <button
+        class="{{c}}__close js-accountDrawerClose"
+        aria-label="Close Account Drawer"
+      >
+        {% render 'icon',
+          icon: 'close',
+          component: c
+        %}
+      </button>
+      <div class="{{c}}__header subheader">
+        My Account
+      </div>
+    </div>
+
+    {%
+      render 'account-login-register',
+      id_login: 'customer_login_desktop',
+      id_recover: 'customer_recover_desktop',
+      id_register: 'create_customer_desktop'
+    %}
+  </div>
+</div>

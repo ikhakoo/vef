@@ -1,0 +1,81 @@
+{% liquid
+  assign c = "NavigationSubmenu"
+  assign navigation = navigation
+  assign blocks = blocks
+  assign media = media | default: false
+  assign link = link
+%}
+
+{% for link in navigation %}
+
+  {% assign component_open = false %}
+
+  {% capture submenu_back_btn %}
+    {% if media == "mobile" %}
+      <button
+        class="{{c}}__back-btn js-menuBack"
+        aria-label="Go back to main menu"
+      >
+        {% render 'icon', icon: 'caret-left', component: c %}
+        <span class="btn-copy">{{ link.title }}</span>
+      </button>
+    {% else %}
+      {% comment %}Defaults to accessible close{% endcomment %}
+      <button class="skip-link js-navSubMenuClose">
+        Close Menu
+      </button>
+    {% endif %}
+  {% endcapture %}
+
+  {% comment %}
+  Submenu blocks for rendering link_lists and content:
+  - Only renders blocks that have a text target setting that matches
+    a link title from the main navigation (v2).
+  {% endcomment %}
+  {% for block in blocks %}
+    {% liquid
+      assign block_target_handle = block.settings.target | handleize
+      assign link_handle = link.title | handleize
+    %}
+
+    {% if block_target_handle == link_handle %}
+
+      {% unless component_open == true %}
+        {% assign component_open = true %}
+        <div
+          class="{{c}} js-navSubMenu"
+          data-sublinks="{{ link_handle }}"
+          id="{{ link_handle }}-{{ media }}-tab"
+          aria-hidden="true"
+          aria-expanded="false"
+        >
+          {{ submenu_back_btn }}
+      {% endunless %}
+
+      {% liquid
+        if block.type == "image_links"
+          render "submenu-image-links", links: linklists[block.settings.image_link_list].links
+        endif
+
+        if block.type == "text_links"
+          render "submenu-links", links: linklists[block.settings.text_link_list].links, media: media
+        endif
+
+        if block.type == "text_links_with_image"
+          render "submenu-links-and-image-block", links: linklists[block.settings.text_link_list].links, image: block.settings.image, title: block.settings.image_text, url_text: block.settings.image_url_text, url: block.settings.image_url, media: media
+        endif
+
+        if block.type == "image_blocks"
+          render "submenu-image-blocks", block: block
+        endif
+      %}
+
+    {% endif %}
+
+    {% if component_open and forloop.last == true %}
+      </div>
+    {% endif %}
+
+  {% endfor %}
+
+{% endfor %}

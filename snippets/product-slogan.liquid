@@ -1,0 +1,45 @@
+{% liquid
+  assign c = "ProductSlogan"
+  assign tags = tags
+  assign blocks = blocks
+  assign assigned_slogan = false
+  assign slogan_selector = false
+
+  for tag in tags
+    assign cased_tag = tag | downcase
+
+    if cased_tag contains 'slogan:'
+      assign slogan_selector = tag | split: ':' | last
+      break
+    endif
+  endfor
+
+  if slogan_selector
+    for block in blocks
+      if slogan_selector == block.settings.slogan_selector
+        assign assigned_slogan = block.settings.slogan
+        break
+      endif
+    endfor
+  endif
+%}
+
+{% if assigned_slogan %}
+  <div class="{{c}}">
+    <div class="{{c}}__container">
+      <div class="{{c}}__wrap">
+        <div class="{{c}}__slogan {{c}}__offset {{c}}__offset--left">
+          {{ assigned_slogan }}
+        </div>
+  
+        <div class="{{c}}__slogan">
+          {{ assigned_slogan }}
+        </div>
+  
+        <div class="{{c}}__slogan  {{c}}__offset {{c}}__offset--right">
+          {{ assigned_slogan }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}

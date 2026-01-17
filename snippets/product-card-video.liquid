@@ -1,0 +1,25 @@
+{% liquid
+  assign c = "ProductCardVideo"
+  assign video = video
+  assign poster = poster
+  assign video_src = video.sources | where: 'mime_type', 'video/mp4' | first
+%}
+
+<div class="{{c}} js-productCardVideoContainer">
+  <video 
+    class="{{c}}__video js-productCardVideo"
+    autoplay
+    playsinline
+    muted
+    loop
+    {% if poster %}
+      poster="{{ poster | image_url: width: 600 }}"
+    {% endif %}
+  >
+    <source
+      class="js-productCardVideoSrc"
+      data-src="{{ video_src.url }}"
+      type="video/mp4"
+    />
+  </video>
+</div>

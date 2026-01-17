@@ -1,0 +1,15 @@
+{% liquid
+  assign c = "CheckoutAccessibilityBar"
+%}
+
+<div class="{{c}}">
+  <div class="{{c}}__container">
+    <a 
+      class="{{c}}__link caption"
+      href="#"
+      onclick="return enableUsableNetAssistive()"
+    >
+      Enable Accessibility
+    </a>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+{% liquid
+  assign c = "MiniCartRecommendations"
+  assign settings = settings
+  assign blocks = blocks
+  assign upsell_collection = settings.display_collection
+  assign collection_size = upsell_collection.products | size
+%}
+
+<div
+  class="{{c}} {% unless settings.recommendations_enabled %}hide{% endunless %}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__container swiper js-miniCartRecommendations">
+    <div class="{{c}}__header-container">
+      <div class="{{c}}__text-container">
+        <div class="{{c}}__header h4">
+
+          {% for block in blocks %}
+             <div 
+              class="{{c}}_block-header js-blockTitle hide"
+              data-step-index="{{ forloop.index0 }}"
+              data-step-max="{{ block.settings.max_spend }}"
+              data-step-min="{{ block.settings.min_spend }}"
+            >
+              {{ block.settings.header }}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% if collection_size > 0 %}
+        <div class="{{c}}__carousel-nav">
+          <button
+            class="{{c}}__arrow prev js-miniCartRecommendationsPrev"
+            aria-label="Previous image"
+          >
+            {% render "icon", icon: "arrow-left", component: c %}
+          </button>
+
+          <button
+            class="{{c}}__arrow next js-miniCartRecommendationsNext"
+            aria-label="Next image"
+          >
+            {% render "icon", icon: "arrow-right", component: c %}
+          </button>
+        </div>
+      {% endif %}
+    </div>
+    <div class="{{c}}__wrapper swiper-wrapper">
+      {% for product in upsell_collection.products %}
+        {% if product.available %}          
+          <div class="{{c}}__slide swiper-slide js-slide hide" data-product-id="{{ product.id }}">
+            {% render 'product-quick-add-card',
+            product: product,
+            no_color_filters_active: true
+            %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>

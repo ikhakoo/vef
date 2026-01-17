@@ -1,0 +1,37 @@
+{% liquid
+  assign c = "SearchForm"
+  assign modifier = modifier
+%}
+
+<div class="{{c}} {{ modifier }}">
+  <form
+    class="{{c}}__form"
+    action="/search"
+  >
+
+    <div class="{{c}}__input-wrap">
+      <input
+        type="text"
+        name="shopify_products[query]"
+        title="Search"
+        value=""
+        placeholder="search here..."
+        autocomplete="off"
+        class="{{c}}__input body js-searchInput"
+        aria-label="Search products"
+        required
+      >
+
+      <button
+        class="{{c}}__submit"
+        type="submit"
+        title="Submit"
+      >
+        {%
+          render 'component-icon',
+          icon: 'search-glass-icon'
+        %}
+      </button>
+    </div>
+  </form>
+</div>

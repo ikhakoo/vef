@@ -1,0 +1,30 @@
+{% liquid
+  assign c = "NavigationSearchMobile"
+%}
+
+<div class="{{c}} caption js-searchMobile">
+  <form class="{{c}}__form CustomForm" action="/search">
+    <label
+      class="{{c}}__label CustomForm__label"
+      for="q">
+        Search For
+    </label>
+    <input
+      class="{{c}}__input-text CustomForm__input"
+      type="text"
+      name="shopify_products[query]"
+      title="Search"
+      value=""
+      placeholder="Search"
+      autocomplete="off"
+      required
+    >
+    <button
+      type="submit"
+      title="Submit Search Form"
+      class="{{c}}__search-btn"
+    >
+      {% render 'icon', icon: 'search', component: c %}
+    </button>
+  </form>
+</div>

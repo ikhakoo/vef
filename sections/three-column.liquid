@@ -1,0 +1,60 @@
+{% render 'three-column',
+  settings: section.settings,
+  blocks: section.blocks
+%}
+
+{% schema %}
+{
+  "name": "Three Column",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Three Column Background Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Three Column Background Mobile Image"
+    }
+  ],
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "column-item",
+      "name": "Three Column Item",
+      "settings": [
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Column Item Link"
+        },
+        {
+          "type": "text",
+          "id": "url_text",
+          "label": "Column Item Link Text"
+        },
+        {
+          "type": "image_picker",
+          "id": "hover_image",
+          "label": "Column Item Hover Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_hover_image",
+          "label": "Column Item Hover Mobile Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Three Column",
+      "category": "Homepage"
+    }
+  ],
+  "templates": [
+    "index"
+  ]
+}
+{% endschema %}

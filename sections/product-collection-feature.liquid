@@ -1,0 +1,29 @@
+{%
+  render 'product-collection-feature',
+  collection: collection,
+  default_collection: section.settings.default_collection
+%}
+
+{% schema %}
+{
+  "name": "Collection Feature",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "default_collection",
+      "label": "Default collection",
+      "info": "If the user does not click through a collection to a product this collection will be used for the PDP media with copy section"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Feature"
+    }
+  ],
+  "enabled_on": {
+    "templates": [
+      "product"
+    ]
+  }
+}
+{% endschema %}

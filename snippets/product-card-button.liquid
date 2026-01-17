@@ -1,0 +1,26 @@
+{% liquid
+  assign c = "ProductCardButton"
+  assign block = block
+  assign settings = block.settings
+  assign image_component_class = c | append: '__image-wrap js-cardImageWrap'
+  assign image_class = c | append: '__image'
+  assign single_block = single_block | default: false
+%}
+
+<button
+  class="{{c}} js-cardBtn {% if single_block %}selected-card{% endif %}"
+  data-card-style="{{ settings.card_title }}"
+  aria-label="Select {{ settings.card_title }} card"  
+>
+  {%
+    render 'image',
+    component_class: image_component_class,
+    class: image_class,
+    image: settings.card_image,
+    sizes: '0',
+  %}
+
+  <div class="{{c}}__title body-s">
+    {{ settings.card_title }}
+  </div>
+</button>

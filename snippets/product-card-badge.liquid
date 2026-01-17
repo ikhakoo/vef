@@ -1,0 +1,33 @@
+{% liquid
+  assign c = "ProductCardBadge"
+  assign tags = tags
+  assign badge_text = false
+  assign badge_color = '#65B4E0'
+
+  for tag in tags
+    assign cased_tag = tag | downcase
+
+    if tag contains ':'
+      assign key = cased_tag | split: ':' | first
+      assign value = cased_tag | split: ':' | last
+
+      if key == 'badge'
+        assign badge_text = value
+      elsif key == 'badge color'
+        assign badge_color = value
+      endif
+    endif
+  endfor
+
+%}
+
+{% if badge_text %}
+  <div class="{{c}}">
+    <div
+      class="{{c}}__text caption"
+      style="background-color: {{ badge_color }}"
+    >
+      {{ badge_text }}
+    </div>
+  </div>
+{% endif %}

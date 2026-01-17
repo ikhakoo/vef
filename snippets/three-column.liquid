@@ -1,0 +1,59 @@
+{% liquid
+  assign c = "ThreeColumn"
+  assign image = settings.image
+  assign image_mobile = settings.mobile_image
+  assign image_component_class = c | append: "__image-container"
+  assign image_class = c | append: "__image"
+  assign blocks = blocks | default: false
+%}
+
+<section
+  class="{{c}} js-inview-entry"
+>
+  <div class="{{c}}__container fallback-aspect">
+
+    {% render 'image',
+      component_class: image_component_class,
+      class: image_class,
+      image: image_mobile,
+      sizes: "350",
+      image_2: image,
+      sizes_2: "768, 1024, 1200"
+    %}
+
+    <div class="{{c}}__columns">
+      {% for block in blocks %}
+        {% liquid
+          assign hover_image = block.settings.hover_image
+          assign mobile_hover_image = block.settings.mobile_hover_image
+          assign url = block.settings.url
+          assign url_text = block.settings.url_text
+          assign hover_image_component_class = c | append: "__hover-image-container"
+          assign hover_image_class = c | append: "__hover-image"
+        %}
+        <div class="{{c}}__column">
+
+          <div class="{{c}}__hover-container">
+            {% render 'image',
+              component_class: hover_image_component_class,
+              class: hover_image_class,
+              image: mobile_hover_image,
+              sizes: "350",
+              image_2: hover_image,
+              sizes_2: "768, 1024, 1200"
+            %}
+          </div>
+
+          <div class="{{c}}__text-container">
+
+            <a class="{{c}}__link h3 Tr--fade-in-up Tr--delay--{{ forloop.index | times: 3 }}00" href="{{ url }}">
+              <span class="{{c}}__link-text">
+                {{ url_text }}
+              </span>
+            </a>
+          </div>
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+</section>

@@ -1,0 +1,40 @@
+{% render 'list-collections',
+  section: section
+%}
+
+{% schema %}
+{
+  "name": "List Collections",
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Collection Thumbnail"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Collection Title"
+        },
+        {
+          "type": "textarea",
+          "id": "copy",
+          "label": "Collection Hover Copy"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Linked Collection"
+        }
+      ]
+    }
+  ],
+  "templates": [
+    "list-collections"
+  ]
+}
+{% endschema %}

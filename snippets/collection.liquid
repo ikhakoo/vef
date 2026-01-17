@@ -1,0 +1,108 @@
+{% liquid
+  assign c = "Collection"
+  assign has_delivery_selection = has_delivery_selection | default: false
+  assign section = section
+  assign product_count = 48
+  assign category_links_title = collection.metafields.plp_category_links.title | default: false
+  assign category_links = collection.metafields.plp_category_link | default: false
+  assign sort_by = collection.sort_by | default: collection.default_sort_by
+  assign collection_quick_shop_enabled = collection.metafields.custom.quick_add_enabled | default: false
+  assign collection_lifestyle_images_enabled = collection.metafields.custom.enable_lifestyle_images | default: false
+  assign collection_expanded_variants = collection.metafields.custom.expand_all_variants | default: false
+  assign builder_sections = collection.metafields.builder_io
+  assign num_builder_sections = builder_sections | size
+  assign grid_messaging_block_field = collection.metafields.grid_messaging_block
+  assign grid_messaging_block_placement = grid_messaging_block_field.placement | plus: 0 | default: false
+  assign show_messaging_block = false
+  assign hide_collection_image = collection.metafields.collection_header.hide_collection_image | default: false
+
+  if num_builder_sections > 0
+    assign include_builder_script = true
+  endif
+
+  if grid_messaging_block_placement > 0 and grid_messaging_block_placement < 48
+    assign product_count = 47
+    assign show_messaging_block = true
+  endif
+%}
+
+{% if include_builder_script %}
+  <script async="false" src="https://cdn.builder.io/js/webcomponents"></script>
+{% endif %}
+
+<div class="{{c}}">
+  {%
+    render 'collection-header',
+    field: collection.metafields.collection_header,
+    title_is_overlay: collection.metafields.collection_header.title_below_hero_image,
+    enable_dark_text: collection.metafields.collection_header.enable_dark_text,
+    hide_collection_image: hide_collection_image
+  %}
+  
+  {%
+    render 'collection-promobar',
+    collection: collection,
+    fields: collection.metafields.collection_promobar
+  %}
+
+  {% if has_delivery_selection %}
+    {% 
+      render 'collection-title-delivery-selection',
+      section: section,
+    %}
+  {% else %}
+    {%
+      render 'collection-title',
+      collection: collection,
+      title_is_overlay: collection.metafields.collection_header.title_below_hero_image,
+      hide_collection_image: hide_collection_image
+    %}
+  {% endif %}
+
+  {% 
+    render 'sub-collection-menu'
+    field: collection.metafields.sub_collection_menu
+  %}
+
+  {% if builder_sections.top_builder_html_code %}
+    <div class="{{c}}_builder-html top-builder-html">{{ builder_sections.top_builder_html_code }}</div>
+  {% endif %}
+
+  {% paginate collection.products by product_count %}
+    {%
+      render 'product-grid',
+      section: section,
+      products: collection.products,
+      collection: collection,
+      category_links_title: category_links_title,
+      category_links: category_links,
+      results_count: collection.products_count,
+      sort_by: sort_by,
+      sort_options: collection.sort_options,
+      filters: collection.filters,
+      check_editorial_block: true,
+      show_messaging_block: show_messaging_block,
+      grid_messaging_block_placement: grid_messaging_block_placement,
+      grid_messaging_block_field: grid_messaging_block_field,
+      paginate: paginate,
+      collection_quick_shop_enabled: collection_quick_shop_enabled,
+      collection_lifestyle_images_enabled: collection_lifestyle_images_enabled,
+      collection_expanded_variants: collection_expanded_variants,
+      has_delivery_selection: has_delivery_selection,
+    %}
+
+    {%
+      render 'pagination',
+      paginate: paginate
+    %}
+  {% endpaginate %}
+
+  {% if builder_sections.bottom_builder_html_code %}
+    <div class="{{c}}_builder-html bottom-builder-html">{{ builder_sections.bottom_builder_html_code }}</div>
+  {% endif %}
+
+  {% 
+    render 'collection-addon-modules',
+    collection: collection,
+  %}  
+</div>

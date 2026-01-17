@@ -1,0 +1,123 @@
+{% liquid
+  assign c = "AccountRegisterForm"
+  assign form_class = c | append: '__form AccountForm js-register-form'
+  assign id_register = id_register
+  assign disclaimer = disclaimer
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div
+    class='{{c}}__form-wrapper js-form'
+    aria-hidden="true"
+    aria-expanded="false"
+    data-form="register"
+  >
+    {%
+      form 'create_customer',
+      return_to: routes.account_url,
+      class: form_class,
+      id: id_register
+    %}
+      <input
+        type="hidden"
+        name="customer[tags]"
+        value="newsletter"
+      >
+
+      <div class="{{c}}__field AccountForm__field js-required-field">
+        <input
+          id="{{c}}__customer-first-name"
+          class="{{c}}__input AccountForm__input"
+          type="text"
+          name="customer[first_name]"
+          aria-label="First name"
+          placeholder="First Name"
+        >
+        <label
+          for="{{c}}__customer-first-name"
+          class="{{c}}__label AccountForm__label caption"
+        >
+          First Name
+          <span class="{{c}}__required-indicator AccountForm__required-indicator">*</span>
+        </label>
+      </div>
+
+      <div class="{{c}}__field AccountForm__field js-required-field">
+        <input
+          id="{{c}}__customer-last-name"
+          class="{{c}}__input AccountForm__input"
+          type="text"
+          name="customer[last_name]"
+          aria-label="Last name"
+          placeholder="Last Name"
+        >
+        <label
+          for="{{c}}__customer-last-name"
+          class="{{c}}__label AccountForm__label caption"
+        >
+          Last Name
+          <span class="{{c}}__required-indicator AccountForm__required-indicator">*</span>
+        </label>
+      </div>
+
+      <div class="{{c}}__field AccountForm__field js-email-field">
+        <input
+          id="{{c}}__customer-email"
+          class="{{c}}__input AccountForm__input"
+          type="text"
+          name="customer[email]"
+          aria-label="Email address"
+          placeholder="Email Address"
+        >
+        <label
+          for="{{c}}__customer-email"
+          class="{{c}}__label AccountForm__label caption"
+        >
+          Email Address
+          <span class="{{c}}__required-indicator AccountForm__required-indicator">*</span>
+        </label>
+      </div>
+
+      <div class="{{c}}__field AccountForm__field js-required-field">
+        <input
+          id="{{c}}__customer-password"
+          class="{{c}}__input AccountForm__input"
+          type="password"
+          name="customer[password]"
+          aria-label="Password"
+          placeholder="Password"
+        >
+        <label
+          for="{{c}}__customer-password"
+          class="{{c}}__label AccountForm__label caption"
+        >
+          Password
+          <span class="{{c}}__required-indicator AccountForm__required-indicator">*</span>
+        </label>
+      </div>
+
+      {% if form.errors %}
+        <div class="{{c}}__errors body">
+            {{ form.errors | default_errors }}
+        </div>
+      {% endif %}
+
+      {% if disclaimer != blank %}
+        <div class="{{c}}__disclaimer body-s">
+          {{ disclaimer }}
+        </div>
+      {% endif %}
+
+      <button
+        class="{{c}}__submit cta cta--black js-register-submit"
+        type="submit"
+      >
+        Create Account
+      </button>
+    {% endform %}
+  </div>
+
+</div>

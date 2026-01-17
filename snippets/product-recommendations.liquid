@@ -1,0 +1,42 @@
+{% liquid
+  assign c = "ProductRecommendations"
+  assign id = id
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  data-product-id="{{ id }}"
+>
+  <div class="{{c}}__header">
+    <div class="{{c}}__title h3">
+      You May Also Like
+    </div>
+
+    <div class="{{c}}__slider-controls">
+      <button 
+        class="{{c}}__arrow {{c}}__arrow--prev js-prevSlideBtn"
+        aria-label="Previous slide"
+      >
+        {%
+          render 'component-icon',
+          icon: 'pagination-arrow'
+        %}
+      </button>
+
+      <button 
+        class="{{c}}__arrow {{c}}__arrow--next js-nextSlideBtn"
+        aria-label="Next slide"
+      >
+        {%
+          render 'component-icon',
+          icon: 'pagination-arrow'
+        %}
+      </button>
+    </div>
+  </div>
+
+  <div class="{{c}}__container swiper js-swiperContainer">
+    <div class="{{c}}__wrapper swiper-wrapper js-swiperWrapper"></div>
+  </div>
+</div>

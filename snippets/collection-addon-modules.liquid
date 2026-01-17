@@ -1,0 +1,55 @@
+{% liquid
+  assign collection = collection
+%}
+
+{%
+  render 'collection-three-card-module',
+  field: collection.metafields.three_card_module,
+%}
+
+{% liquid
+  assign plp_footer_field = collection.metafields.plp_footer
+  assign show_plp_footer = plp_footer_field.image | default: false
+%}
+{% if show_plp_footer %}
+  {%
+    render 'collection-footer'
+    field: plp_footer_field,
+  %}
+{% endif %}
+
+{% liquid
+  assign related_tags_field = collection.metafields.related_tags
+  assign related_tags = related_tags_field.tags | split: '|' | default: false
+%}
+{% if related_tags %}
+  {% 
+    render 'collection-related-tags',
+    field: related_tags_field,
+    tags: related_tags,
+  %}
+{% endif %}
+
+{% liquid
+  assign trending_articles_field = collection.metafields.trending_articles
+  assign trending_articles = trending_articles_field.articles | split: '|' | default: false
+%}
+{% if trending_articles %}
+  {% 
+    render 'collection-trending-articles',
+    field: trending_articles_field,
+    trending_articles: trending_articles,
+  %}
+{% endif %}
+
+{% liquid
+  assign faq_field = collection.metafields.faq
+  assign faq_drawers = faq_field.faq_drawers | default: false
+%}
+{% if faq_drawers %}
+  {% 
+    render 'collection-faq',
+    field: faq_field,
+    faq_drawers: faq_drawers,
+  %}
+{% endif %}

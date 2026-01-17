@@ -1,0 +1,27 @@
+{% liquid
+  assign c = "SearchPage"
+  assign settings = settings
+  assign no_results_message = settings.no_results_message
+%}
+
+<div class="{{c}} js-searchPageComponent">
+  <div class="{{c}}__empty-wrap">
+    {%
+      render 'empty-search',
+      search_terms: search.terms,
+      no_results_message: no_results_message,
+    %}
+  </div>
+  <div class="{{c}}__container">
+    {% render 'algolia-search-box' %}
+    <div class="{{c}}__wrap">
+      {% render 'product-grid',
+        products: search.results,
+        sort_by: search.sort_by,
+        sort_options: search.sort_options,
+        filters: search.filters,
+        use_algolia: true
+      %}
+    </div>
+  </div>
+</div>

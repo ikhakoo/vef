@@ -1,0 +1,74 @@
+{%
+  render 'testimonials-module',
+  section: section.settings,
+  blocks: section.blocks,
+%}
+
+{% schema %}
+{
+  "name": "Testimonials Module",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "What our fans are saying"
+    }
+  ],
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "name": "Testimonial",
+      "type": "testimonial",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name"
+        },
+        {
+          "type": "text",
+          "id": "handle",
+          "label": "Handle"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_stars",
+          "label": "Show stars?",
+          "default": true
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "textarea",
+          "id": "product_description",
+          "label": "Product description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials Module"
+    }
+  ],
+  "enabled_on": {
+    "templates": [
+      "index"
+    ]
+  }
+}
+{% endschema %}

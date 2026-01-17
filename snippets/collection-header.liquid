@@ -1,0 +1,53 @@
+{% liquid
+  assign c = "CollectionHeader"
+  assign field = field
+  assign default_background_color = '#C4B0A9'
+  assign background_color = field.background_color | default: false
+  assign selected_background_color = background_color | default: default_background_color
+  assign images = field.image | default: false
+  assign image_component_class = c | append: '__image-wrap'
+  assign image_class = c | append: '__image'
+
+  assign hide_collection_image = hide_collection_image | default: false
+  assign title_is_overlay = title_is_overlay | default: false
+  assign title = collection.title  | remove: '[hidden]'
+  assign description = collection.description | default: false
+  assign products_count = collection.products_count
+  assign enable_dark_text = enable_dark_text | default: false
+%}
+
+<div
+  class="{{c}} {% if title_is_overlay %}title-is-overlay{% endif%} {% if hide_collection_image %}hide{% endif %}"
+  style="background-color: {{ selected_background_color }}"
+>
+  {% if images and hide_collection_image == false %}
+    {%
+      render 'image'
+      component_class: image_component_class,
+      class: image_class,
+      image: images[0],
+      sizes: '325,425,525,600',
+      image_2: images[1],
+      sizes_2: '768,820',
+      image_3: images[2],
+      sizes_3: '1024,1280,1440,1600,1800,2160',
+      use_original_accentuate: true,
+    %}
+  {% endif %}
+
+  {% if title_is_overlay %}
+    <div class="{{c}}__title-overlay">
+      <div class="{{c}}__title-content {% if enable_dark_text %}dark-text{% endif %}">
+        <h1 class="{{c}}__title h2">
+          {{ title }}
+        </h1>
+
+        {% if description %}
+          <div class="{{c}}__description">
+            {{ description }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+</div>

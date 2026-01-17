@@ -1,0 +1,80 @@
+{% liquid
+  assign c = "HatboxProductOptions"
+  assign hatbox_shape = hatbox_shape
+  assign hatbox_size = hatbox_size
+  assign material = material
+
+  assign shape_handle = hatbox_shape | handleize
+  assign size_handle = hatbox_size | handleize
+  assign hatbox_info_field = shop.metafields.hatbox_shape_info
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  data-shape="{{ hatbox_shape }}"
+  data-material="{{ material }}"
+  style="display: none;"
+>
+  <div class="{{c}}__header-wrap">
+    <div class="{{c}}__header">
+      <div class="{{c}}__title subheader">
+        Size:
+      </div>
+
+      <div class="{{c}}__selected-value subheader">
+        {{ hatbox_size }}
+      </div>
+    </div>
+
+    <button 
+      class="{{c}}__size-guide-btn js-sizeGuideToggleBtn"
+      aria-label="Open Hatbox size guide modal"
+    >
+      <span class="{{c}}__size-guide-btn-text body-s">
+        VEF Size Guide
+      </span>
+    </button>
+  </div>
+
+  <div class="{{c}}__values-container">
+    <div class="{{c}}__values">
+      {% for shape in hatbox_info_field.title %}
+        {%  liquid
+          assign main_forloop_index = forloop.index0
+          assign title = hatbox_info_field.title[main_forloop_index] | handleize
+
+          unless shape_handle == title
+            continue
+          endunless
+        %}
+
+        {% for i in (1..4) %}
+          {% liquid
+            assign size_title_prop = 'size_' | append: i | append: '_title'
+            assign size_title = hatbox_info_field[size_title_prop][main_forloop_index] | default: false
+
+            unless size_title
+              continue
+            endunless
+
+            assign is_active = false
+            assign size = size_title | handleize
+            if size_handle == size
+              assign is_active = true
+            endif
+          %}
+
+          {%
+            render 'hatbox-product-option',
+            title: size_title,
+            shape: hatbox_shape,
+            is_active: is_active,
+          %}
+
+        {% endfor %}
+        {% break %}
+      {% endfor %}
+    </div>
+  </div>
+</div>

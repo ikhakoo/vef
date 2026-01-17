@@ -1,0 +1,64 @@
+{% liquid
+  assign c = "QuickShopProductForm"
+  assign product = product
+  assign current_variant = current_variant
+%}
+
+<form
+  class="{{c}}"
+  data-component="{{c}}"
+  data-product-title="{{ product.title }}"
+  action="/cart/add"
+  method="post"
+>
+  <select
+    class="{{c}}__variant-select js-quickShopVariantSelect"
+    name="id"
+  >
+    {% for variant in product.variants %}
+      <option
+        value="{{ variant.id }}"
+        data-price="{{ variant.price | money_without_currency }}"
+        data-compare-at="{{ current_variant.compare_at_price | money_without_trailing_zeros }}"
+        data-sku="{{ variant.sku }}"
+        {% if variant.id == current_variant.id %}
+          selected
+        {% endif %}
+      >
+        {{ variant.title }}
+      </option>
+    {% endfor %}
+  </select>
+
+  <input
+    type="hidden"
+    name="quantity"
+    value="1"
+  >
+
+  {% render "product-checkout-attributes",
+    product: product,
+  %}
+
+  <button 
+    class="
+      {{c}}__submit 
+      cta 
+      cta--black
+      js-quickShopSubmit
+      {% unless current_variant.available %} not-available {% endunless %}
+    "
+    type="submit"
+    {% unless current_variant.available %} disabled {% endunless %}
+  >
+    <span class="{{c}}__submit--available-text">
+      Add To Cart
+    </span>
+
+    <span class="{{c}}__submit--unavailable-text">
+      Out Of Stock
+    </span>
+  </button>
+
+  <div class="js-quickShopAfterpay"></div>
+</form>

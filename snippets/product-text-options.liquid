@@ -1,0 +1,47 @@
+{% liquid
+  assign c = "ProductTextOptions"
+  assign option = option
+  assign available_variants = available_variants
+%}
+
+<div class="{{c}}">
+  <div class="{{c}}__header">
+    <div class="{{c}}__title subheader">
+      Select
+      {% render 'product-option-name',
+        option_name: option.name
+      %}:
+    </div>
+
+    <div
+      class="{{c}}__selected-value subheader js-selectedOptionValue"
+      data-option-position="{{ option.position }}"
+    >
+      {{ option.selected_value }}
+    </div>
+  </div>
+
+  <div class="{{c}}__values-container">
+    <div class="{{c}}__values">
+      {% for value in option.values %}
+        {%
+          render 'product-text-option',
+          option: option,
+          value: value,
+          available_variants: available_variants,
+          show_only_available: true,
+        %}
+      {% endfor %}
+
+      {% for value in option.values %}
+        {%
+          render 'product-text-option',
+          option: option,
+          value: value,
+          available_variants: available_variants,
+          show_only_unavailable: true,
+        %}
+      {% endfor %}
+    </div>
+  </div>
+</div>

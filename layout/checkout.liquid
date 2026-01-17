@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="{{ locale }}" dir="{{ direction }}" class="{{ checkout_html_classes }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, user-scalable=0">
+    <meta name="referrer" content="origin">
+    <title>{{ page_title }}</title>
+    {{ content_for_header }}
+    {{ checkout_stylesheets }}
+    {{ checkout_scripts }}
+    {% render 'head-settings' %}
+    {% render 'checkout-scripts' %}
+    {% render 'asset-tags', layout: 'checkout' %}
+  {{ 'patrol-accessibility.css' | asset_url | stylesheet_tag }}
+</head>
+  <body>
+    {{ skip_to_content_link }}
+
+    <header class="banner" data-header role="banner">
+      <div class="wrap">
+        {{ content_for_logo }}
+      </div>
+    </header>
+
+    {% render 'checkout-accessibility-bar' %}
+
+    {{ order_summary_toggle }}
+    <div class="content" data-content>
+      <div class="wrap">
+        <div class="main">
+          <header class="main__header" role="banner">
+            {{ content_for_logo }}
+            {{ breadcrumb }}
+            {{ alternative_payment_methods }}
+          </header>
+          <main class="main__content" role="main">
+            {{ content_for_layout }}
+          </main>
+          <footer class="main__footer" role="contentinfo">
+            <div class="safety-guarantee">
+              <div class="safety-guarantee-content body-s">
+                {{ 'layout.checkout.safety_guarantee' | t }} 
+                please <a target="_blank" href="https://www.venusetfleur.com/pages/contact-us">contact us</a>.
+              </div>
+            </div>
+            <div class="footer__policy-list">
+              <div class="footer__policy-item">
+                <a target="_blank" href="https://www.venusetfleur.com/pages/shipping">Shipping Policy</a>
+              </div>
+              <div class="footer__policy-item">
+                <a target="_blank" href="https://www.venusetfleur.com/pages/terms-conditions-privacy-policy">Terms & Conditions / Privacy</a>
+              </div>
+              <div class="footer__policy-item">
+                <a target="_blank" href="https://www.venusetfleur.com/pages/accessibility">Accessibility</a>
+              </div>
+            </div>
+          </footer>
+        </div>
+        <aside class="sidebar" role="complementary">
+          <div class="sidebar__header">
+            {{ content_for_logo }}
+          </div>
+          <div class="sidebar__content">
+            {{ content_for_order_summary }}
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <div data-rebuy-id="54590"></div>
+    {% # theme-check-disable %}
+    <!-- 1. Link Vue Javascript -->
+    <script  src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script> 
+    <!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> {% comment %} Production version {% endcomment %} -->
+    {% # theme-check-enable %}
+    
+    {% # theme-check-disable %}
+    <script  src='https://unpkg.com/v-calendar'></script>
+    {% # theme-check-enable %}
+    
+    {% render 'checkout-shipping' %}
+
+    {% render 'checkout-disclaimer' %}
+
+    {% render 'checkout-calendar' %}
+
+    {{ tracking_code }}
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N83DDT4"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- START iHeartRadio Tracking Pixels 
+    
+      NOTE: There are addtional tracking pixels in 'footer-scripts.liquid' and Addtional Scripts in the Shopify store Admin
+    
+    -->
+    
+    <script>
+      var srcUrl = "//data.adxcel-ec2.com/pixel/?ad_log=referer&action=misc&pixid=063d214b-97af-41d0-856e-ec5310ec81ad";
+      var x = document.createElement("IMG");
+      x.setAttribute("src", srcUrl);
+      x.setAttribute("width", "1");
+      x.setAttribute("height", "1");
+      document.body.appendChild(x);
+    </script>
+    <!-- END iHeartRadio Tracking Pixels -->
+  </body>
+</html>

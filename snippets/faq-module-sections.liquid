@@ -1,0 +1,95 @@
+{% liquid
+  assign c = "FaqModuleSections"
+  assign section = section
+  assign blocks = blocks
+
+  assign title = section.title | default: false
+  assign image = section.image
+  assign video = section.video | default: false
+  assign image_component_class = c | append: '__image-wrap'
+  assign image_class = c | append: '__image'
+  assign video_component_class = c | append: '__video-wrap'
+  assign video_class = c | append: '__video'
+  assign control_modifier_class = c | append: '__video-control'
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__container {% if section.left_align_image %} {{c}}__container--reverse {% endif %}">
+    <div class="{{c}}__text-wrap">
+      {% if title %}
+        <div class="{{c}}__title h4">
+          {{ title }}
+        </div>
+      {% endif %}
+  
+      <div class="{{c}}__questions-container">
+        {% for block in blocks %}
+          {% liquid
+            assign question = block.settings.question
+            assign answer = block.settings.answer
+            assign id = 'FaqDrawer__' | append: forloop.index
+          %}
+          <div class="{{c}}__faq-item">
+            <button 
+              class="{{c}}__btn js-faqAccordionBtn"
+              data-index="{{ forloop.index }}"
+              aria-label="Open {{ question }} section"
+              aria-controls="{{ id }}"
+            >
+              <span class="{{c}}__btn-text btn-copy">
+                {{ question }}
+              </span>
+  
+              <div class="{{c}}__toggle-icons">
+                {% render "icon", icon: "minus", component: c %}
+                {% render "icon", icon: "plus", component: c %}
+              </div>
+            </button>
+  
+            <div 
+              class="{{c}}__drawer js-faqAccordionBody"
+              data-index="{{ forloop.index }}"
+              id="{{ id }}"
+              aria-expanded="false"
+              aria-hidden="true"
+            >
+              <div class="{{c}}__answer body">
+                {{ answer }}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  
+    <div class="{{c}}__asset-wrap">
+      {% if video %}
+        {% liquid
+          assign video_src = video.sources | where: 'mime_type', 'video/mp4' | first
+          assign poster = image | image_url: width: 1024
+        %}
+        {% 
+          render 'video',
+          component_class: video_component_class,
+          class: video_class,
+          video: video_src.url,
+          poster: poster,
+          control_modifier_class: control_modifier_class,
+        %}
+  
+      {% else %}
+        {% 
+          render 'image',
+          component_class: image_component_class,
+          class: image_class,
+          image: image,
+          sizes: '300,420,567,660,768,1024',
+        %}
+  
+      {% endif %}
+    </div>
+  </div>
+</div>

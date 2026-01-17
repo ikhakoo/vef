@@ -1,0 +1,72 @@
+{% liquid
+  assign c = "TwoColumn"
+  assign image_component_class = c | append: "__image-container"
+  assign image_class = c | append: "__image"
+  assign blocks = blocks | default: false
+  assign video_component_class = c | append: '__video-wrap'
+  assign video_class = c | append: '__video'
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__container">
+
+    {% for block in blocks %}
+      {% liquid 
+        assign order = block.settings.order
+        assign image = block.settings.image
+        assign video_url = block.settings.video_url
+        assign header = block.settings.header
+        assign subheader = block.settings.subheader
+        assign url = block.settings.url
+        assign url_text = block.settings.url_text
+        assign modifiers = ""
+
+        if forloop.last
+          assign modifiers = modifiers | append: " TwoColumn__column--right"
+        endif
+
+        if order != blank
+          assign modifiers = modifiers | append: " TwoColumn__column--" | append: order
+        endif
+      %}
+      <div class="{{c}}__column {{ modifiers }} js-container">
+        {% if video_url != blank %}
+          {% assign poster = image | image_url: width: 1000 %}
+          {% render 'video',
+            component_class: video_component_class,
+            class: video_class,
+            video: video_url,
+            poster: poster
+          %}
+        {% else %}
+          {% render 'image',
+            component_class: image_component_class,
+            class: image_class,
+            image: image,
+            sizes: "300, 768, 1024, 1200"
+          %}
+        {% endif %}
+        <div class="{{c}}__text-container">
+          {% if header != blank %}
+            <h3 class="{{c}}__header h3">
+              {{ header }}
+            </h3>
+          {% endif %}
+          {% if subheader != blank %}
+            <div class="{{c}}__subheader subheader">
+              {{ subheader }}
+            </div>
+          {% endif %}
+          {% if url != blank %}
+            <a href="{{ url }}" class="{{c}}__btn cta--black js-link">
+              {{ url_text }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>

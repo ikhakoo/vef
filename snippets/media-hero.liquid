@@ -1,0 +1,23 @@
+{% liquid
+  assign c = "MediaHero"
+  assign image = image | default: false
+  assign image_mobile = image_mobile | default: image
+  assign image_component_class = c | append: "__image-container"
+  assign image_class = c | append: "__image"
+%}
+
+<div
+  class="{{c}}"
+>
+  {% if image %}
+    {% render 'image',
+      component_class: image_component_class,
+      class: image_class,
+      image: image_mobile,
+      sizes: "350",
+      image_2: image,
+      sizes_2: "768, 1024, 1200"
+      use_original_accentuate: true,
+    %}
+  {% endif %}
+</div>

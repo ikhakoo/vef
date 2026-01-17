@@ -1,0 +1,18 @@
+{% liquid
+  assign c = "ArticleImage"
+  assign index = index
+  assign metafields = metafields.image
+  assign image_desktop = metafields.image_desktop[index][0] | default: false
+  assign image_mobile = metafields.image_mobile[index][0] | default: image_desktop
+  assign image_component_class = c | append: '__image-wrap'
+%}
+
+<div class="{{c}}">
+  {% render 'image',
+    component_class: image_component_class,
+    image: image_mobile,
+    sizes: '350',
+    image_2: image_desktop,
+    sizes_2: '768, 1024, 1440'
+  %}
+</div>

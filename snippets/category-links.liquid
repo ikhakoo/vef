@@ -1,0 +1,23 @@
+{% liquid
+  assign c = "CategoryLinks"
+  assign collection_handle = collection_handle | default: false
+  assign category_links = category_links
+%}
+
+<div class="{{c}}">
+  {% for category_link in category_links.title %}
+    {% liquid
+      assign link = category_links.link[forloop.index0] 
+      assign title = category_links.title[forloop.index0]
+    %}
+
+    <div class="{{c}}__link-wrap">
+      <a 
+        class="{{c}}__link subheader {% if link == collection_handle %} active-collection-link {% endif %}"
+        href="/collections/{{ link }}"
+      >
+        {{ title }}
+      </a>
+    </div>
+  {% endfor %}
+</div>

@@ -1,0 +1,28 @@
+{% liquid
+  assign c = "LandingThreeCardModuleCard"
+  assign image = image
+  assign caption = caption
+  assign title = title
+  assign link = link
+  assign image_component_class = c | append: "__image-wrap"
+%}
+
+<div class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__image-container">
+    {% render 'image',
+      component_class: image_component_class,
+      image: image,
+      sizes: '350, 768, 1024'
+    %}
+    {% if caption %}
+      <div class="{{c}}__image-overlay body">
+        {{ caption }}
+      </div>
+    {% endif %}
+  </div>
+  {% if title != blank%}
+  <a class="{{c}}__title subheader js-link" href="{{ link }}">{{ title }}</a>
+  {% endif %}
+</div>

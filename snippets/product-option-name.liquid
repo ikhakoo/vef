@@ -1,0 +1,20 @@
+{% liquid
+  assign option_name = option_name | default: false
+
+  assign product_option_aliases = shop.metafields.custom_fields.product_option_aliases
+
+  if product_option_aliases
+    assign product_option_aliases = product_option_aliases | split: '|'
+    assign option_name_downcase = option_name | downcase
+
+    for alias in product_option_aliases
+      assign alias_key = alias | split: "::" | first | downcase
+
+      if option_name_downcase == alias_key
+        assign option_name = alias | split: "::" | last
+      endif
+    endfor
+  endif
+%}
+
+{{ option_name }}

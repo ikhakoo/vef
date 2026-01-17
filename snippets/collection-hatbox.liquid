@@ -1,0 +1,19 @@
+{% liquid
+  assign c = 'CollectionHatbox'
+  assign section = section
+  assign blocks = blocks
+%}
+
+<div class="{{c}}">
+  {%
+    render 'collection-hatbox-container',
+    section: section,
+    blocks: blocks,
+    collection: collection,
+  %}
+  
+  {% 
+    render 'collection-addon-modules',
+    collection: collection,
+  %}
+</div>

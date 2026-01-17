@@ -1,0 +1,26 @@
+{% liquid
+  assign c = "ProductHeadline"
+  assign section = section
+  assign selector = section
+
+  if template.suffix == 'homeware'
+    assign selector = product.metafields.product_headline
+  endif
+%}
+
+<div class="{{c}}">
+  {% if selector.text %}
+    <div class="{{c}}__text">
+      {{ selector.text }}
+    </div>
+  {% endif %}
+
+  {% if selector.cta_url %}
+    <a 
+      class="{{c}}__cta link"
+      href="{{ selector.cta_url }}" 
+    >
+      {{ selector.cta_text }}
+    </a>
+  {% endif %}
+</div>

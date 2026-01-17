@@ -1,0 +1,30 @@
+{% liquid
+  assign c = "Blog"
+  assign sections = shop.metafields.acf_settings.blog_layouts | where: "id", blog.id | first | map: "sections" | where: "visible"
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  {% for section in sections %}
+    {% case section.name %}
+      {% when 'media_text_carousel' %}
+        {% render 'landing-media-text-carousel',
+          fields: blog.metafields.media_text_carousel,
+          index: section.index
+        %}
+    {% endcase %}
+  {% endfor %}
+
+  {% paginate blog.articles by 24 %}
+
+    {% render 'blog-article-grid',
+      articles: blog.articles
+    %}
+
+    {% render 'pagination',
+      paginate: paginate
+    %}
+  {% endpaginate %}
+</div>

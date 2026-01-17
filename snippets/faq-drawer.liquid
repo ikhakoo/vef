@@ -1,0 +1,38 @@
+{% liquid
+  assign c = "FaqDrawer"
+  assign header = header | default: false
+  assign body = body | default: false
+  assign index = index | default: false
+  assign use_cta_font = use_cta_font | default: false
+  assign modifiers = modifiers | default: false
+%}
+
+<div
+  class="{{c}} {% if modifiers %} {{c}}--{{ modifiers }} {% endif %}"
+>
+  <div class="{{c}}__container js-accordionParent">
+    <button
+      class="{{c}}__toggle js-accordionItemToggle"
+      aria-label="Open {{ header }} section"
+      aria-controls="{{c}}__{{ index }}"
+    >
+      <span class="{{c}}__header {% if use_cta_font %} btn-copy {% else %} body {% endif %}">
+        {{ header }}
+      </span>
+      <div class="{{c}}__toggle-icons">
+        {% render "icon", icon: "minus", component: c %}
+        {% render "icon", icon: "plus", component: c %}
+      </div>
+    </button>
+    <div 
+      id="{{c}}__{{ index }}"
+      class="{{c}}__content js-accordionItemContent"
+      aria-expanded="false"
+      aria-hidden="true"
+    >
+      <p class="{{c}}__body body">
+        {{ body }}
+      </p>
+    </div>
+  </div>
+</div>

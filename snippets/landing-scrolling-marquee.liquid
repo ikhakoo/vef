@@ -1,0 +1,28 @@
+{% liquid
+  assign c = "LandingScrollingMarquee"
+  assign fields = fields
+  assign index = index
+  assign marquee_text = fields.text
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__container">
+    <div class="{{c}}__wrap">
+      <div class="{{c}}__slogan {{c}}__offset {{c}}__offset--left">
+        {{ marquee_text }}
+      </div>
+
+      <div class="{{c}}__slogan">
+        {{ marquee_text }}
+      </div>
+
+      <div class="{{c}}__slogan  {{c}}__offset {{c}}__offset--right">
+        {{ marquee_text }}
+      </div>
+    </div>
+  </div>
+
+</div>

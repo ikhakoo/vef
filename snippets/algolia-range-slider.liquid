@@ -1,0 +1,30 @@
+{% liquid
+  assign c = "AlgoliaRangeSlider"
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__container js-algoliaRangeSlider"></div>
+  <div class="{{c}}__bookends">
+    <div class="{{c}}__bookend {{c}}__bookend--min">
+      <span class="{{c}}__label body-s">
+        Min Price:
+      </span>
+      <span
+        class="{{c}}__price body-s js-algoliaRangeSliderMin"
+      >
+      </span>
+    </div>
+    <div class="{{c}}__bookend  {{c}}__bookend--max">
+      <span class="{{c}}__label body-s">
+        Max Price:
+      </span>
+      <span
+        class="{{c}}__price body-s js-algoliaRangeSliderMax"
+      >
+      </span>
+    </div>
+  </div>
+</div>

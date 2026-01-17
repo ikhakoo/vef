@@ -1,0 +1,131 @@
+{% liquid
+  assign c = "CheckoutCalendar"
+%}
+
+<div
+  class="{{c}} js-calendar expandable"
+  aria-expanded="false"
+>
+  <div class="{{c}}__container">
+    <div class="{{c}}__wrapper">
+      <div class="{{c}}__header">
+        <div class="{{c}}__header-wrapper">
+          <div class="{{c}}__title">
+            Schedule your delivery
+          </div>
+          <div class="{{c}}__caption caption">
+            Arrives on or just before your selected date.
+          </div>
+        </div>
+      </div>
+      <div class="{{c}}__content">
+        <div id='calendar'>
+          <v-date-picker 
+            v-model='selectedDate' 
+            is-inline
+            is-expanded
+            color="cocoa"
+            :min-date='new Date().setDate(new Date().getDate() + {{ settings.min_date }})'
+            :max-date='new Date(Date.now() + (6.048e+8 * {{ settings.max_date }}))'
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const shippingMethodsLoaded = () => {
+    return document.querySelectorAll(
+      '.section--shipping-method [data-shipping-methods] [data-shipping-method]'
+    ).length > 0;
+  }
+
+  const toggleCalendar = () => {
+    const component = document.querySelector('.js-calendar');
+    const rateWrapper = document.querySelector('[data-shipping-methods] .content-box__row .input-radio:checked').closest('.radio-wrapper');
+    const rate = "{{ settings.calendar_shipping_rate }}";
+    const targetLabel = rateWrapper.querySelector(`.radio__label span[data-shipping-method-label-title="${rate}"]`);
+
+    if (targetLabel) {
+      component.setAttribute('aria-expanded', 'true');
+    } else {
+      component.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  const calendarIsActive = () => {
+    const enabled = {{ settings.calendar_enabled }};
+    let cartTotal = '{{ checkout.line_items_subtotal_price | money_without_currency }}';
+    cartTotal = cartTotal.replace(',', '');
+    cartTotal = parseInt(cartTotal);
+    return enabled && cartQualified() && cartTotal > 185;
+  }
+
+  const cartQualified = () => {
+    const disqualifiedIds = '{{ settings.disqualified_ids }}';
+    const products = document.querySelectorAll('[data-product-id]');
+    let numDisqualified = 0;
+
+    Array.from(products).forEach((product) => {
+      const id = product.getAttribute('data-product-id');
+      if (disqualifiedIds.includes(id)) {
+        numDisqualified += 1;
+      }
+    });
+
+    return numDisqualified === 0;
+  }
+
+  const setCalendarConfiguration = () => {
+    const sundaysEnabled = {{ settings.sundays_enabled }};
+    const datePicker = document.querySelector('v-date-picker');
+
+    if (!datePicker) {
+      return;
+    }
+
+    let disabledDates = "{{ settings.disabled_dates }}".split(",");
+
+    if (sundaysEnabled) {
+      disabledDates = "['" + disabledDates.join("','") + "']";
+    } else {
+      disabledDates = "['" + disabledDates.join("','") + "', { weekdays: [ 1 ] }]";
+    }
+
+    datePicker.setAttribute(':disabled-dates', disabledDates);
+  }
+
+  Checkout.$(document).on('page:load page:change', function() {
+    if (Shopify.Checkout.step === 'shipping_method' && shippingMethodsLoaded() && calendarIsActive()) {
+      const component = document.querySelector('.js-calendar').cloneNode(true);
+      const targetSection = document.querySelector('.section--shipping-method');
+      const methodsContainer = document.querySelector('[data-shipping-methods');
+
+      targetSection.append(component);
+      setCalendarConfiguration();
+      toggleCalendar();
+
+      methodsContainer.addEventListener('click', (e) => {
+        toggleCalendar();
+      });
+
+      deliveryDatePicker = new Vue({
+        el: '#calendar',
+        data: {
+          selectedDate: null,
+        }
+      });
+    } else if (Shopify.Checkout.step === 'contact_information') {
+      const targetContainer = document.querySelector('.dynamic-checkout__content');
+      const disclaimerActive = document.getElementsByClassName('dynamic-checkout__disclaimer').length > 0;
+
+      if (targetContainer && !disclaimerActive) {
+        const expressDisclaimer = document.createElement("div");
+        expressDisclaimer.classList.add('dynamic-checkout__disclaimer', 'body-s');
+        expressDisclaimer.appendChild(document.createTextNode("*Express Pay will not allow you to select an exact delivery date."));
+        targetContainer.appendChild(expressDisclaimer);
+      }
+    }
+  });
+</script>

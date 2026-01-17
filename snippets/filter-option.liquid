@@ -1,0 +1,65 @@
+{% liquid
+  assign c = "FilterOption"
+  assign value = value
+  assign label = label | handleize
+  assign index = index
+  assign filter_option_id = c | append: '-' | append: label | append: '-' | append: index
+  assign custom_order = custom_order | default: false
+  assign order_index = false
+
+  if custom_order contains value.label
+    assign custom_order_arr = custom_order | split: ','
+    for item in custom_order_arr
+      if item == value.value
+        assign order_index = forloop.index0
+      endif
+    endfor
+  endif
+%}
+
+<div
+  class="{{c}}"
+  {% if  order_index %}
+    style="order:{{ order_index }};"
+  {% endif %}
+>
+  <input
+    type="checkbox"
+    class="{{c}}__checkbox js-filterOption"
+    name="{{ value.param_name }}"
+    value="{{ value.value }}"
+    id="{{ filter_option_id }}"
+    autocomplete="off"
+    {% if value.active %}
+      checked
+    {% endif %}
+  >
+
+  <label
+    for="{{ filter_option_id }}"
+    class="{{c}}__label"
+  >
+    {% if value.param_name contains 'color' %}
+      <div class="{{c}}__checkbox-control-swatch">
+        {%
+          render 'swatch',
+          color: value.label,
+          modifier: 'filter-swatch',
+        %}
+      </div>
+
+    {% else %}
+      <div class="{{c}}__checkbox-control">
+        {%
+          render 'component-icon',
+          icon: 'filter-check'
+        %}
+      </div>
+
+    {% endif %}
+
+    <span class="{{c}}__title body">
+      {{ value.label }}
+    </span>
+  </label>
+</div>

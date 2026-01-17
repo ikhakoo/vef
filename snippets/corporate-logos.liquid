@@ -1,0 +1,29 @@
+{% liquid
+  assign c = "CorporateLogos"
+  assign header = header | default: false
+  assign images = images | default: false
+  assign image_component_klass = c | append: "__image-container"
+  assign image_klass = c | append: "__image"
+%}
+
+<section
+  class="{{c}}"
+>
+  <div class="{{c}}__container">
+    <h2 class="{{c}}__header subheader">
+      {{ header }}
+    </h2>
+    <ul class="{{c}}__grid">
+      {% for image in images %}
+        <div class="{{c}}__grid-item">
+          {% render 'image',
+            component_class: image_component_klass,
+            class: image_klass,
+            image: image,
+            sizes: '300, 768, 1024, 1440'
+          %}
+        </div>
+      {% endfor %}
+    </ul>
+  </div>
+</section>

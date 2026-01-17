@@ -1,0 +1,84 @@
+{% liquid
+  assign c = "RelatedProductOptionsDrawer"
+  assign option = option
+  assign related_products = related_products
+  assign current_product = current_product
+  assign product_collection = product_collection | default: false
+
+  assign option_name = option.name | downcase
+  assign is_box_material = false
+  if option_name == 'box material'
+    assign is_box_material = true
+  endif
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  aria-hidden="true"
+  aria-expanded="false"
+>
+  <div class="{{c}}__header">
+    <button
+      class="{{c}}__close-btn js-relatedProductsDrawerToggle"
+      aria-label="Close {{ option_name }} options drawer"
+    >
+      {%
+        render 'component-icon',
+        icon: 'close-icon'
+      %}
+    </button>
+
+    <div class="{{c}}__title subheader">
+      {% render 'product-option-name',
+        option_name: option.name
+      %}:
+    </div>
+
+    <div class="{{c}}__selected-value subheader">
+      {{ option.selected_value }}
+
+      {% unless current_product.available %}
+        (sold out)
+      {% endunless %}
+    </div>
+  </div>
+
+  <div class="{{c}}__values-container">
+    <div class="{{c}}__values">
+      {% for product in related_products %}
+        {% if product.available %}
+          <div class="{{c}}__value">
+            {%
+              render 'related-product-option',
+              product: product,
+              title: product.selected_or_first_available_variant.option1,
+              url: product.url,
+              current_url: current_product.url,
+              product_images: product.images,
+              is_box_material: is_box_material,
+              product_collection: product_collection,
+            %}
+          </div>
+        {% endif %}
+      {% endfor %}
+
+      {% for product in related_products %}
+        {% unless product.available %}
+          <div class="{{c}}__value">
+            {%
+              render 'related-product-option',
+              product: product,
+              title: product.selected_or_first_available_variant.option1,
+              url: product.url,
+              current_url: current_product.url,
+              product_images: product.images,
+              is_box_material: is_box_material,
+              product_collection: product_collection,
+            %}
+          </div>
+        {% endunless %}
+      {% endfor %}
+    </div>
+  </div>
+</div>

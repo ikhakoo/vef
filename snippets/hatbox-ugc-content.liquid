@@ -1,0 +1,56 @@
+{% liquid
+  assign c = "HatboxUgc"
+  assign section = section
+  assign blocks = blocks
+
+  assign image_component_class = c | append: '__image-wrap'
+  assign image_class = c | append: '__image'
+  assign video_component_class = c | append: '__video-wrap'
+  assign video_class = c | append: '__video'
+  assign control_modifier_class = c | append: '__video-control'
+%}
+
+<div 
+  class="js-hatBoxUgcContent"
+  data-shape="{{ section.title | handleize }}"
+  data-title="{{ section.slider_title }}"
+>
+  {% for block in blocks %}
+    <div class="{{c}}__slide swiper-slide">
+      <a 
+        class="{{c}}__link"
+        href="{{ block.settings.url }}"
+      >
+        {% if block.settings.video %}
+          {% liquid
+            assign video_src = block.settings.video.sources | where: 'mime_type', 'video/mp4' | first
+            assign poster = block.settings.image | image_url: width: 768
+          %}
+          {%
+            render 'video',
+            component_class: video_component_class,
+            class: video_class,
+            video: video_src.url,
+            poster: poster,
+            eager_load: true,
+            control_modifier_class: control_modifier_class,
+          %}
+
+        {% else %}
+          {%
+            render 'image',
+            component_class: image_component_class,
+            class: image_class,
+            image: block.settings.image,
+            sizes: '300,420,567,660,768',
+          %}
+
+        {% endif %}
+
+        <span class="{{c}}__text link">
+          {{ block.settings.text }}
+        </span>
+      </a>
+    </div>
+  {% endfor %}
+</div>

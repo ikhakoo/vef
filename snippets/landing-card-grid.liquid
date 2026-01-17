@@ -1,0 +1,52 @@
+{% liquid
+  assign c = "LandingCardGrid"
+  assign fields = fields
+  assign index = index
+  assign grid_columns_mobile = fields.grid_columns_mobile[index] | default: 2 
+  assign grid_columns_mobile_class = '--grid-columns-mobile-' | append: grid_columns_mobile
+  assign grid_columns_desktop = fields.grid_columns_desktop[index] | default: 2
+  assign grid_columns_desktop_class = '--grid-columns-desktop-' | append: grid_columns_desktop
+  assign header = fields.header | default: false
+  assign subtext = fields.subtext | default: false
+  assign force_square_aspect = fields.force_square_aspect | default: false
+  assign images = fields.images[index]
+  assign card_headers = fields.card_headers[index] | split: "|"
+  assign card_subtexts = fields.card_subtexts[index] | split: "|"
+  assign card_hover_texts = fields.card_hover_text[index] | split: "|"
+  assign card_cta_texts = fields.card_cta_texts[index] | split: "|"
+  assign card_cta_links = fields.card_cta_links[index] | split: "|"
+%}
+
+
+<div class="{{c}}">
+  {% if header %}
+    <div class="{{c}}__header h3">
+      {{ header }}
+    </div>
+  {% endif %}
+  {% if subtext %}
+    <div class="{{c}}__subtext body">
+      {{ subtext }}
+    </div>
+  {% endif %}
+  <div class="{{c}}__grid-container {{ grid_columns_mobile_class }} {{ grid_columns_desktop_class }}">
+    {% for image in images %}
+      {% liquid
+        assign header = card_headers[forloop.index0] | strip
+        assign subtext = card_subtexts[forloop.index0] | strip
+        assign hover_text = card_hover_texts[forloop.index0] | strip
+        assign cta_text = card_cta_texts[forloop.index0] | strip
+        assign cta_link = card_cta_links[forloop.index0] | strip
+      %}
+      {% render 'landing-card-grid-item',
+        image: image,
+        force_square_aspect: force_square_aspect,
+        header: header,
+        subtext: subtext,
+        hover_text: hover_text,
+        cta_text: cta_text,
+        cta_link: cta_link
+      %}
+    {% endfor %}
+  </div>
+</div>

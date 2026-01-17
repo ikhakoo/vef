@@ -1,0 +1,26 @@
+{%
+  render 'product-description',
+  description: product.description,
+  title: product.title,
+  product_media: product.media,
+  featured_image: product.featured_image,
+%}
+
+{% schema %}
+{
+  "name": "Product Description",
+  "settings": [
+
+  ],
+  "presets": [
+    {
+      "name": "Product Description"
+    }
+  ],
+  "enabled_on": {
+    "templates": [
+      "product"
+    ]
+  }
+}
+{% endschema %}

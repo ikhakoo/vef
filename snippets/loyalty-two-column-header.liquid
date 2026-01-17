@@ -1,0 +1,33 @@
+{% liquid
+  assign c = "LoyaltyTwoColumnHeader"
+%}
+
+<div class="{{ c }}" data-component="{{ c }}">
+  <div class="{{ c }}__container">
+    <div class="{{ c }}__cta-container">
+      <div class="{{ c }}__header h3">VEF REWARDS</div>
+
+      {%- unless customer -%}
+        <div class="{{ c }}__subheader body">
+          Earn points. Get rewarded. Join the VEF Rewards program today.
+        </div>
+      {%- else -%}
+        <div class="{{ c }}__subheader body">
+          Earn points. Get rewarded.<br>Welcome back to your VEF Rewards.
+        </div>
+      {%- endunless -%}
+
+
+      {%- unless customer -%}
+        <div class="{{ c }}__cta btn-copy cta--black js-joinRewards">
+          <span class="{{ c }}__cta-text">JOIN NOW</span>
+        </div>
+      {%- endunless -%}
+
+    </div>
+  </div>
+
+  <div class="{{ c }}__image">
+    <img src="{{ section.settings.header_image | image_url }}" class="" width="auto" height="auto" loading="lazy"/>
+  </div>
+</div>

@@ -1,0 +1,154 @@
+{% liquid
+  assign c = "Product"
+  assign settings = settings
+  assign blocks = blocks
+  assign card_image = card_image
+  assign card_title = card_title
+  assign card_message_placeholder = card_message_placeholder
+  assign current_variant = product.selected_or_first_available_variant
+  assign hidden_options = settings.product_variant_values_to_hide | split: ","
+  
+  assign featured_option = 'option2'
+  if product.tags contains 'product-swatches-option-3'
+  assign featured_option = 'option3'
+  endif
+
+  assign retail_exclusive = false
+  if product.tags contains 'retail-exclusive'
+  assign retail_exclusive = true
+  endif
+  
+  assign current_variant_color = current_variant[featured_option]
+  if hidden_options contains current_variant_color
+    assign num_variants = product.variants | size
+    for index in (1..num_variants)
+      assign variant_color = product.variants[index][featured_option]
+
+      unless hidden_options contains variant_color
+        if product.variants[index].available
+          assign current_variant = product.variants[index]
+          assign current_variant_color = variant_color
+          break
+        endif
+      endunless
+    endfor
+  endif
+
+  assign related_products = false
+  for collection in product.collections
+    if collection.handle contains '-novariantlimit'
+      assign related_products = collection.products
+    endif
+  endfor
+
+  assign show_related_products_drawer = false
+  assign related_products_option = nil
+  for option in product.options_with_values
+    assign values_count = option.values | size
+    if related_products and values_count == 1 and forloop.index == 1
+      assign show_related_products_drawer = true
+      assign related_products_option = option
+      break
+    endif
+  endfor
+
+  assign is_gift_card = false
+  if product.type == 'Gift Cards'
+    assign is_gift_card = true
+  endif
+
+  assign is_hatbox_product = false
+  assign hatbox_shape = product.metafields.custom.hatbox_shape | default: false
+  assign hatbox_size = product.metafields.custom.hatbox_size | default: false
+  if hatbox_shape and hatbox_size
+    assign is_hatbox_product = true
+  endif
+%}
+
+<div class="{{c}}">
+  <div class="{{c}}__info-wrap">
+    <div class="swym-wishlist-button-bar"></div>
+
+    {%
+      render 'product-images',
+      settings: settings,
+      product: product,
+      current_variant: current_variant,
+      is_gift_card: is_gift_card,
+    %}
+
+    {%
+      render 'product-info',
+      settings: settings,
+      product: product,
+      blocks: blocks,
+      current_variant: current_variant,
+      related_products: related_products,
+      product_collection: collection,
+      is_gift_card: is_gift_card,
+      retail_exclusive: retail_exclusive,
+    %}
+  </div>
+
+  {% if show_related_products_drawer %}
+    {%
+      render 'related-product-options-drawer',
+      option: related_products_option,
+      related_products: related_products,
+      current_product: product,
+      product_collection: collection,
+    %}
+  {% endif %}
+
+  {%
+    render 'add-card-modal',
+    card_image: card_image,
+    card_title: card_title,
+    card_message_placeholder: card_message_placeholder,
+  %}
+
+  {%
+    render 'product-builder-snippets',
+    location: 'below-info'
+  %}
+
+  {% render 'image-zoom-modal' %}
+
+  {% if is_hatbox_product %}
+    {%
+      render 'size-guide-pdp-modal',
+      section: settings,
+      hatbox_shape: hatbox_shape,
+    %}
+  {% endif %}
+
+  {%- comment -%} BUILDER WEB COMPONENTS SCRIPT {%- endcomment -%}
+  <script async src="https://cdn.builder.io/js/webcomponents"></script>
+
+  <script type="text/javascript">
+    const addToCartElements = document.getElementsByClassName("js-klaviyoAddToCart");
+    const addToCart = async function() {
+      const variants = {{ product.variants | json }};
+      const variantSelect = document.querySelector('.js-variantId').value;
+      const [ selected ] = variants.filter(variant => `${variant.id}` === variantSelect);
+      const item = {
+        Name: selected.name,
+        ImageURL: selected.featured_image.src,
+        URL: "{{ shop.secure_url }}{{ product.url }}",
+        Price: selected.price / 100,
+      };
+      klaviyo.push(['track', 'Added to Cart', item]);
+    };
+
+    Array.from(addToCartElements).forEach(element => {
+      element.addEventListener('click', addToCart, false);
+    });
+  </script>
+
+  <script
+    class="js-productJson"
+    type="application/json"
+  >
+    {{ product | json }}
+  </script>
+</div>

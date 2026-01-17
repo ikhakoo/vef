@@ -1,0 +1,58 @@
+{% liquid
+  assign c = "ListCollectionsPage"
+  assign sections = shop.metafields.acf_settings.page_layouts | where: "id", page.id | first | map: "sections" | where: "visible"
+%}
+
+<div class="{{c}}">
+
+  {% for section in sections %}
+
+    {% case section.name %}
+
+      {% when 'media_text_carousel' %}
+        {% render 'landing-media-text-carousel',
+          fields: page.metafields.media_text_carousel,
+          index: section.index
+        %}
+
+      {% when 'media_text_hero' %}
+        {% assign fields = page.metafields.flexible %}
+        {% assign index = section.index %}
+        {% render 'media-text-hero',
+          index: index
+          color: fields.media_text_hero_color,
+          image: fields.media_text_hero_image[section.index],
+          image_mobile: fields.media_text_hero_image_mobile[section.index],
+          header: fields.media_text_header,
+          subheader: fields.media_text_subheader,
+          nav_ref: fields.media_text_hero_nav_ref[section.index],
+          title_under_hero: fields.title_under_hero
+        %}
+
+    {% endcase %}
+  {% endfor %}
+
+  <div class="{{c}}__grid">
+    {% for section in sections %}
+
+      {% case section.name %}
+
+        {% when 'list_collections__grid_item' %}
+          {% liquid
+            assign image = page.metafields.list_collection.image[section.index][0]
+            assign title = page.metafields.list_collection.title[section.index]
+            assign copy = page.metafields.list_collection.hover_copy[section.index].markdown
+            assign url = page.metafields.list_collection.url[section.index]
+          %}
+
+          {% render 'list-collections-grid-item',
+            image: image,
+            title: title,
+            copy: copy,
+            url: url
+          %}
+
+      {% endcase %}
+    {% endfor %}
+  </div>
+</div>

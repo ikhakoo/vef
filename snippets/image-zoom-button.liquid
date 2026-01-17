@@ -1,0 +1,33 @@
+{% liquid
+  assign c = "ImageZoomButton"
+  assign image = image
+  assign variant_image = variant_image | default: false
+  assign sizes = '325,425,600,768,1024,1440,2048' | split: ',' | reverse
+  assign image_sources = ''
+
+  for size in sizes
+    assign render_size = size | plus: 200
+    assign media = '(min-width: ' | append: size | append: 'px)'
+    assign image_srcset = image.src | image_url: width: render_size
+    assign image_source = media | append: '*' | append: image_srcset
+
+    unless image_sources == ''
+      assign image_sources = image_sources | append: '|'
+    endunless
+
+    assign image_sources = image_sources | append: image_source
+  endfor
+%}
+
+<button
+  class="{{c}} js-imageZoomBtn"
+  data-image-src="{{ image.src | image_url: width: image.width }}"
+  data-image-srcsets="{{ image_sources }}"
+  {% if variant_image %}
+    data-variant-image="1"
+  {% endif %}
+>
+  <span class="visually-hidden">
+    Open image zoom modal
+  </span>
+</button>

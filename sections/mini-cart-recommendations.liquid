@@ -1,0 +1,49 @@
+{% 
+  render 'mini-cart-recommendations',
+  settings: section.settings,
+  blocks: section.blocks
+%}
+
+{% schema %}
+{
+  "name": "Mini Cart Recommendations",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "recommendations_enabled",
+      "label": "Enable Mini Cart Recommendations"
+    },
+    {
+      "type": "collection",
+      "id": "display_collection",
+      "label": "Collection"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "minimum_spend",
+      "name": "Minimum Spend",
+      "settings": [
+        {
+          "type": "number",
+          "id": "min_spend",
+          "label": "Min spend",
+          "default": 150
+        },
+        {
+          "type": "number",
+          "id": "max_spend",
+          "label": "Max spend",
+          "default": 399
+        },
+        {
+          "type": "text",
+          "id": "header",
+          "label": "Recommendations header",
+          "default": "Congrats! You've got free shipping!"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

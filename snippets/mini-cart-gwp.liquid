@@ -1,0 +1,77 @@
+{% liquid
+  assign c = "MiniCartGwp"
+  assign settings = settings
+  assign id = settings.gwp_id
+  assign gift = settings.gift
+  assign qualifying_message = settings.qualifying_message | default: false
+  assign gift_lineitem_note = settings.gift_lineitem_note | default: false
+  assign image_component_class = c | append: '__image-wrap'
+  assign image_class = c | append: '__image'
+%}
+
+<div
+  class="{{c}} hide"
+  data-component="{{c}}"
+  id="{{id}}"
+>
+  {% if qualifying_message %}
+    <div class="{{c}}__wrapper">
+      <div class="{{c}}__image-wrapper">
+        {% if settings.qualifying_image %}
+          {%
+            render 'image',
+            component_class: image_component_class,
+            class: image_class,
+            image: settings.qualifying_image,
+            sizes: '0'
+          %}
+        {% endif %}
+      </div>
+      <div class="{{c}}__content">
+        <div class="{{c}}__message body">
+          {{ qualifying_message }}
+        </div>
+      </div>
+    </div>
+
+    <style>
+      #{{id}} .MiniCartGwp__wrapper {
+        background: {{ settings.background_color }};
+      }
+
+      #{{id}} .MiniCartGwp__message {
+        color: {{ settings.message_text }};
+        text-align: {{ settings.message_text_align }};
+      }
+    </style>
+  {% endif %}
+
+  <script
+    class="js-gwpId"
+    type="application/json"
+  >
+    {{ id }}
+  </script>
+
+  <script
+    class="js-giftId"
+    type="application/json"
+  >
+    {{ gift.selected_or_first_available_variant.id  }}
+  </script>
+
+  <script
+    class="js-giftAvailable"
+    type="application/json"
+  >
+    {{ gift.selected_or_first_available_variant.available  }}
+  </script>
+
+  <script
+  class="js-giftParameterNote"
+  type="application/json"
+>
+  {{ gift_lineitem_note  }}
+</script>
+
+</div>

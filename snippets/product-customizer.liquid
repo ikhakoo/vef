@@ -1,0 +1,93 @@
+{% liquid
+  assign c = "ProductCustomizer"
+  assign settings = settings
+  assign blocks = blocks
+  assign cards = blocks | where: 'type', 'card'
+  assign current_variant = product.selected_or_first_available_variant
+%}
+
+<div
+  class="{{c}}"
+  >
+  <div class="{{c}}__info-wrap">
+    {%
+      render 'product-customizer-player',
+    %}
+
+    {%
+      render 'product-customizer-info',
+      settings: settings,
+      product: product,
+      cards: cards,
+      current_variant: current_variant,
+    %}
+  </div>
+  
+  {%
+    render 'product-builder-snippets',
+    location: 'below-info'
+  %}
+
+  {%
+    render 'product-lifestyle-banner'
+   %}
+
+  {%
+    render 'product-description',
+    description: product.description,
+    product_media: product.media,
+    featured_image: product.featured_image,
+    title: product.title
+  %}
+
+  {%
+    render 'product-collection-feature',
+    collection: collection,
+    default_collection: settings.default_collection
+  %}
+
+  {%
+    render 'product-recommendations',
+    id: product.id,
+  %}
+
+  {%- comment -%} BUILDER WEB COMPONENTS SCRIPT {%- endcomment -%}
+  <script async src="https://cdn.builder.io/js/webcomponents"></script>
+
+  <script
+    class="js-productJson"
+    type="application/json"
+  >
+    {{ product | json }}
+  </script>
+
+  <script>
+    const productId = "{{ product.handle }}";
+    const search = new URLSearchParams(location.search);
+    search.set('tkProduct', productId);
+    const newPath = location.pathname + '?' + search.toString();
+    history.pushState(null, '', newPath);
+  </script>
+
+  {%- comment -%}Threekit Content Scripts {%- endcomment -%}
+  <script src="https://venus-threekit-admin.herokuapp.com/treble-app.js" defer></script>
+  <link rel="stylesheet" href="https://venus-threekit-admin.herokuapp.com/treble-app.css">
+
+</div>
+
+<script type="text/javascript">
+  const addToCartElements = document.getElementsByClassName("js-klaviyoAddToCart");
+  const addToCart = async function() {
+    const item = {
+      Name: "{{ product.title }}",
+      ImageURL: "https:{{ product.featured_image.src | image_url: width: 450 }}",
+      URL: "{{ shop.secure_url }}{{ product.url }}",
+      Price: {{ product.price | money | json }},
+    };
+    klaviyo.push(['track', 'Added to Cart', item]);
+  };
+
+  Array.from(addToCartElements).forEach(element => {
+    element.addEventListener('click', addToCart, false);
+  });
+</script>

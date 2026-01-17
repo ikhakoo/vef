@@ -1,0 +1,18 @@
+{%
+  render 'search-page'
+  settings: section.settings
+%}
+
+{% schema %}
+{
+  "name": "Search",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "no_results_message",
+      "label": "No results message",
+      "default": "Sorry, we can't seem to find any products that match your search. Try adjusting your search or..."
+    }
+  ]
+}
+{% endschema %}

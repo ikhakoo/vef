@@ -1,0 +1,54 @@
+{% liquid
+  assign option = option
+  assign value = value
+  assign option_name = option_name
+  assign product_handle = product_handle
+  assign product_specific_image_swatch_options = product_specific_image_swatch_options
+  assign is_homeware = is_homeware | default: false
+  assign available_variants = available_variants
+  assign show_only_available = show_only_available | default: false
+  assign show_only_unavailable = show_only_unavailable | default: false
+
+  assign image_filename = value | handleize | append: '.png'
+  if product_specific_image_swatch_options contains option_name
+    assign image_filename = value | handleize | append: '-' | append: product_handle | append: '.png'
+  endif
+  if is_homeware
+    assign image_filename = image_filename | prepend: 'home-'
+  endif
+  assign swatch_image = images[image_filename]
+
+  assign available = true
+  assign option_value = '|' | append: value | append: '|'
+  unless available_variants contains option_value
+    assign available = false
+  endunless
+
+  assign display_option = true
+  if show_only_available
+    unless available
+      assign display_option = false
+    endunless
+  elsif show_only_unavailable
+    if available
+      assign display_option = false
+    endif
+  endif
+
+  assign hidden_options = settings.product_variant_values_to_hide | split: ","
+  for option in hidden_options
+    if option == value
+      assign display_option = false
+    endif
+  endfor
+%}
+
+{% if display_option %}
+  {%
+    render 'product-option',
+    option: option,
+    value: value,
+    swatch_image: swatch_image,
+    available: available,
+  %}
+{% endif %}

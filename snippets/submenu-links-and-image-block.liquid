@@ -1,0 +1,90 @@
+{% liquid
+  assign c = "SubmenuLinksAndImageBlock"
+  assign image = image
+  assign links = links
+  assign title = title | default: false
+  assign url_text = url_text | default: false
+  assign url = url | default: false
+  assign image_component_klass = c | append: "__image-container"
+  assign image_klass = c | append: "__image"
+  assign media = media | strip | default: false
+
+  if media == "mobile"
+    assign accordion_parent_klass = " js-accordionParent"
+  endif
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <ul class="{{c}}__child-list">
+    {% for link in links %}
+      {% liquid
+        assign link_style = false
+        assign has_header = true
+        if link.title == '#'
+          assign link_style = 'link'
+          assign has_header = false
+        endif
+      %}
+      <li class="{{c}}__child-item {% if has_header %} {{ accordion_parent_klass }}{% else %} {{c}}__child-item--no-header{% endif %}">
+          {% if has_header %}
+            {% if link.url == "#" %}
+              {% if media == 'desktop' %}
+                <h4 class="{{c}}__list-title subheader">
+                  {{ link.title }}
+                </h4>
+              {% else %}
+                {% render "navigation-menu-button",
+                  link: link, level: "child",
+                  arrow: "down",
+                  js_assignment: " js-accordionItemToggle"
+                %}
+              {% endif %}
+            {% else %}
+              {% render "navigation-menu-link",
+                link: link,
+                level: "child"
+              %}
+            {% endif %}
+          {% endif %}
+        {% if link.links.size > 0 %}
+          <ul class="{{c}}__grandchild-list js-accordionItemContent">
+            {% for child_link in link.links %}
+              <li class="{{c}}__grandchild-item">
+                {% render "navigation-menu-link",
+                  link: child_link,
+                  level: "grandchild",
+                  style: link_style
+                %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+
+  <div class="{{c}}__block js-container">
+
+    {% render 'image',
+      component_class: image_component_klass,
+      class: image_klass,
+      image: image,
+      sizes: '300, 768, 1024, 1440'
+    %}
+
+    {% unless title == blank %}
+      <div class="{{c}}__text-container">
+        <h5 class="{{c}}__title h5">
+          {{ title }}
+        </h5>
+        <a href="{{ url }}" class="{{c}}__link link js-link">
+          {{ url_text }}
+        </a>
+      </div>
+    {% endunless %}
+  </div>
+
+</div>

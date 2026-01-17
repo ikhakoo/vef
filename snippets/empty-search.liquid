@@ -1,0 +1,22 @@
+{% liquid
+  assign c = "EmptySearch"
+  assign search_terms = search_terms
+  assign no_results_message = no_results_message
+%}
+
+<div class="{{c}}">
+  <div class="{{c}}__title h4">
+    No Results For "{{ search_terms }}"
+  </div>
+
+  <div class="{{c}}__text body">
+    {{ no_results_message }}
+  </div>
+
+  <a 
+    class="{{c}}__cta cta cta--black"
+    href="/" 
+  >
+    Continue Shopping
+  </a>
+</div>

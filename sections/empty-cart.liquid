@@ -1,0 +1,135 @@
+{% 
+  render 'empty-cart',
+  settings: section.settings,
+  blocks: section.blocks
+%}
+
+{% schema %}
+{
+  "name": "Empty Cart",
+  "settings": [
+    {
+      "type": "text",
+      "id": "empty_cart_message",
+      "label": "Empty cart message",
+      "default": "Your cart is empty"
+    },
+    {
+      "type": "text",
+      "id": "empty_cart_link_text",
+      "label": "Empty cart link text",
+      "default": "Let's Shop"
+    },
+    {
+      "type": "url",
+      "id": "empty_cart_url",
+      "label": "Empty cart link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "recommendations",
+      "name": "Recommendations Slider",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "display_collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "header",
+          "label": "Recommendations header",
+          "default": "Congrats! You've got free shipping!"
+        }
+      ]
+    },
+    {
+      "type": "collection_cards",
+      "name": "Collection Cards",
+      "settings": [
+        {
+          "type": "header",
+          "content": "First Collection Card"
+        },
+        {
+          "type": "video",
+          "id": "bg_video_one",
+          "label": "Background Video"
+        },
+        {
+          "type": "image_picker",
+          "id": "bg_image_one",
+          "label": "Background Image"
+        },
+        {
+          "type": "text",
+          "id": "text_one",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "url_one",
+          "label": "URL"
+        },
+        {
+          "type": "select",
+          "id": "text_color_one",
+          "label": "Text Color",
+          "options": [
+            {
+              "value": "text-light",
+              "label": "White"
+            },
+            {
+              "value": "text-dark",
+              "label": "Black"
+            }
+          ],
+          "default": "text-light"
+        },
+        {
+          "type": "header",
+          "content": "Second Collection Card"
+        },
+        {
+          "type": "video",
+          "id": "bg_video_two",
+          "label": "Background Video"
+        },
+        {
+          "type": "image_picker",
+          "id": "bg_image_two",
+          "label": "Background Image"
+        },
+        {
+          "type": "text",
+          "id": "text_two",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "url_two",
+          "label": "URL"
+        },
+        {
+          "type": "select",
+          "id": "text_color_two",
+          "label": "Text Color",
+          "options": [
+            {
+              "value": "text-light",
+              "label": "White"
+            },
+            {
+              "value": "text-dark",
+              "label": "Black"
+            }
+          ],
+          "default": "text-light"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

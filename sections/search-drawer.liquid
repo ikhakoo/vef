@@ -1,0 +1,76 @@
+{% 
+  render 'search-drawer',
+  section: section.settings,
+  blocks: section.blocks,
+%}
+
+{% schema %}
+{
+  "name": "Search Drawer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "input_placeholder",
+      "label": "Input placeholder",
+      "default": "Search here..."
+    },
+    {
+      "type": "header",
+      "content": "Autocomplete Search"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_autocomplete_search",
+      "label": "Enable autocomplete search",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "empty_search_title",
+      "label": "Empty search title",
+      "default": "Apologies"
+    },
+    {
+      "type": "text",
+      "id": "empty_search_text",
+      "label": "Empty search text",
+      "default": "We couldn't find anything for"
+    },
+    {
+      "type": "text",
+      "id": "reset_btn_text",
+      "label": "Reset button text",
+      "default": "Try again"
+    },
+    {
+      "type": "header",
+      "content": "Top Searches"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_top_searches",
+      "label": "Enable top searches",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "top_searches_title",
+      "label": "Title",
+      "default": "Top searches"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Top search term",
+      "type": "top-search-term",
+      "settings": [
+        {
+          "type": "text",
+          "id": "term",
+          "label": "Term"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

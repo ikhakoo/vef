@@ -1,0 +1,30 @@
+{% liquid
+  assign c = "MiniCartHeader"
+  assign settings = settings
+  assign blocks = blocks
+%}
+
+<div
+  class="{{c}}"
+  
+>
+  {% for block in blocks %}
+    {% case block.type %}
+      {% when "tag_gwp" %}
+        {% 
+          render 'mini-cart-gwp',
+          settings: block.settings
+        %}
+
+      {% when "promo_bar" %}
+        {% 
+          render 'mini-cart-promo',
+          settings: block.settings
+        %}
+          
+    {% endcase %}
+      
+  {% endfor %}
+
+
+</div>

@@ -1,0 +1,10 @@
+{% liquid
+  assign c = "Swatch"
+  assign color = color
+  assign modifier = modifier
+%}
+
+<div
+  class="{{c}} {{ modifier }}"
+  data-color="{{ color | handleize }}"
+></div>

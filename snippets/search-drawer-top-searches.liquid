@@ -1,0 +1,24 @@
+{% liquid
+  assign c = "SearchDrawerTopSearches"
+  assign title = title
+  assign blocks = blocks
+%}
+
+<div class="{{c}}">
+  <div class="{{c}}__title subheader">
+    {{ title }}
+  </div>
+
+  <div class="{{c}}__container">
+    {% for block in blocks %}
+      <div class="{{c}}__item">
+        <a
+          class="{{c}}__link body" 
+          href="/search?shopify_products%5Bquery%5D={{ block.settings.term }}"
+        >
+          {{ block.settings.term }}
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+</div>

@@ -1,0 +1,25 @@
+{% liquid
+  assign c = "PressBlog"
+  assign fields = blog.metafields.flexible
+%}
+<div
+  class="{{c}}"
+>
+  {% render 'text-hero',
+    header: fields.hero_header,
+    subheader: fields.hero_subheader,
+    background_color: fields.hero_background_color,
+    color: fields.hero_color
+  %}
+
+  {% paginate blog.articles by 20 %}
+
+    {% render 'press-article-grid',
+      articles: blog.articles
+    %}
+
+    {% render 'pagination',
+      paginate: paginate
+    %}
+  {% endpaginate %}
+</div>

@@ -1,0 +1,41 @@
+{% liquid
+  assign c = "EmptyCart"
+  assign settings = settings
+  assign blocks = blocks
+%}
+
+<div class="{{c}}">
+
+  <div class="{{c}}__content-container">
+    <div class="{{c}}__text body-l">
+      {{ settings.empty_cart_message }}
+    </div>
+  
+    <a 
+      class="{{c}}__cta cta cta--black"
+      href="{{ settings.empty_cart_url }}" 
+    >
+      {{ settings.empty_cart_link_text }}
+    </a>
+  </div>
+
+  <div class="{{c}}__blocks-container">
+    {% for block in blocks %}
+      {% case block.type %}
+        {% when 'recommendations' %}
+          {% 
+            render 'empty-cart-recommendations',
+            settings: block.settings,
+          %}
+  
+        {% when 'collection_cards' %}
+            {% 
+              render 'empty-cart-collection-cards',
+              settings: block.settings,
+            %}
+        {% else %}
+  
+      {% endcase %}
+    {% endfor %}
+  </div>
+</div>

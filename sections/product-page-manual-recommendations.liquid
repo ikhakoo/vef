@@ -1,0 +1,28 @@
+{%
+  render 'product-recommendations-manual',
+  section: section.settings,
+%}
+
+{% schema %}
+{
+  "name": "Manual Recommendations",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Pairs Well With"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Manual Recommendations"
+    }
+  ],
+  "enabled_on": {
+    "templates": [
+      "product"
+    ]
+  }
+}
+{% endschema %}

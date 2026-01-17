@@ -1,0 +1,77 @@
+{% liquid
+  assign c = "CheckoutShipping"
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+<script>
+  (function($) {
+    $(document).on("page:load page:change", function() {
+      if (Shopify.Checkout.step === 'shipping_method') {
+        // if theme settings includes first selected rate, select that rate
+        // else leave the first rate as selected
+        if ("{{ settings.priority_shipping_rate }}" != "") {
+          if ($('.content-box__row:contains("' + "{{ settings.priority_shipping_rate }}" + '")').length > 0) {
+            $(".content-box__row:contains({{ settings.priority_shipping_rate }}) .input-radio").prop("checked", "checked");
+          }
+        }
+      }
+    });
+  })(Checkout.$);
+</script>
+
+<script>
+  console.log("{{ checkout.attributes }}");
+</script>
+
+<script
+class="js-warehouseHolidays"
+type="application/json"
+>
+  {{ settings.warehouse_holidays }}
+</script>
+
+<script 
+  class="js-calendarShippingRate"
+  type="application/json"
+>
+{{ settings.calendar_shipping_rate }}
+</script>
+
+<script
+  class="js-weekdayCutoff"
+  type="application/json"
+>
+  {{ settings.weekday_cutoff }}
+</script>
+
+<script
+  class="js-saturdayCutoff"
+  type="application/json"
+>
+  {{ settings.saturday_cutoff }}
+</script>
+
+<script
+  class="js-eastHandDeliveryCutoff"
+  type="application/json"
+>
+  {{ settings.east_hand_delivery_cutoff }}
+</script>
+
+<script
+  class="js-westHandDeliveryCutoff"
+  type="application/json"
+>
+  {{ settings.west_hand_delivery_cutoff }}
+</script>
+
+<script
+  class="js-deliveryState"
+  type="application/json"
+>
+  {{ checkout.shipping_address.province_code }}
+</script>
+</div>

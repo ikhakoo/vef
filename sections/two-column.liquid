@@ -1,0 +1,74 @@
+{% render 'two-column',
+  settings: section.settings,
+  blocks: section.blocks
+%}
+
+{% schema %}
+{
+  "name": "Two Column",
+  "max_blocks": 2,
+  "blocks": [
+    {
+      "type": "column-item",
+      "name": "Two Column Column Item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "order",
+          "label": "Image/Text Order In Column Item",
+          "options": [
+            {
+              "value": "image-first",
+              "label": "Image First"
+            },
+            {
+              "value": "text-first",
+              "label": "Text First"
+            }
+          ],
+          "default": "image-first"
+        },
+        {
+          "type": "text",
+          "id": "header",
+          "label": "Column Item Title"
+        },
+        {
+          "type": "textarea",
+          "id": "subheader",
+          "label": "Column Item Subheader"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Column Item Link"
+        },
+        {
+          "type": "text",
+          "id": "url_text",
+          "label": "Column Item Link Text"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Column Item Image"
+        },
+        {
+          "type": "text",
+          "id": "video_url",
+          "label": "Two Column Video (overrides image)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Two Column",
+      "category": "Homepage"
+    }
+  ],
+  "templates": [
+    "index"
+  ]
+}
+{% endschema %}

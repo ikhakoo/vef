@@ -1,0 +1,27 @@
+{% liquid
+  assign c = "SubmenuImageLinks"
+  assign links = links
+  assign modifiers = ""
+
+  if links.size > 6
+    assign modifiers = c | append: "--lagniappe"
+  endif
+%}
+
+<div
+  class="{{c}} {{ modifiers }}"
+  data-component="{{c}}"
+>
+  <ul class="{{c}}__list">
+    {% for link in links %}
+      {% unless link.object == null %}
+        <li class="{{c}}__item">
+          {% render "navigation-menu-link", 
+            link: link,
+            accessible_link: true
+          %}
+        </li>
+      {% endunless %}
+    {% endfor %}
+  </ul>
+</div>

@@ -1,0 +1,42 @@
+{% liquid
+  assign c = "SizeGuidePageNav"
+  assign blocks = blocks
+
+  assign image_component_class = c | append: '__image-wrap'
+  assign image_class = c | append: '__image'
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__container swiper js-sizeGuideNavContainer">
+    <div class="{{c}}__wrapper swiper-wrapper">
+      {% for block in blocks %}
+        {% liquid
+          assign shape = block.settings.title
+        %}
+
+        <div class="{{c}}__slide swiper-slide">
+          <button 
+            class="{{c}}__btn js-sizeGuideNavBtn"
+            data-shape="{{ shape | handleize }}"
+            aria-label="View {{ shape }} Hatboxes size guide"
+          >
+            {%
+              render 'image',
+              component_class: image_component_class,
+              class: image_class,
+              image: block.settings.shape_thumb,
+              sizes: '100'
+            %}
+
+            <span class="{{c}}__btn-text btn-copy">
+              {{ shape }}
+            </span>
+          </button>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

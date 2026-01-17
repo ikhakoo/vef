@@ -1,0 +1,49 @@
+{% liquid
+  assign c = "LandingCardGridItem"
+  assign image = image | default: false
+  assign header = header | default: false
+  assign subtext = subtext | default: false
+  assign cta_text = cta_text | default: false
+  assign hover_text = hover_text | default: false
+  assign cta_link = cta_link | default: false
+  assign image_component_class = c | append: '__image-wrap'
+  assign force_square_aspect = force_square_aspect | default: false
+  assign force_square_aspect_class = c | append: '__image-wrap--square-aspect'
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__container">
+
+    {% render 'image',
+      component_class: image_component_class,
+      force_square_aspect: force_square_aspect,
+      square_aspect_class: force_square_aspect_class,
+      image: image,
+      sizes: '350, 768, 1024'
+    %}
+
+    {% if hover_text %}
+      <div class="{{c}}__image-overlay body">
+        {{ hover_text }}
+      </div>
+    {% endif %}
+
+  </div>
+
+  {% if header %}
+    <div class="{{c}}__header h5">{{ header }}</div>
+  {% endif %}
+
+  {% if subtext %}
+    <div class="{{c}}__subtext subheader">{{ subtext }}</div>
+  {% endif %}
+
+  {% if cta_text %}
+    <a class="{{c}}__cta cta cta--black js-link" href="{{ cta_link }}">
+      {{ cta_text }}
+    </a>
+  {% endif %}
+</div>

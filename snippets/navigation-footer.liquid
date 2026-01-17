@@ -1,0 +1,45 @@
+{% liquid
+  assign c = "NavigationFooter"
+  assign settings = settings
+  assign ancillary_url_1 = settings.ancillary_url_1 | default: false
+  assign ancillary_text_1 = settings.ancillary_text_1 | default: false
+  assign ancillary_url_2 = settings.ancillary_url_2 | default: false
+  assign ancillary_text_2 = settings.ancillary_text_2 | default: false
+%}
+
+<div
+  class="{{c}}"
+>
+  <button 
+    class="{{c}}__mobile-search-toggle js-searchToggleBtn"
+    aria-label="Open search drawer"
+  >
+    <span class="caption">
+      Search
+    </span>
+
+    {%
+      render 'component-icon',
+      icon: 'mobile-search-glass'
+    %}
+  </button>
+
+  <a
+    href="/pages/my-wishlist"
+    class="{{c}}__link caption"
+  >
+    Wishlist
+  </a>
+  <button
+    class="{{ c }}__action-icon caption {{c}}__main-item {{ c }}__action-icon--account js-accountBtn {% if customer %}js-directToAccount{% else %}js-accountDrawerOpen{% endif %}"
+    aria-label="{% if customer %}View account{% else %}Login or create an account{% endif %}"
+  >
+    Account
+  </button>
+  {% if ancillary_url_1 %}
+    <a href="{{ ancillary_url_1 }}" class="{{c}}__link caption">{{ ancillary_text_1 }}</a>
+  {% endif %}
+  {% if ancillary_url_2 %}
+    <a href="{{ ancillary_url_2 }}" class="{{c}}__link caption">{{ ancillary_text_2 }}</a>
+  {% endif %}
+</div>

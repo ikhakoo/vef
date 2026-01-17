@@ -1,0 +1,31 @@
+{% liquid
+  assign c = "Footer"
+  assign settings = settings | default: false
+  assign logo = settings.logo | default: false
+  assign image_component_class = c | append: "__logo-container"
+  assign image_class = c | append: "__logo"
+%}
+
+<footer
+  class="{{c}}"
+>
+  <div class="{{c}}__container">
+
+    {% render 'image',
+      component_class: image_component_class,
+      class: image_class,
+      image: logo,
+      sizes: "100"
+    %}
+
+    <h2 class="{{c}}__header subheader">
+      {{ 'layout.footer.title' | t }}
+    </h2>
+
+    {% render "footer-forms", settings: settings %}
+
+    {% render "footer-links" %}
+
+    {% render "footer-legal", settings: settings %}
+  </div>
+</footer>

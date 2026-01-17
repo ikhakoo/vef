@@ -1,0 +1,29 @@
+{% liquid
+  assign c = "SwatchesCSS"
+  assign swatches = shop.metafields.globals
+%}
+
+<style
+  type="text/css"
+  id="{{c}}"
+>
+  {% for swatch in swatches.title %}
+    {% liquid
+      assign title = swatches.title[forloop.index0] | handleize
+      assign hex_code = swatches.hex_code[forloop.index0] | default: false
+      assign use_gradient = swatches.use_gradient[forloop.index0] | default: false
+    %}
+
+    .Swatch[data-color="{{ title }}"] {
+      {% if hex_code %}
+        {% if use_gradient %}
+          background: {{ hex_code }};
+        {% else %}
+          background-color: {{ hex_code }};
+        {% endif %}
+      {% else %}
+        background-color: {{ title }};
+      {% endif %}
+    }
+  {% endfor %}
+</style>

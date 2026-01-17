@@ -1,0 +1,18 @@
+{% assign layout = layout | default: 'theme' %}
+
+{% assign layoutCSSFile = 'layout.' | append: layout | append: '.css' %}
+{% assign templateCSSFile = 'template.' | append: template.name | append: '.css' | replace: '/', '.' %}
+{% if template.directory %}
+  {% assign templateCSSFile = 'template.' | append: template.directory | append: '.' | append: template.name | append: '.css' | replace: '/', '.' %}
+{% endif %}
+<link type="text/css" href="{{ layoutCSSFile | asset_url }}" rel="stylesheet">
+<link type="text/css" href="{{ templateCSSFile | asset_url }}" rel="stylesheet">
+
+{% assign layoutJSFile = 'layout.' | append: layout | append: '.js' %}
+{% assign templateJSFile = 'template.' | append: template.name | append: '.js' | replace: '/', '.' %}
+{% if template.directory %}
+  {% assign templateJSFile = 'template.' | append: template.directory | append: '.' | append: template.name | append: '.js' | replace: '/', '.' %}
+{% endif %}
+<script src="{{- 'vendors.js' | asset_url -}}" defer="defer"></script>
+<script type="text/javascript" src="{{ layoutJSFile | asset_url }}" defer="defer"></script>
+<script type="text/javascript" src="{{ templateJSFile | asset_url }}" defer="defer"></script>

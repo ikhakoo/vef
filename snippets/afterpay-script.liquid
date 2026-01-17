@@ -1,0 +1,50 @@
+<script src="https://js.afterpay.com/afterpay-1.x.js" data-analytics-enabled async></script>
+
+<script>
+  window.addEventListener('Afterpay.ready', function() {
+    Afterpay.createPlacements({
+      targetSelector: '.ProductForm__form-actions',
+      attributes: {
+        amountSelector: '.js-price',
+        locale: {{ localization.language.iso_code | json }},
+        currency: {{ shop.currency | json }},
+        logoType: Afterpay.logoType.LOCKUP,
+        lockupTheme: Afterpay.theme.lockup.BLACK,
+        size: Afterpay.size.SM,
+      }
+    });
+    Afterpay.createPlacements({
+      targetSelector: '.js-productCustomizerInfo',
+      attributes: {
+        amountSelector: '.js-price',
+        locale: {{ localization.language.iso_code | json }},
+        currency: {{ shop.currency | json }},
+        logoType: Afterpay.logoType.LOCKUP,
+        lockupTheme: Afterpay.theme.lockup.BLACK,
+        size: Afterpay.size.SM,
+      }
+    });
+    Afterpay.createPlacements({
+      targetSelector: '.js-cartTotalWrapper',
+      attributes: {
+        amountSelector: '.js-cartTotal',
+        locale: {{ localization.language.iso_code | json }},
+        currency: {{ shop.currency | json }},
+        logoType: Afterpay.logoType.LOCKUP,
+        lockupTheme: Afterpay.theme.lockup.BLACK,
+        size: Afterpay.size.SM,
+      }
+    });
+    Afterpay.createPlacements({
+      targetSelector: '.js-miniCartCheckout',
+      attributes: {
+        amountSelector: '.js-cartTotal',
+        locale: {{ localization.language.iso_code | json }},
+        currency: {{ shop.currency | json }},
+        logoType: Afterpay.logoType.LOCKUP,
+        lockupTheme: Afterpay.theme.lockup.BLACK,
+        size: Afterpay.size.SM,
+      }
+    });
+  });
+</script>

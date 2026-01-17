@@ -1,0 +1,70 @@
+{% liquid
+  assign c = 'AccountInfo'
+  assign settings = settings | default: false
+  assign change_password_message = settings.change_password_message | default: false
+%}
+
+<div
+  class="{{c}} js-section"
+  data-section="information"
+>
+  <div class="{{c}}__title subheader">Account Information</div>
+  <div class="{{c}}__divider"></div>
+  <div class="{{c}}__info">
+    <span class="{{c}}__info-key subheader">name: </span>
+    <span class="{{c}}__info-value body">{{ customer.name }}</span>
+  </div>
+  <div class="{{c}}__info">
+    <span class="{{c}}__info-key subheader">email: </span>
+    <span class="{{c}}__info-value body">{{ customer.email }}</span>
+  </div>
+  {% if customer.tags contains 'has_subscription' %}
+    <div class="{{c}}__manage-subscriptions">
+      {% comment %} <a class="{{c}}__cta cta" href="/tools/recurring/login/">Manage Subscriptions</a> {% endcomment %}
+      {% render 'stayai-account-btn', class: c %}
+    </div>
+  {% endif %}
+  <div class="{{c}}__password-container">
+    <div class="{{c}}__title subheader">Change Password</div>
+    <div class="{{c}}__divider"></div>
+    <div class="{{c}}__change-password body">
+      {{ change_password_message }}
+      {% form 'recover_customer_password',
+        class: 'AccountInfo__recover-form AccountForm',
+        return_to: '/account/login?reset_password=true'
+      %}
+        <div class="{{c}}__field AcountForm__field">
+          <input
+            id="{{c}}__customer-email"
+            class="{{c}}__input AccountForm__input"
+            type="email"
+            name="email"
+            aria-label="Email address"
+            placeholder="your e-mail"
+            value="{{ customer.email }}"
+            required
+          >
+          <label
+            for="{{c}}__customer-email"
+            class="{{c}}__label AccountForm__label caption"
+          >
+            Email
+          </label>
+        </div>
+        <button
+          class="{{c}}__submit"
+          type="submit"
+          aria-label="Submit email"
+        >
+          {% render 'icon', icon: 'arrow-right' %}
+        </button>
+
+        {% if form.errors %}
+          <div class="{{c}}__errors">
+            {{ form.errors | default_errors }}
+          </div>
+        {% endif %}
+      {% endform %}
+    </div>
+  </div>
+</div>

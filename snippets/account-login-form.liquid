@@ -1,0 +1,157 @@
+{% liquid
+  assign c = "AccountLoginForm"
+  assign form_class = c | append: '__form AccountForm js-login-form'
+  assign recover_form_class = c | append: '__form AccountForm js-recover-form'
+  assign id_login = id_login
+  assign id_recover = id_recover
+  assign recover_success = recover_success
+  assign disclaimer = disclaimer
+  assign reset_disclaimer = reset_disclaimer
+%}
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div
+    class="{{c}}__form-wrapper js-form is-active"
+    aria-hidden="false"
+    aria-expanded="true"
+    data-form="login"
+  >
+
+    <div class="{{c}}__reset-message copy js-reset-password-msg">
+      We've sent you an email with a link to reset your password.
+    </div>
+
+    {%
+      form 'customer_login',
+      class: form_class,
+      id: id_login
+    %}
+      <div class="{{c}}__field AccountForm__field js-email-field">
+        <input
+          id="{{c}}__customer-email"
+          class="{{c}}__input AccountForm__input"
+          type="text"
+          name="customer[email]"
+          aria-label="Email address"
+          placeholder="Your Email"
+        >
+        <label
+          for="{{c}}__customer-email"
+          class="{{c}}__label AccountForm__label caption"
+        >
+          Your email
+          <span class="{{c}}__required-indicator AccountForm__required-indicator">*</span>
+        </label>
+      </div>
+
+      <div class="{{c}}__field AccountForm__field js-required-field">
+        <input
+          id="{{c}}__customer-password"
+          class="{{c}}__input AccountForm__input"
+          type="password"
+          name="customer[password]"
+          aria-label="Password"
+          placeholder="Password"
+        >
+        <label
+          for="{{c}}__customer-password"
+          class="{{c}}__label AccountForm__label caption"
+        >
+          Password
+          <span class="{{c}}__required-indicator AccountForm__required-indicator">*</span>
+        </label>
+      </div>
+
+      {% if form.errors %}
+        <div class="{{c}}__errors body">
+          {{ form.errors | default_errors }}
+        </div>
+      {% endif %}
+
+      {% if disclaimer != blank %}
+        <div class="{{c}}__disclaimer body-s">
+          {{ disclaimer }}
+        </div>
+      {% endif %}
+
+      <button
+        class="{{c}}__submit cta cta--black js-login-submit"
+        type="submit"
+      >
+        Sign In
+      </button>
+      <button
+        class="{{c}}__reset-btn js-toggle body-s"
+        aria-label="Show reset password form"
+        data-toggles="reset"
+        type="button"
+      >
+        Forgot Password?
+      </button>
+    {% endform %}
+  </div>
+
+  <div
+    class='{{c}}__form-wrapper js-form'
+    aria-hidden="true"
+    aria-expanded="false"
+    data-form="reset"
+  >
+    <div class="{{c}}__title subheader">
+      Reset your password
+    </div>
+    {%
+      form 'recover_customer_password',
+      class: recover_form_class,
+      id: id_recover,
+      return_to: '/account/login?reset_password=true'
+    %}
+      <div class="{{c}}__field AccountForm__field js-email-field">
+        <input
+          id="{{c}}__customer-reset-email"
+          class="{{c}}__input AccountForm__input"
+          type="email"
+          name="email"
+          aria-label="Email"
+          placeholder="Your Email"
+        >
+        <label
+          for="{{c}}__customer-password"
+          class="{{c}}__label AccountForm__label caption"
+        >
+          Your Email
+          <span class="{{c}}__required-indicator AccountForm__required-indicator">*</span>
+        </label>
+      </div>
+
+      {% if form.errors %}
+        <div class="{{c}}__errors copy">
+          {{ form.errors | default_errors }}
+        </div>
+      {% endif %}
+
+      {% if reset_disclaimer != blank %}
+        <div class="{{c}}__disclaimer body-s">
+          {{ reset_disclaimer }}
+        </div>
+      {% endif %}
+
+      <button
+        class="{{c}}__submit btn-link cta cta--black js-recover-submit"
+        type="submit"
+      >
+        Submit
+      </button>
+      <button
+        class="{{c}}__reset-btn js-toggle body-s"
+        aria-label="Show login form"
+        data-toggles="login"
+        type="button"
+      >
+        Cancel
+      </button>
+    {% endform %}
+  </div>
+</div>

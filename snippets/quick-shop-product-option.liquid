@@ -1,0 +1,63 @@
+{% liquid
+  assign c = "QuickShopProductOption"
+  assign option = option
+  assign value = value
+  assign label = label
+  assign swatch_image = swatch_image | default: false
+  assign is_available = is_available | default: false
+  assign is_selected = is_selected | default: false
+  assign is_related_product = is_related_product | default: false
+  assign product_images = product_images | default: false
+  assign image_component_class = c | append: '__image-wrap'
+  assign image_class = c | append: '__image'
+
+  if is_related_product
+    assign option_name = option.name | downcase
+
+    if option_name == 'box material'
+      assign image_filename = label | handleize | append: '.jpg'
+      assign swatch_image = images[image_filename]
+    else
+      for image in product_images
+        if image.alt contains 'emptybox'
+          assign swatch_image = image
+          break
+        endif
+      endfor
+    endif
+  endif
+%}
+
+<button
+  class="
+    {{c}}
+    {% unless is_available %} not-available {% endunless %}
+    {% if is_selected %} is-selected {% endif %}
+    {% if is_related_product %} js-quickShopRelatedProduct {% else %} js-quickShopProductOption {% endif %}
+  "
+  data-option-value="{{ value }}"
+  data-option-position="{{ option.position }}"
+  
+>
+  {% if swatch_image %}
+    {%
+      render 'image',
+      component_class: image_component_class,
+      class: image_class,
+      image: swatch_image,
+      sizes: '0'  
+    %}
+
+    <div class="{{c}}__title body-s">
+      {{ label }}
+    </div>
+
+  {% else %}
+    <div class="{{c}}__text-option">
+      <span class="body-s">
+        {{ label }} 
+      </span>
+    </div>
+    
+  {% endif %}
+</button>

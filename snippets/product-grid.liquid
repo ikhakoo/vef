@@ -1,0 +1,201 @@
+{% liquid
+  assign c = "ProductGrid"
+  assign modifiers = modifiers | default: ''
+  assign section = section
+  assign products = products
+  assign collection = collection | default: false
+  assign category_links_title = category_links_title | default: false
+  assign category_links = category_links | default: false
+  assign results_count = results_count
+  assign sort_by = sort_by
+  assign sort_options = sort_options
+  assign filters = filters
+  assign check_editorial_block = check_editorial_block | default: false
+  assign show_messaging_block = show_messaging_block | default: false
+  assign grid_messaging_block_placement = grid_messaging_block_placement | default: false
+  assign grid_messaging_block_field = grid_messaging_block_field | default: false
+  assign paginate = paginate
+  assign collection_quick_shop_enabled = collection_quick_shop_enabled | default: false
+  assign collection_lifestyle_images_enabled = collection_lifestyle_images_enabled | default: false
+  assign collection_expanded_variants = collection_expanded_variants | default: false
+  assign has_delivery_selection = has_delivery_selection | default: false
+  assign use_algolia = use_algolia | default: false
+  assign available_products = products | where: "available", true
+  assign unavailable_products = products | where: "available", false
+
+  assign active_filter_count = 0
+  assign no_color_filters_active = true
+
+  unless use_algolia
+    for filter in filters
+      for value in filter.active_values
+        assign active_filter_count = active_filter_count | plus: 1
+        if value.param_name contains 'color'
+          assign no_color_filters_active = false
+        endif
+      endfor
+    endfor
+  endunless
+
+  assign show_editorial_block_1 = false
+  assign show_editorial_block_2 = false
+  assign editorial_block_1_index = 7
+  assign editorial_block_2_index = 13
+
+  assign editorial_block_field = collection.metafields.editorial_block
+  assign approved_sort_by_options = 'manual, best-selling' | split: ', '
+
+  if check_editorial_block
+    for block in editorial_block_field.title
+      assign has_image = editorial_block_field.image[forloop.index0] | default: false
+
+      if has_image and paginate.current_page == 1 and active_filter_count == 0 and approved_sort_by_options contains sort_by
+        if forloop.index == 1
+          assign show_editorial_block_1 = true
+        elsif forloop.index == 2
+          assign show_editorial_block_2 = true
+        endif
+      endif 
+    endfor
+  endif
+
+  if show_messaging_block
+    if grid_messaging_block_placement < editorial_block_1_index 
+      assign editorial_block_1_index = editorial_block_1_index | minus: 1
+    endif
+
+    if grid_messaging_block_placement < editorial_block_2_index 
+      assign editorial_block_2_index = editorial_block_2_index | minus: 1
+    endif
+  endif
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__observer js-productGridHeaderObserver"></div>
+
+  <div class="{{c}}__header-spacer js-productGridHeaderSpacer"></div>
+
+  {%
+    render 'product-grid-header',
+    category_links: category_links,
+    sort_by: sort_by,
+    sort_options: sort_options,
+    filters: filters,
+    active_filter_count: active_filter_count,
+    use_algolia: use_algolia
+  %}
+
+  {% if has_delivery_selection %}
+    {%
+      render 'collection-delivery-selection-form',
+      section: section,
+    %}
+  {% endif %}
+
+  {% if category_links %}
+    {%
+      render 'category-drawer',
+      collection_handle: collection.handle,
+      category_links_title: category_links_title,
+      category_links: category_links,
+    %}
+  {% endif %}
+
+  <div class="{{c}}__wrap">
+    {% if use_algolia %}
+      {% render 'algolia-filter' %}
+      {% render 'algolia-hits' %}
+      {% render 'algolia-pagination' %}
+    {% else %}
+      {%
+        render 'filter',
+        collection_handle: collection.handle,
+        category_links: category_links,
+        results_count: results_count,
+        sort_by: sort_by,
+        sort_options: sort_options,
+        filters: filters,
+        active_filter_count: active_filter_count
+      %}
+      <div class="{{c}}__container js-productGrid">
+        {% for product in available_products %}
+          {% liquid
+            assign lifestyle_images_enabled = false
+
+            if collection_lifestyle_images_enabled
+              assign remainder = forloop.index | modulo: 2
+
+              if remainder == 0
+                assign lifestyle_images_enabled = true
+              endif
+            endif
+          %}
+
+          {% if forloop.index == grid_messaging_block_placement and show_messaging_block %}
+            {%
+              render 'collection-messaging-block',
+              field: grid_messaging_block_field,
+            %}
+          {% endif %}
+
+          {% if forloop.index == editorial_block_1_index and show_editorial_block_1 %}
+            {%
+              render 'editorial-block',
+              field: editorial_block_field,
+              index: 0,
+            %}
+
+          {% elsif forloop.index == editorial_block_2_index and show_editorial_block_2 %}
+            {%
+              render 'editorial-block',
+              field: editorial_block_field,
+              index: 1,
+            %}
+
+          {% endif %}
+
+          {% if collection_expanded_variants %}
+            {% for variant in product.variants %}
+              <div class="{{c}}__item">
+                {%
+                  render 'product-card',
+                  product: product,
+                  collection: collection,
+                  no_color_filters_active: no_color_filters_active
+                  quick_shop_enabled: collection_quick_shop_enabled,
+                  lifestyle_images_enabled: lifestyle_images_enabled,
+                  force_variant: variant,
+                %}
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="{{c}}__item">
+              {%
+                render 'product-card',
+                product: product,
+                collection: collection,
+                no_color_filters_active: no_color_filters_active
+                quick_shop_enabled: collection_quick_shop_enabled,
+                lifestyle_images_enabled: lifestyle_images_enabled,
+              %}
+            </div>
+          {% endif %}
+        {% endfor %}
+
+        {% for product in unavailable_products %}
+          <div class="{{c}}__item">
+            {%
+              render 'product-card',
+              product: product,
+              collection: collection,
+              no_color_filters_active: no_color_filters_active
+            %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>

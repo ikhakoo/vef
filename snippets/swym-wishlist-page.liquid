@@ -1,0 +1,32 @@
+{% liquid
+  assign c = "SwymWishlistPage"
+  assign section = section
+%}
+
+<div
+  class="{{c}}"
+>
+  {% unless customer %}
+    <div class="{{c}}__login">
+      <div class="{{c}}__wrapper">
+        Please
+        <a class="{{c}}__link" href="{{ routes.account_login_url }}">login</a>
+        to share your wishlist, or
+        <a class="{{c}}__link" href="{{ routes.account_register_url }}">create an account</a>.
+      </div>
+    </div>
+  {% endunless %}
+
+  {% render 'swym-wishlist-page-content' %}
+
+  {% render 'swym-notification' %}
+</div>
+
+<script 
+  class="js-swymLanguageOverridesJson"
+  type="application/json"
+>
+  {
+    "EmptyWishlistsText": "{{ section.empty_wishlist_text }}"
+  }
+</script>

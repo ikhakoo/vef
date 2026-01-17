@@ -1,0 +1,92 @@
+{% liquid
+  assign c = "HeroCarousel"
+  assign block = block
+
+  assign image_component_class = c | append: "__split-image-container"
+  assign image_class = c | append: "__image"
+  assign video_component_class = c | append: '__split-video-wrap'
+  assign video_class = c | append: '__video'
+  assign control_modifier_class = c | append: '__video-control'
+%}
+
+<div class="{{c}}__slide {{c}}__slide--center swiper-slide">
+  <div class="{{c}}__col-wrap">
+    <div class="{{c}}__col {{c}}__col--{{ block.color_1 }}">
+      {% if block.video %}
+        {% liquid
+          assign video_src = block.video.sources | where: 'mime_type', 'video/mp4'
+          assign video_mobile_src = block.video_mobile.sources | where: 'mime_type', 'video/mp4'
+          assign poster = block.image_1 | image_url: width: 1000
+        %}
+        {%
+          render 'video',
+          component_class: video_component_class,
+          class: video_class,
+          video: video_src[0].url,
+          mobile_video: video_mobile_src[0].url,
+          poster: poster,
+          custom_breakpoint: 767,
+          control_modifier_class: control_modifier_class,
+        %}
+
+      {% else %}
+        {%
+          render 'image',
+          component_class: image_component_class,
+          class: image_class,
+          image: block.image_mobile_1,
+          sizes: '300,420,567,660',
+          image_2: block.image_1,
+          sizes_2: '768,1024,1280,1440,1600,1800,2160',
+        %}
+
+      {% endif %}
+
+      <div class="{{c}}__text-container {{c}}__text-container--split-slide-1">
+        {% if block.title_1 != blank %}
+          <div class="{{c}}__header h3">
+            {{ block.title_1 }}
+          </div>
+        {% endif %}
+
+        {% if block.cta_1 != blank %}
+          <a 
+            class="{{c}}__split-slide-cta link"
+            href="{{ block.cta_1 }}" 
+          >
+            {{ block.cta_text_1 }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  
+    <div class="{{c}}__col {{c}}__col--{{ block.color_2 }}">
+      {%
+        render 'image',
+        component_class: image_component_class,
+        class: image_class,
+        image: block.image_mobile_2,
+        sizes: '300,420,567,660',
+        image_2: block.image_2,
+        sizes_2: '768,1024,1280,1440,1600,1800,2160',
+      %}
+
+      <div class="{{c}}__text-container {{c}}__text-container--split-slide-2">
+        {% if block.title_2 != blank %}
+          <div class="{{c}}__header h3">
+            {{ block.title_2 }}
+          </div>
+        {% endif %}
+
+        {% if block.cta_2 != blank %}
+          <a 
+            class="{{c}}__split-slide-cta link"
+            href="{{ block.cta_2 }}" 
+          >
+            {{ block.cta_text_2 }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

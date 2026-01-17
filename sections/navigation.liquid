@@ -1,0 +1,188 @@
+{% render 'navigation',
+  navigation: linklists[section.settings.navigation].links,
+  settings: section.settings,
+  blocks: section.blocks
+%}
+
+{% schema %}
+{
+  "name": "Navigation",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "navigation",
+      "label": "Header Navigation"
+    },
+    {
+      "type": "url",
+      "id": "ancillary_url_1",
+      "label": "Ancillary Navigation Item Url 1",
+      "info": "Will exist top left of desktop and last items in footer of mobile flyout."
+    },
+    {
+      "type": "text",
+      "id": "ancillary_text_1",
+      "label": "Ancillary Navigation Item Text 1",
+      "info": "Will exist top left of desktop and last items in footer of mobile flyout."
+    },
+    {
+      "type": "url",
+      "id": "ancillary_url_2",
+      "label": "Ancillary Navigation Item Url 2",
+      "info": "Will exist top left of desktop and last items in footer of mobile flyout."
+    },
+    {
+      "type": "text",
+      "id": "ancillary_text_2",
+      "label": "Ancillary Navigation Item Text 2",
+      "info": "Will exist top left of desktop and last items in footer of mobile flyout."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_links",
+      "name": "Submenu Image Link List",
+      "settings": [
+        {
+          "type": "text",
+          "id": "target",
+          "label": "Main navigation target link title",
+          "info": "Must match and main navigation link title"
+        },
+        {
+          "type": "link_list",
+          "id": "image_link_list",
+          "label": "Image link list",
+          "info": "Link list links should consist of collections"
+        }
+      ]
+    },
+    {
+      "type": "text_links",
+      "name": "Submenu Text Link List",
+      "settings": [
+        {
+          "type": "text",
+          "id": "target",
+          "label": "Main navigation target link title",
+          "info": "Must match and main navigation link title"
+        },
+        {
+          "type": "link_list",
+          "id": "text_link_list",
+          "label": "Text link list"
+        }
+      ]
+    },
+    {
+      "type": "text_links_with_image",
+      "name": "Submenu Link List & Image",
+      "settings": [
+        {
+          "type": "text",
+          "id": "target",
+          "label": "Main navigation target link title",
+          "info": "Must match and main navigation link title"
+        },
+        {
+          "type": "link_list",
+          "id": "text_link_list",
+          "label": "Text link list"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Relative image block"
+        },
+        {
+          "type": "url",
+          "id": "image_url",
+          "label": "Image Block 1 Link"
+        },
+        {
+          "type": "text",
+          "id": "image_url_text",
+          "label": "Image Block Url Text"
+        },
+        {
+          "type": "text",
+          "id": "image_text",
+          "label": "Image Block Text"
+        }
+      ]
+    },
+    {
+      "type": "image_blocks",
+      "name": "Subemenu Image Grid",
+      "settings": [
+        {
+          "type": "text",
+          "id": "target",
+          "label": "Main navigation target link title",
+          "info": "Must match and main navigation link title"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Image block 1"
+        },
+        {
+          "type": "url",
+          "id": "image_1_url",
+          "label": "Image Block 1 Link"
+        },
+        {
+          "type": "text",
+          "id": "image_1_text",
+          "label": "Image Block 1 Text"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Image block 2"
+        },
+        {
+          "type": "url",
+          "id": "image_2_url",
+          "label": "Image Block 2 Link"
+        },
+        {
+          "type": "text",
+          "id": "image_2_text",
+          "label": "Image Block 2 Text"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_3",
+          "label": "Image block 3"
+        },
+        {
+          "type": "url",
+          "id": "image_3_url",
+          "label": "Image Block 3 Link"
+        },
+        {
+          "type": "text",
+          "id": "image_3_text",
+          "label": "Image Block 3 Text"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_4",
+          "label": "Image block 4"
+        },
+        {
+          "type": "url",
+          "id": "image_4_url",
+          "label": "Image Block 4 Link"
+        },
+        {
+          "type": "text",
+          "id": "image_4_text",
+          "label": "Image Block 4 Text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

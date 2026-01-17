@@ -1,0 +1,57 @@
+{%
+  render 'corporate-page',
+  settings: section.settings
+%}
+
+{% schema %}
+{
+  "name": "Corporate Page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "action_url",
+      "label": "Form action URL",
+      "info": "REQUIRED. Only [Formcarry](https://formcarry.com) URLs are supported"
+    },
+    {
+      "type": "text",
+      "id": "header",
+      "label": "Header",
+      "default": "Corporate Order Intake Form"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Form Description",
+      "default": "<p>Enter order information below and one of our representatives will get in touch ASAP!</p>"
+    },
+    {
+      "type": "text",
+      "id": "tiers",
+      "label": "Tiers",
+      "default": "50-100 | 100-200 | 200+",
+      "info": "Enter tier rangers with '|' seperating each range"
+    },
+    {
+      "type": "richtext",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "<p>Thank you! Our representative will contact you shortly</p>",
+      "info": "The message is shown on successful form submission"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

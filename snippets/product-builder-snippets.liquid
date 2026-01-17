@@ -1,0 +1,65 @@
+{% liquid
+  assign c = "ProductBuilderSnippets"
+  assign location = location
+%}
+
+<div
+  class="{{c}}"
+>
+  {% case location %}
+
+    {% when 'below-info' %}
+
+      {% case product.handle %}
+        {% when 'sweet-spicy-gift-basket' %}
+          <builder-component 
+            model="mday-sweet-spicy-gift-basket-editorial"
+            api-key="54c48729c6594ebc887afea10921becb">
+          </builder-component>
+        
+        {% when 'cuisinier-gift-basket' %}
+          <builder-component 
+            model="mday-product-page-lifestyles"
+            api-key="54c48729c6594ebc887afea10921becb">
+          </builder-component>
+
+        {% when 'goddess-bath-gift-basket' %}
+          <builder-component 
+            model="goddess-gift-basket-editorial"
+            api-key="54c48729c6594ebc887afea10921becb">
+          </builder-component>
+        
+        {% when 'fleura-porcelain-vase-pearlescent' %}
+          <builder-component
+            model="fleura-pearlescent"
+            api-key="54c48729c6594ebc887afea10921becb">
+          </builder-component>
+          
+      {% endcase %}
+
+    {% when 'above-add-to-cart' %}
+      {% if product.handle contains 'ela-marble-vase-anthuriums' %}
+        <builder-component
+          model="pre-order-snippet-anthurium"
+          api-key="54c48729c6594ebc887afea10921becb">
+        </builder-component>
+      {% endif %}
+
+    {% when 'below-add-to-cart' %}
+      {% if product.handle contains 'mini-square' %}
+        <builder-component
+          model="mini-square-disclaimer"
+          api-key="54c48729c6594ebc887afea10921becb">
+        </builder-component>
+      {% endif %}
+
+    {% when 'below-form' %}
+      {% if product.handle contains 'fleur-frame-custom' %}
+        <builder-component
+          model="pre-order-snippet"
+          api-key="54c48729c6594ebc887afea10921becb">
+        </builder-component>
+      {% endif %}
+      
+  {% endcase %}
+</div>

@@ -1,0 +1,58 @@
+{% liquid
+  assign c = 'Video'
+  assign component_class = component_class | default: ''
+  assign class = class
+  assign video = video
+  assign mobile_video = mobile_video
+  assign poster = poster | default: false
+  assign eager_load = eager_load | default: false
+  assign custom_breakpoint = custom_breakpoint | default: false
+  assign custom_video_start_event = custom_video_start_event | default: false
+  assign control_modifier_class = control_modifier_class | default: ''
+%}
+
+<div 
+  class="{{c}} {{ component_class }}" data-component="{{c}}"
+  {% if custom_breakpoint %}
+    data-custom-breakpoint="{{ custom_breakpoint }}"
+  {% endif %}
+  {% if custom_video_start_event %}
+    data-custom-start-event="{{ custom_video_start_event }}"
+  {% endif %}
+>
+  <video
+    class="{{ class }} fallback-aspect js-video"
+    autoplay
+    playsinline
+    muted
+    loop
+    {% if poster %}
+      poster="{{ poster }}"
+    {% endif %}
+  >
+    <source
+      class="js-source"
+      {% if eager_load %}
+        src="{{ video }}"
+      {% endif %}
+      data-src="{{ video }}"
+      {% if mobile_video %}
+        data-mobile-src="{{ mobile_video }}"
+      {% endif %}
+      type="video/mp4"
+    />
+  </video>
+
+  <button
+    class="{{c}}__video-control-btn {{ control_modifier_class }} js-videoControl"
+    aria-label="Play/Pause video"
+  >
+    <div class="{{c}}__play-icon">
+      {% render 'icon', icon: 'play', component: c %}
+    </div>
+
+    <div class="{{c}}__pause-icon">
+      {% render 'icon', icon: 'pause', component: c %}
+    </div>
+  </button>
+</div>

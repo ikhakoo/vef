@@ -1,0 +1,40 @@
+{% liquid
+  assign c = "AccountOrderDetailItem"
+  assign item = item
+  assign image_component_class = c | append: '__image-wrap'
+  assign image_class = c | append: '__image'
+  assign selling_plan_allocation = item.selling_plan_allocation | default: false
+%}
+
+<div class="{{c}}">
+  <div class="{{c}}__container-left">
+    {% render 'image',
+      component_class: image_component_class,
+      class: image_class,
+      image: item.image,
+      sizes: '200'
+    %}
+    <div class="{{c}}__info">
+      <div class="{{c}}__title-container">
+        <span class="{{c}}__title body">{{ item.product.title }}</span>
+      </div>
+      {% for option in item.options_with_values %}
+        <div class="{{c}}__option body-s">
+          {% render 'product-option-name',
+            option_name: option.name
+          %}: {{ option.value }}
+        </div>
+      {% endfor %}
+      {% if selling_plan_allocation %}
+        <div class="{{c}}__option body-s">
+          {{ selling_plan_allocation.selling_plan.name }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="{{c}}__container-right">
+    <span class="{{c}}__price body">
+      {{ item.price | money }}
+    </span>
+  </div>
+</div>

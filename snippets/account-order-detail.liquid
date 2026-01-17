@@ -1,0 +1,129 @@
+{% liquid
+  assign c = "AccountOrderDetail"
+  assign order = order | default: false
+%}
+
+<div class="{{c}}">
+
+  <div class="{{c}}__info">
+    <span class="{{c}}__info-key {{c}}__info-key--date subheader">
+      Date:
+    </span>
+    <span class="{{c}}__info-value body">
+      {{ order.created_at | date: format: 'date' }}
+    </span>
+  </div>
+
+  <div class="{{c}}__info {{c}}__info--address">
+    <span class="{{c}}__info-key subheader">
+      Shipped To: <br>
+    </span>
+    <span class="{{c}}__info-value body">
+      {{ order.shipping_address.name }}<br>
+      {{ order.shipping_address.address1 }}<br>
+      {% if order.shipping_address.address2 != blank %}
+        {{ order.shipping_address.address2 }}<br>
+      {% endif %}
+      {{ order.shipping_address.city }} {{ order.shipping_address.province }} {{ order.shipping_address.zip }}<br>
+      {{ order.shipping_address.country }}
+    </span>
+  </div>
+
+  <div class="{{c}}__info {{c}}__info--address">
+    <span class="{{c}}__info-key subheader">
+      Billed To: <br>
+    </span>
+    <span class="{{c}}__info-value body">
+      {{ order.billing_address.name }}<br>
+      {{ order.billing_address.address1 }}<br>
+      {% if order.billing_address.address2 != blank %}
+        {{ order.billing_address.address2 }}<br>
+      {% endif %}
+      {{ order.billing_address.city }} {{ order.shipping_address.province }} {{ order.shipping_address.zip }}<br>
+      {{ order.billing_address.country }}
+    </span>
+  </div>
+
+  <div class="{{c}}__info">
+    <span class="{{c}}__info-key subheader">
+      Order Status: <br>
+    </span>
+    <span class="{{c}}__info-value body">
+      {{ order.fulfillment_status }} <br>
+      {% unless order.fulfillments.created_at == null %}
+        <span>Shipping label created on {{ order.fulfillments.created_at | date: format: 'date' }}</span><br>
+      {% endunless %}
+      <a
+        class="{{c}}__info-value {{c}}__info-value--link body-s"
+        href="{{ order.order_status_url }}"
+        target="_blank"
+      >
+        View Tracking Details
+      </a>
+    </span>
+  </div>
+
+  <div class="{{c}}__items">
+    {% for line_item in order.line_items %}
+      {% render 'account-order-detail-item', item: line_item %}
+    {% endfor %}
+  </div>
+
+  <div class="{{c}}__footer body">
+    <div class="{{c}}__cost">
+
+      <div class="{{c}}__cost-info">
+        <span class="{{c}}__cost-info-key">
+          Subtotal
+        </span>
+        <span class="{{c}}__cost-info-value">
+          {{ order.subtotal_price | money }}
+        </span>
+      </div>
+
+      {% unless order.total_shipping_price_set.shop_money.amount == null %}
+        <div class="{{c}}__cost-info">
+          <span class="{{c}}__cost-info-key">
+            Shipping
+          </span>
+          <span class="{{c}}__cost-info-value">
+            {% if order.total_shipping_price_set.shop_money.amount == 0.00 %}
+              Free
+            {% else %}
+              {{ order.total_shipping_price_set.shop_money.amount | money }}
+            {% endif %}
+          </span>
+        </div>
+      {% endunless %}
+
+      <div class="{{c}}__cost-info">
+        <span class="{{c}}__cost-info-key">
+          Taxes
+        </span>
+        <span class="{{c}}__cost-info-value">
+          {% if order.total_tax == null %}
+            <a
+              class="{{c}}__info-value {{c}}__info-value--link"
+              href="{{ order.order_status_url }}"
+              target="_blank"
+            >
+              View Tracking Details
+            </a>
+          {% else %}
+            {{ order.total_tax | money }}
+          {% endif %}
+        </span>
+      </div>
+
+      <div class="{{c}}__cost-info {{c}}__cost-info--total">
+        <span class="{{c}}__cost-info-key">
+          Total
+        </span>
+        <span class="{{c}}__cost-info-value">
+          {{ order.total_price | money }}
+        </span>
+      </div>
+
+    </div>
+  </div>
+</div>

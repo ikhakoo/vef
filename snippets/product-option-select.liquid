@@ -1,0 +1,47 @@
+{% liquid
+  assign c = "ProductOptionSelect"
+  assign variants = variants
+  assign current_variant = current_variant
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__title subheader">
+    Select Amount:
+  </div>
+
+  <button 
+    class="{{c}}__toggle js-optionToggleBtn"
+    aria-label="Select gift card amount"
+    aria-controls="#GiftCardAmounts"
+  >
+    <span class="subheader js-selectedValue">
+      {{ current_variant.title }}
+    </span>
+
+    {%
+      render 'component-icon',
+      icon: 'chevron-icon',
+    %}
+  </button>
+
+  <div 
+    class="{{c}}__options"
+    id="GiftCardAmounts"
+  >
+    {% for variant in product.variants %}
+      <button 
+        class="{{c}}__option js-optionBtn {% if variant.id == current_variant.id %} active-option {% endif %}"
+        data-id="{{ variant.id }}"
+        data-value="{{ variant.title }}"
+        aria-label="Select {{ variant.title }} gift card amount"
+      >
+        <span class="body">
+          {{ variant.title }}
+        </span>
+      </button>
+    {% endfor %}
+  </div>
+</div>

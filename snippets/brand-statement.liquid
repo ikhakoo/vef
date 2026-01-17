@@ -1,0 +1,87 @@
+{% liquid
+  assign c = "BrandStatement"
+  assign section = section
+  
+  assign subheader = section.subheader | default: false
+  assign cta_url = section.cta_url | default: false
+  assign cta_text = section.cta_text | default: false
+
+  assign image_component_class = c | append: "__image-container"
+  assign image_class = c | append: "__image"
+  assign video_component_class = c | append: '__video-container'
+  assign video_class = c | append: '__video'
+  assign control_modifier_class = c | append: '__video-control'
+%}
+
+<div
+  class="
+    {{c}} 
+    {{ section.text_color }}
+    {% if cta_text %} has-cta {% endif %}
+  "
+  data-component="{{c}}"
+  data-interval-timing="{{ section.interval_timing }}"
+>
+  {% if section.bg_video %}
+    {% liquid
+      assign video_src = section.bg_video.sources | where: 'mime_type', 'video/mp4'
+      assign video_src_mobile = section.bg_video_mobile.sources | where: 'mime_type', 'video/mp4'
+      assign poster = section.bg_video.preview_image | image_url: width: 1080
+    %}
+
+    {%
+      render 'video',
+      component_class: video_component_class,
+      class: video_class,
+      video: video_src[0].url,
+      mobile_video: video_src_mobile[0].url,
+      poster: poster,
+      custom_video_start_event: 'brandstatementvideostarted',
+      control_modifier_class: control_modifier_class,
+    %}
+
+  {% else %}
+    {%
+      render 'image',
+      component_class: image_component_class,
+      class: image_class,
+      image: section.bg_image_mobile,
+      sizes: '325,425,525,600,768,820',
+      image_2: section.bg_image,
+      sizes_2: '1024,1280,1440,1600,1800,2160',
+    %}
+
+  {% endif %}
+
+  <div class="{{c}}__content">
+    {% if subheader %}
+      <div class="{{c}}__subheader subheader">
+        {{ subheader }}
+      </div>
+    {% endif %}
+
+    <div class="{{c}}__headlines-container">
+      {% for i in (1..4) %}
+        {% liquid
+          assign headline_selector = 'headline_' | append: forloop.index
+          assign headline = section[headline_selector] | default: false
+        %}
+
+        {% if headline %}
+          <div class="{{c}}__headline h3 js-brand-statement-headline {% if forloop.first %} active-line {% endif %}">
+            {{ headline }}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% if cta_text %}
+      <a 
+        class="{{c}}__cta cta"
+        href="{{ cta_url }}" 
+      >
+        {{ cta_text }}
+      </a>
+    {% endif %}
+  </div>
+</div>

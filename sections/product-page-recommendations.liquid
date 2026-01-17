@@ -1,0 +1,23 @@
+{%
+  render 'product-recommendations',
+  id: product.id,
+%} 
+
+{% schema %}
+{
+  "name": "Product Recommendations",
+  "settings": [
+
+  ],
+  "presets": [
+    {
+      "name": "Product Recommendations"
+    }
+  ],
+  "enabled_on": {
+    "templates": [
+      "product"
+    ]
+  }
+}
+{% endschema %}

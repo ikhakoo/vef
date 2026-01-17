@@ -1,0 +1,37 @@
+{% liquid
+  assign c = "ProductDeliveryChecker"
+  assign checker_type = checker_type | default: false
+  assign coast = product.metafields.custom.concierge_coast | default: false
+  
+  if coast
+    assign coast = coast | remove: '["' | remove: '"]'
+  endif
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  {% if checker_type %}data-checker-type="{{ checker_type }}"{% endif %}
+  {% if coast %}data-target-coast="{{ coast }}"{% endif %}
+>
+
+  <div class="{{c}}__label-wrapper">
+    <label 
+      class="{{c}}__label subheader"
+      for="zipcode_input"
+      id="zipcode_label"
+      >
+      Check your zip code:
+    </label>
+    <div class="{{c}}__label-status subheader js-status">
+      <div class="{{c}}__success"> Delivery is available</div>
+      <div class="{{c}}__error">Delivery is not available</div>
+    </div>
+  </div>
+
+  {%
+    render 'zipcode-search',
+    input_title: '',
+    not_found_message: 'Sorry, we do not offer delivery of this product to your area. Please enter a zip code within New York Tri-State area.'
+  %}
+</div>

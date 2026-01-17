@@ -1,0 +1,126 @@
+{% liquid
+  assign c = "AccountPage"
+  assign settings = settings
+  assign order_detail = order_detail | default: false
+  assign loyalty_text = settings.loyalty_text | default: false
+  assign loyalty_url = settings.loyalty_url | default: false
+%}
+
+<div
+  class="{{c}} min-page-height"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__header-container">
+    <div class="{{c}}__header h2">hello, {{ customer.first_name }}</div>
+    <a href="/account/logout/" class="{{c}}__logout body-s">Logout</a>
+    {% comment %}{% render 'account-banner' %}{% endcomment %}
+  </div>
+  <div class="{{c}}__inner">
+    <div class="{{c}}__navigation">
+      <div class="{{c}}__toggles">
+
+        <div class="{{c}}__dropdown-container js-accordionParent">
+          <button
+            class="{{c}}__mobile-toggle link js-accordionItemToggle"
+            aria-label="Open Utility Navigation section"
+            aria-controls="{{c}}__list"
+          >
+            <div class="{{c}}__mobile-toggle-container">
+              <span class="{{c}}__mobile-toggle-text js-select">{{ page.title }}</span>
+              {% render 'icon', icon: 'caret-down', component: c %}
+            </div>
+          </button>
+          <ul
+            class="{{c}}__list js-accordionItemContent"
+            aria-expanded="false"
+            aria-hidden="true"
+            id="{{c}}__list"
+            tabindex="-1"
+          >
+            <li class="{{c}}__item">
+              <a
+                class="{{c}}__link body js-toggle"
+                href="/account?display=information"
+                data-toggles="information"
+              >
+                Information
+              </a>
+            </li>
+            <li class="{{c}}__item">
+              <a
+                class="{{c}}__link body js-toggle"
+                href="/account?display=orders"
+                data-toggles="orders"
+              >
+                Orders
+              </a>
+            </li>
+            <li class="{{c}}__item">
+              <a
+                class="{{c}}__link body js-toggle"
+                href="/account/addresses"
+                data-toggles="addresses"
+              >
+                Addresses
+              </a>
+            </li>
+            {% if loyalty_url != blank %}
+              <li class="{{c}}__item">
+                <a
+                  href="{{ loyalty_url }}"
+                  class="{{c}}__link body js-toggle"
+                >
+                  {{ loyalty_text }}
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+        <a
+          class="{{c}}__toggle-button link js-toggle"
+          href="/account?display=information"
+          data-toggles="information"
+        >
+          information
+        </a>
+        <a
+          class="{{c}}__toggle-button link js-toggle"
+          href="/account?display=orders"
+          data-toggles="orders"
+        >
+          orders
+        </a>
+        <a
+          class="{{c}}__toggle-button link js-toggle"
+          href="/account/addresses"
+          data-toggles="addresses"
+        >
+          addresses
+        </a>
+        {% if loyalty_url != blank %}
+          <a
+            class="{{c}}__toggle-button link js-toggle"
+            href="{{ loyalty_url }}"
+          >
+            {{ loyalty_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="{{c}}__main">
+      {% render 'account-info',
+        customer: customer,
+        settings: settings
+      %}
+      {% render 'account-addresses',
+        customer: customer,
+        settings: settings
+      %}
+      {% render 'account-orders',
+        customer: customer,
+        order_detail: order_detail,
+        settings: settings
+      %}
+    </div>
+  </div>
+</div>

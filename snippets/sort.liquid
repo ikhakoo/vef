@@ -1,0 +1,73 @@
+{% liquid
+  assign c = "Sort"
+  assign sort_by = sort_by
+  assign sort_options = sort_options
+  assign displayed_sort_options = 'relevance,manual,best-selling,price-ascending,price-descending'
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__label subheader">
+    Sort By:
+  </div>
+
+  <button
+    class="{{c}}__toggle js-sortToggleBtn"
+    aria-label="Toggle search options"
+    aria-controls="#SortOptions"
+  >
+    <span class="{{c}}__subheader subheader">
+      Sort By:
+
+      <span class="{{c}}__active-sort">
+        {% case sort_by %}
+          {% when 'price-ascending' %}
+            Price: Low - High
+          {% when 'price-descending' %}
+            Price: High - Low
+          {% when 'best-selling' %}
+            Best Selling
+          {% when 'manual' %}
+            Featured
+          {% else %}
+            {{ sort_by }}
+        {% endcase %}
+      </span>
+    </span>
+
+    {%
+      render 'component-icon',
+      icon: 'chevron-icon'
+    %}
+  </button>
+
+  <div
+    class="{{c}}__options"
+    id="SortOptions"
+  >
+    {% for option in sort_options %}
+      {% if displayed_sort_options contains option.value %}
+        <button
+          class="{{c}}__option {% if sort_by == option.value %} active-sort-option {% endif %} js-sortOptionBtn"
+          data-value="{{ option.value }}"
+          aria-label="Sort products by {{ option.name }}"
+        >
+          <span class="body-s">
+            {% case option.value %}
+              {% when 'price-ascending' %}
+                Price: Low - High
+              {% when 'price-descending' %}
+                Price: High - Low
+              {% when 'best-selling' %}
+                Best Selling
+              {% else %}
+                {{ option.name }}
+            {% endcase %}
+          </span>
+        </button>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>

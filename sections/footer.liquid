@@ -1,0 +1,48 @@
+{% render "footer",
+  settings: section.settings
+%}
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Footer Logo"
+    },
+    {
+      "type": "text",
+      "id": "klaviyo_email_id",
+      "label": "Klaviyo Email Form Id"
+    },
+    {
+      "type": "text",
+      "id": "klaviyo_phone_id",
+      "label": "Klaviyo Phone Form Id"
+    },
+    {
+      "type": "text",
+      "id": "legal_text",
+      "label": "Legal",
+      "default": "Terms & Conditions - Privacy"
+    },
+    {
+      "type": "url",
+      "id": "legal_url",
+      "label": "Legal Url"
+    },
+    {
+      "type": "text",
+      "id": "accessibility_text",
+      "label": "Accessibility",
+      "default": "Accessibility"
+    },
+    {
+      "type": "url",
+      "id": "accessibility_url",
+      "label": "Accessibility Url"
+    }
+  ]
+}
+{% endschema %}

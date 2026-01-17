@@ -1,0 +1,25 @@
+{% liquid
+  assign c = "LockBoxEngraving"
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__header">
+    <div class="{{c}}__title subheader">
+      Initial Your Lock:
+    </div>
+
+    <div class="{{c}}__selected-value subheader js-initialsText"></div>
+  </div>
+
+  <input 
+    type="text" 
+    title="Lock Engraving Initials"
+    autocomplete="off"
+    maxlength="2"
+    class="{{c}}__input body js-initialsInput"
+    aria-label="Enter lock engraving initials"
+  >
+</div>

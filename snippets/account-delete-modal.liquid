@@ -1,0 +1,71 @@
+{% liquid
+  assign c = "AccountDeleteModal"
+  assign address = address | default: false
+  assign action = action | default: false
+  assign header = header | default: false
+  assign index = index | default: false
+%}
+
+<div
+  class="{{c}} js-delete-modal"
+  data-component="{{c}}"
+  data-action="{{ action }}"
+  aria-hidden="true"
+  aria-expanded="false"
+  {% if address %}
+    data-address-id="{{ address.id }}"
+  {% endif %}
+>
+  <div class="{{c}}__form-wrapper">
+    <div class="{{c}}__header-container">
+      <div class="{{c}}__header  subheader body">Delete Address</div>
+      <div class="{{c}}__subheader">
+        Are you sure you want to delete this address?
+      </div>
+    </div>
+    <div class="{{c}}__details">
+      {% if address.name != blank %}
+        <span class="{{c}}__name body">{{ address.name }}</span>
+      {% else %}
+        <span class="{{c}}__name body">{{ customer.name }}</span>
+      {% endif %}
+      {% if address.street != blank
+        and address.city != blank
+        and address.province_code != blank
+        and address.zip != blank
+      %}
+        <span class="{{c}}__street body">
+          {{ address.street }}<br>
+          {{ address.city }}, {{ address.province_code }}, {{ address.zip }}
+        </span>
+      {% endif %}
+      {% if address.country != blank %}
+        <span class="{{c}}__country body">{{ address.country }}</span>
+      {% endif %}
+    </div>
+    <form
+      method="post"
+      action="/account/addresses/{{ address.id }}"
+    >
+      <input type="hidden" name="_method" value="delete">
+      <button
+        class="{{c}}__delete-address  cta cta--black "
+        type="submit"
+        aria-label="delete address {{ forloop.index }}"
+      >
+        Yes, Delete
+      </button>
+    </form>
+
+    <button
+      class="{{c}}__close js-close"
+      type="button"
+      aria-label="close address modal"
+    >
+      {% render 'icon',
+        icon: 'close',
+        component: c
+      %}
+    </button>
+  </div>
+</div>

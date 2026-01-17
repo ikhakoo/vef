@@ -1,0 +1,68 @@
+{% liquid
+  assign c = "ProductShippingExperience"
+  assign section = section
+%}
+
+<div class="{{c}}">
+  {% if section.title %}
+    <div class="{{c}}__title h3">
+      {{ section.title }}
+    </div>
+  {% endif %}
+
+  {% if section.subtext %}
+    <div class="{{c}}__subtext body">
+      {{ section.subtext }}
+    </div>
+  {% endif %}
+
+  <div class="{{c}}__info-wrap">
+    {% for i in (1..3) %}
+      {% liquid
+        assign icon_id = 'info_column_icon_' | append: i
+        assign title_id = 'info_column_title_' | append: i
+        assign text_id = 'info_column_text_' | append: i 
+        assign icon = section[icon_id] | default: false
+        assign title = section[title_id] | default: false
+        assign text = section[text_id] | default: false
+        assign image_component_class = c | append: '__icon-wrap'
+        assign image_class = c | append: '__icon'
+      %}
+
+      <div class="{{c}}__info-col">
+        {% if icon %}
+          {%
+            render 'image',
+            component_class: image_component_class,
+            class: image_class,
+            image: icon,
+            sizes: '0',
+          %}
+        {% endif %}
+
+        {% if title %}
+          <div class="{{c}}__info-col-title subheader">
+            {{ title }}
+          </div>
+        {% endif %}
+
+        <div class="{{c}}__divider"></div>
+
+        {% if text %}
+          <div class="{{c}}__info-col-text body">
+            {{ text }}
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if section.cta_url %}
+    <a 
+      class="{{c}}__cta cta cta--black"
+      href="{{ section.cta_url }}" 
+    >
+      {{ section.cta_text }}
+    </a>
+  {% endif %}
+</div>

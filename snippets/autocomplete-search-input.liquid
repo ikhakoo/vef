@@ -1,0 +1,50 @@
+{% liquid
+  assign c = "AutocompleteSearchInput"
+  assign placeholder_text = placeholder_text
+  assign enable_autocomplete_search = enable_autocomplete_search
+%}
+
+<div
+  class="{{c}}"
+  {% if enable_autocomplete_search %}
+    data-component="{{c}}"
+  {% endif %}
+>
+  <form 
+    class="{{c}}__form js-searchForm"
+    action="/search"
+  >
+    <input 
+      type="text"
+      name="shopify_products[query]"
+      title="Search"
+      value=""
+      placeholder="{{ placeholder_text }}"
+      autocomplete="off"
+      class="{{c}}__input body js-searchInput"
+      aria-label="Search products"
+      required
+    >
+    
+    <button
+      class="{{c}}__submit"
+      type="submit"
+      title="Submit"
+    >
+      {%
+        render 'component-icon',
+        icon: 'search-glass-icon'
+      %}
+    </button>
+
+    <button
+      class="{{c}}__clear js-searchClear"
+      aria-label="Clear search input"
+    >
+      {%
+        render 'component-icon',
+        icon: 'close-icon'
+      %}
+    </button>
+  </form>
+</div>

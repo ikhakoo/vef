@@ -1,0 +1,36 @@
+{% layout none %}
+{% liquid
+  assign product = product
+  assign current_variant = product.selected_or_first_available_variant
+%}
+
+<div class="js-quickShopProductImages">
+  {%
+    render 'quick-shop-product-images',
+    product: product,
+    current_variant: current_variant,
+  %}
+</div>
+
+<div class="js-quickShopProductOptions">
+  {%
+    render 'quick-shop-product-options',
+    product: product,
+    current_variant: current_variant,
+  %}
+</div>
+
+<div class="js-quickShopProductForm">
+  {%
+    render 'quick-shop-product-form',
+    product: product,
+    current_variant: current_variant,
+  %}
+</div>
+
+<script
+  class="js-quickShopProductJson"
+  type="application/json"
+>
+  {{ product | json }}
+</script>

@@ -1,0 +1,36 @@
+{% liquid
+  assign c = "ProductLifestyleBanner"
+  assign banner_metafield = product.metafields.custom.lifestyle_banner_media.value
+  assign image_component_klass = c | append: '__image-wrap'
+  assign image_klass= c | append: '__image'
+  assign num_media = product.metafields.custom.lifestyle_banner_media | split: ',' | uniq | size
+
+  if num_media > 5
+    assign num_media = 5
+  endif
+%}
+
+<div
+  class="{{c}}"
+  
+>
+  {% if banner_metafield %}
+  <div class="{{c}}__wrapper">
+    <div class="{{c}}__grid grid-{{num_media}}">
+      {% paginate banner_metafield by 5 %}
+        {% for item in banner_metafield %}
+          <div class="{{c}}__grid-item">
+  
+             {% render 'image',
+              component_class: image_component_klass,
+              class: image_klass,
+              image: item,
+              sizes: '300, 768'
+            %} 
+          </div>
+        {% endfor %}
+      {% endpaginate %}
+    </div>
+  </div>
+{% endif %}
+</div>

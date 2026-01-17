@@ -1,0 +1,40 @@
+{% liquid
+  assign c = "ImageZoomModal"
+  assign sizes = '325,425,600,768,1024,1440,2048' | split: ',' | reverse
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  aria-hidden="true"
+  aria-expanded="false"
+>
+  <button 
+    class="{{c}}__close js-zoomModalClose"
+    aria-label="Close image zoom modal"
+  >
+    {%
+      render 'component-icon',
+      icon: 'close-icon'
+    %}
+  </button>
+
+  <div class="{{c}}__body">
+    <div class="{{c}}__image-wrap js-zoomImageWrap">
+      <picture>
+        {% for size in sizes %}
+          <source media="(min-width: {{ size }}px)" srcset="">
+        {% endfor %}
+  
+        <img 
+          class="{{c}}__image js-zoomImage"
+          src="" 
+          alt=""
+          width="1024"
+          height="1024"
+          loading="lazy"
+        >
+      </picture>
+    </div>
+  </div>
+</div>

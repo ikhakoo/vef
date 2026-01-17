@@ -1,0 +1,260 @@
+{% render 'product',
+  settings: section.settings,
+  blocks: section.blocks,
+  card_image: settings.card_image,
+  card_title: settings.card_title,
+  card_message_placeholder: settings.card_message_placeholder
+%}
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Product Image Swatch Control"
+    },
+    {
+      "type": "text",
+      "id": "product_image_swatch_options",
+      "label": "Product Image Swatch Options",
+      "default": "floral color,rose color,color,ombré,ombre,hue,vase,votive,occasion",
+      "info": "A comma separated list of product options that should pull in an image swatch (ex. Rose Color)"
+    },
+    {
+      "type": "text",
+      "id": "product_specific_image_swatch_options",
+      "label": "Product Specific Image Swatch Options",
+      "default": "scent",
+      "info": "A comma separated list of product options that have values that aren't unique (ex. Scent)"
+    },
+    {
+      "type": "text",
+      "id": "product_variant_values_to_hide",
+      "label": "Options that Should be Hidden for All Product IDs",
+      "info": "A comma separated list of product option values that should be hidden across all products"
+    },
+    {
+      "type": "header",
+      "content": "Wishlist Tool Tip"
+    },
+    {
+      "type": "checkbox",
+      "id": "wishlist_tooltip_show",
+      "label": "Show Wishlist Tool Tip",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "wishlist_tooltip_title",
+      "label": "Title",
+      "default": "Eyeing Something?"
+    },
+    {
+      "type": "text",
+      "id": "wishlist_tooltip_text",
+      "label": "Text",
+      "default": "Create shareable registry wishlists by liking products."
+    },
+    {
+      "type": "header",
+      "content": "Product Action Callouts"
+    },
+    {
+      "type": "color",
+      "id": "action_callout_shop_pay_bg",
+      "label": "Shop Pay Background Color"
+    },
+    {
+      "type": "select",
+      "id": "action_callout_shop_pay_text",
+      "label": "Shop Pay Text Color",
+      "options": [
+        {
+          "value": "#fff",
+          "label": "White"
+        },
+        {
+          "value": "#000",
+          "label": "Black"
+        }
+      ],
+      "default": "#fff"
+    },
+    {
+      "type": "text",
+      "id": "action_callout_title",
+      "label": "Title"
+    },
+    {
+      "type": "checkbox",
+      "id": "action_callout_show_wishlist",
+      "label": "Show Wishlist Messaging",
+      "default": false
+    },
+    {
+      "type": "textarea",
+      "id": "action_callout_wishlist",
+      "label": "Wishlist Messaging",
+      "default": "Create your registry wishlist and share seamlessly with loved ones."
+    },
+    {
+      "type": "textarea",
+      "id": "action_callout_personal",
+      "label": "Personalization Messaging",
+      "default": "Make it personal and add a free card with any purchase."
+    },
+    {
+      "type": "header",
+      "content": "Notify Me"
+    },
+    {
+      "type": "text",
+      "id": "notify_me_api_key",
+      "label": "Klaviyo API Key - Regular List",
+      "default": "WVm9sY",
+      "info": "This can only connect to a Back in Stock Flow"
+    },
+    {
+      "type": "richtext",
+      "id": "notify_me_disclaimer",
+      "label": "Notify Me Legal Disclaimer"
+    },
+    {
+      "type": "richtext",
+      "id": "notify_me_success_msg",
+      "label": "Notify Me Success Message"
+    },
+    {
+      "type": "text",
+      "id": "notify_me_request_endpoint",
+      "label": "For Developers - DO NOT EDIT",
+      "default": "//venus-et-fleur-klaviyo-notify-me-app.vercel.app/api/notify-me"
+    },
+    {
+      "type": "header",
+      "content": "Shipping Message"
+    },
+    {
+      "type": "checkbox",
+      "id": "shipping_message_enable",
+      "label": "Enable",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "shipping_message_icon",
+      "label": "Icon"
+    },
+    {
+      "type": "text",
+      "id": "shipping_message_text",
+      "label": "Text",
+      "default": "Complimentary Shipping on Orders $150+"
+    },
+    {
+      "type": "header",
+      "content": "Hatbox Size Guide Modal"
+    },
+    {
+      "type": "text",
+      "id": "size_guide_modal_title",
+      "label": "Title",
+      "default": "Hat Box Size Guide"
+    },
+    {
+      "type": "text",
+      "id": "size_guide_modal_text",
+      "label": "Text",
+      "default": "Our iconic hat boxes come in different shapes and sizes.  Find your ideal size in the chart below. "
+    },
+    {
+      "type": "text",
+      "id": "size_guide_link_text",
+      "label": "Learn more text",
+      "default": "Learn more about our signature hat box sizes in our full Hat Box Size Guide"
+    },
+    {
+      "type": "page",
+      "id": "size_guide_tables_page",
+      "label": "Size guide tables page"
+    },
+    {
+      "type": "header",
+      "content": "Subscription Benefits Banner"
+    },
+    {
+      "type": "color",
+      "id": "subscription_benefit_bg",
+      "label": "Background Color"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "card_image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "card_title",
+          "label": "Title"
+        }
+      ]
+    },
+    {
+      "type": "subscription_banner",
+      "name": "Subscription Banner",
+      "settings": [
+        {
+          "type": "text",
+          "id": "product_id",
+          "label": "Product ID"
+        },
+        {
+          "type": "text",
+          "id": "plan_display_name",
+          "label": "Selling plan display name"
+        },
+        {
+          "type": "text",
+          "id": "benefit_1",
+          "label": "Subscription benefit 1 text"
+        },
+        {
+          "type": "text",
+          "id": "benefit_2",
+          "label": "Subscription benefit 2 text"
+        },
+        {
+          "type": "text",
+          "id": "benefit_3",
+          "label": "Subscription benefit 3 text"
+        },
+        {
+          "type": "text",
+          "id": "benefit_4",
+          "label": "Subscription benefit 4 text"
+        },
+        {
+          "type": "text",
+          "id": "badge_content",
+          "label": "Badge content"
+        },
+        {
+          "type": "color",
+          "id": "badge_color",
+          "label": "badge_color"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

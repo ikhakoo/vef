@@ -1,0 +1,62 @@
+{% liquid
+  assign c = "CartPage"
+  assign cart_footer_product_handle = cart_footer_product_handle | default: false
+  assign cart_footer_variant_id = cart_footer_variant_id | default: false
+%}
+
+<div 
+  class="
+    {{c}}
+    js-cartView
+    js-emptyCheckContainer
+    {% unless cart.item_count > 0 %} is-empty {% endunless %}
+  "
+>
+  <div class="{{c}}__empty-container">
+    {% render 'empty-cart' %}
+  </div>
+
+  <div class="{{c}}__container">
+    <div class="{{c}}__main-column">
+      <div class="{{c}}__cart-message body-s">
+        {{ settings.cart_message }}
+      </div>
+
+      <div class="{{c}}__items js-cartBody">
+        {%
+          render 'cart-body',
+          items: cart.items
+        %}
+      </div>
+
+      {% if cart_footer_product_handle %}
+        {%
+          render 'cart-footer-product',
+          cart_footer_product_handle: cart_footer_product_handle,
+          cart_footer_variant_id: cart_footer_variant_id
+        %}
+      {% endif %}
+    </div>    
+
+    <div class="{{c}}__summary-column">
+      {%
+        render 'cart-summary',
+        subtotal: cart.items_subtotal_price,
+        total: cart.total_price,
+      %}
+
+      {%
+        render 'cart-page-form',
+        subtotal: cart.items_subtotal_price,
+        total: cart.total_price,
+      %}
+    </div>
+  </div>
+
+  <script
+    class="js-cartJson"
+    type="application/json"
+  >
+    {{ cart | json }}
+  </script>
+</div>

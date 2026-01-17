@@ -1,0 +1,58 @@
+{% liquid
+  assign c = "LandingProductCollectionGrid"
+  assign fields = fields
+  assign index = index
+  assign nav_ref = nav_ref | handleize | default: false
+  assign landing_page_quick_shop_enabled = fields.product_quick_add_enable[index] | default: false
+  assign collection_ref = fields.collection[index] | default: false
+  assign collection = collections[collection_ref] | default: false
+  assign collection_size = collection.products | size
+  assign header = fields.header[index] | default: false
+  assign subheader = fields.subheader[index] | default: false
+  assign products_per_row_mobile = fields.products_per_row_mobile[index] | default: 2
+  assign products_per_row_tablet = fields.products_per_row_tablet[index] | default: 3
+  assign products_per_row_desktop = fields.products_per_row_desktop[index] | default: 3
+  assign grid_columns_mobile_class = '--grid-columns-mobile-' | append: products_per_row_mobile
+  assign grid_columns_tablet_class = '--grid-columns-tablet-' | append: products_per_row_tablet
+  assign grid_columns_desktop_class = '--grid-columns-desktop-' | append: products_per_row_desktop
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  data-section-target="location--{{ nav_ref }}"
+  id="location--{{ nav_ref }}"
+>
+  {% if header or subheader %}
+    <div class="{{c}}__header-container">
+      <div class="{{c}}__text-container">
+        {% if header %}
+          <div class="{{c}}__header h4">
+            {{ header }}
+          </div>
+        {% endif %}
+        {% if subheader %}
+          <div class="{{c}}__subheader subheader">
+            {{ subheader }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+
+  {% if collection_size > 0 %}
+    <div class="{{c}}__grid-wrapper {{ grid_columns_mobile_class }} {{ grid_columns_desktop_class }} {{ grid_columns_tablet_class }}">
+      {% for product in collection.products %}
+        
+        {% render 'product-card',
+          product: product,
+          no_color_filters_active: true,
+          quick_shop_enabled: landing_page_quick_shop_enabled,
+          variant_override_collection: collection,
+        %}
+
+      {% endfor %}
+    </div>
+  {% endif %}
+
+</div>

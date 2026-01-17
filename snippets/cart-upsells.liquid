@@ -1,0 +1,74 @@
+{% liquid
+  assign c = "CartUpsells"
+  assign product_upsells = product_upsells | default: false
+  assign upsells_in_cart = upsells_in_cart | default: false
+  assign cart_item = cart_item | default: false
+  assign num_product_upsells = product_upsells | map: 'title' | size
+  assign num_upsells_available = 0
+  assign hide_upsells = false
+  
+  if upsells_in_cart
+    assign num_upsells_in_cart = upsells_in_cart | split: ',' | size | minus: 1
+  else
+    assign num_upsells_in_cart = 0
+  endif
+
+  for upsell in product_upsells
+    assign product_value = upsell.upsell_product.value
+    if product_value.available
+      assign num_upsells_available = num_upsells_available | plus: 1
+    endif
+  endfor
+
+  if num_upsells_in_cart == num_product_upsells or num_upsells_available == 0
+    assign hide_upsells = true
+  endif
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  {% if hide_upsells %}hidden{% endif %}
+>
+  <div class="{{c}}__tabs-container">
+    <div class="{{c}}__tabs-btns" data-tabs="{{ num_product_upsells }}">
+      {% assign active_tab_index = 1 %}
+      {% for upsell in product_upsells %}
+        {% assign upsell_id = upsell.name | handle %}
+        {% assign upsell_product = upsell.upsell_product.value %}
+        {% unless upsells_in_cart contains upsell_id or upsell_product.available == false %}
+          <button
+            class="{{c}}__tab-btn js-upsellTabBtn caption"
+            id="upsell-tab-{{ active_tab_index }}"
+            aria-selected="{% if active_tab_index == 1 %}true{% else %}false{% endif %}"
+            aria-controls="upsell-tab-panel-{{ active_tab_index }}"
+          >
+            {{ upsell.title }}
+          </button>
+          {% assign active_tab_index = active_tab_index | plus: 1 %}
+        {% endunless %}
+      {% endfor %}
+    </div>
+
+    <div class="tabs-content">
+      {% assign active_panel_index = 1 %}
+      {% for upsell in product_upsells %}
+        {% assign upsell_id = upsell.name | handle %}
+        {% assign upsell_title = upsell.title %}
+        {% assign upsell_product = upsell.upsell_product.value %}
+        
+        {% unless upsells_in_cart contains upsell_id or upsell_product.available == false %}
+          <div
+            class="{{c}}__tab-panel js-upsellTabPanel"
+            id="upsell-tab-panel-{{ active_panel_index }}"
+            aria-labelledby="upsell-tab-{{ active_panel_index }}"
+            {% unless active_panel_index == 1 %}hidden{% endunless %}
+            >
+            {% render 'cart-upsell', cart_item: cart_item, product: upsell_product, upsell_title: upsell_title, upsell_id: upsell_id %}
+            {% assign active_panel_index = active_panel_index | plus: 1 %}
+          </div>
+        {% endunless %}
+      {% endfor %}
+    </div>
+  </div>
+</div>

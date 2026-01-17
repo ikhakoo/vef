@@ -1,0 +1,10 @@
+{% liquid
+  assign c = "ArticleCustomHtml"
+  assign index = index
+  assign metafields = metafields.custom_html
+  assign html = metafields.html[index]
+%}
+
+<div class="{{c}}">
+  {{ html }}
+</div>

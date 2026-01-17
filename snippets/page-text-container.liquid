@@ -1,0 +1,34 @@
+{% liquid
+  assign c = "PageTextContainer"
+  assign nav_ref = nav_ref | handleize | default: false
+  assign header = header | default: false
+  assign body = body | default: false
+  assign cta_text = cta_text | default: false
+  assign cta_link = cta_link | default: false
+  assign alignment = alignment | default: 'left'
+  assign modifiers = c | append: '--' | append: alignment
+%}
+
+<div
+  class="{{c}} {{ modifiers }} js-section-target"
+  data-section-target="location--{{ nav_ref }}"
+  id="location--{{ nav_ref }}"
+>
+
+  <div class="{{c}}__container">
+
+    <h2 class="{{c}}__header h3">
+      {{ header }}
+    </h2>
+    <div class="{{c}}__body body">
+      {{ body }}
+    </div>
+    {% if cta_text and cta_link %}
+      <div class="{{c}}__cta-wrapper">
+        <a href="{{ cta_link }}" class="{{c}}__cta cta cta--black">
+          {{ cta_text }}
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>

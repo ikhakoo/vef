@@ -1,0 +1,39 @@
+{% liquid
+  assign c = "AccountLoginRegister"
+  assign settings = settings
+  assign login_disclaimer = settings.login_disclaimer
+  assign reset_disclaimer = settings.reset_disclaimer
+  assign registration_disclaimer = settings.registration_disclaimer
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__toggles">
+    <button
+      class="{{c}}__toggle btn-copy js-main-toggle js-toggle is-active"
+      data-toggles="login"
+      aria-label="Show Login Form"
+    >
+      sign in
+    </button>
+    <button
+      class="{{c}}__toggle btn-copy js-main-toggle js-toggle"
+      data-toggles="register"
+      aria-label="Show Registration Form"
+    >
+      create account
+    </button>
+  </div>
+  {% render 'account-login-form',
+    id_login: 'customer_login_account_page',
+    id_recover: 'customer_recover_account_page',
+    disclaimer: login_disclaimer
+    reset_disclaimer: reset_disclaimer
+  %}
+  {% render 'account-register-form',
+    id_register: 'create_customer_account_page',
+    disclaimer: registration_disclaimer
+  %}
+</div>

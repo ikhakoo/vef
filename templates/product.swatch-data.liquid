@@ -1,0 +1,99 @@
+{% layout none %}
+{% liquid
+  assign c = "ProductCard"
+  assign product = product
+  assign collection = collection | default: false
+  assign no_color_filters_active = no_color_filters_active | default: false
+  assign options_count = product.options | size
+
+  if product.template_suffix == 'homeware'
+    assign is_homeware = true
+  endif
+
+  assign featured_option = 'option2'
+  if product.tags contains 'product-swatches-option-3'
+    assign featured_option = 'option3'
+  endif
+  if is_homeware
+    assign featured_option = 'option1'
+  endif
+
+  assign current_variant = product.selected_or_first_available_variant
+
+  assign color_options = false
+  assign color_option_names = 'hue'
+  for option in product.options_with_values
+    assign cased_option_name = option.name | downcase
+    if cased_option_name contains 'color' or color_option_names contains cased_option_name
+      assign color_options = option
+      break
+    endif
+  endfor
+
+  assign url = current_variant.url
+  if collection
+    assign url = current_variant.url | within: collection
+  endif
+
+  assign hover_image = false
+  assign hover_image_component_class = 'ProductCardImages__hover-image-wrap js-productCardHoverImage'
+  assign hover_image_class = 'ProductCardImages__hover-image'
+  assign hover_image_alt = ''
+
+  for image in product.images
+    assign image_alt = image.alt | downcase
+
+    if image_alt contains 'hover image'
+      assign hover_image = image
+      assign hover_image_alt = image.alt | remove_first: 'hover image'
+      break
+    endif
+  endfor
+%}
+<div class="{{c}}__details js-product-details">
+
+  {% if hover_image %}
+    {%
+      render 'image',
+      component_class: hover_image_component_class,
+      class: hover_image_class,
+      image: hover_image,
+      sizes: '325,425,600',
+      alt: hover_image_alt,
+    %}
+  {% endif %}
+
+  <a
+    class="{{c}}__text-link js-productCardLink"
+    href="{{ url }}"
+  >
+    <div class="{{c}}__info">
+      {% if color_options %}
+        <div class="{{c}}__selected-color caption js-productCardColor">
+          {{ current_variant[featured_option] }}
+        </div>
+      {% endif %}
+    </div>
+  </a>
+
+  {% if color_options %}
+    {% if options_count > 2 %}
+      {%
+        render 'product-card-swatches-options',
+        options: color_options,
+        variants: product.variants,
+        current_variant: current_variant,
+        featured_option: featured_option,
+        collection: collection,
+      %}
+    {% else %}
+      {%
+        render 'product-card-swatches',
+        variants: product.variants,
+        current_variant: current_variant
+        featured_option: featured_option,
+        collection: collection,
+      %}
+    {% endif %}
+  {% endif %}
+</div>

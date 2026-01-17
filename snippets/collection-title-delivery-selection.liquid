@@ -1,0 +1,35 @@
+{% liquid
+  assign c = "CollectionTitleDeliverySelection"
+  assign section = section
+%}
+
+<div class="{{c}} js-collectionTitleDeliverySelection">
+  <div class="{{c}}__title-wrap {{c}}__title-wrap--same-day">
+    <h1 class="{{c}}__title h2">
+      {{ section.same_day_title }}
+    </h1>
+
+    <div class="{{c}}__description">
+      {{ section.same_day_text }} 
+      <br>
+      {{ 'now' | date: "%B %e, %Y" }}.
+    </div>
+  </div>
+
+  <div class="{{c}}__title-wrap {{c}}__title-wrap--next-day">
+    <h1 class="{{c}}__title h2">
+      {{ section.next_day_title }}
+    </h1>
+
+    <div class="{{c}}__description">
+      {% liquid
+        assign today = 'now' | date: '%s'
+        assign single_day = 86400
+        assign tomorrow = today | plus: single_day
+      %}
+      {{ section.next_day_text }}
+      <br>
+      {{ tomorrow | date: "%B %e, %Y" }}.
+    </div>
+  </div>
+</div>

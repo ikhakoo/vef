@@ -1,0 +1,83 @@
+{% liquid
+  assign c = "Filter"
+  assign collection_handle = collection_handle | default: false
+  assign category_links = category_links | default: false
+  assign results_count = results_count
+  assign sort_by = sort_by
+  assign sort_options = sort_options
+  assign filters = filters
+  assign active_filter_count = active_filter_count
+%}
+<div
+  class="{{c}} js-filterDrawer"
+  data-component="{{c}}"
+  id="{{c}}"
+  aria-hidden="true"
+  aria-expanded="false"
+>
+  <div class="{{c}}__header">
+    <div class="{{c}}__header-content">
+        <div class="{{c}}__title subheader">
+          Filter & Sort
+
+          <span class="js-activeFilterCount">
+            {% if active_filter_count > 0 %}
+              ({{ active_filter_count }})
+            {% endif %}
+          </span>
+        </div>
+
+        <div class="{{c}}__count body-s js-resultsCount">
+          {{ results_count }} {{ results_count | pluralize: 'Product', 'Products' }}
+        </div>
+    </div>
+
+    <button
+      class="{{c}}__close-filter js-filterToggleBtn"
+      aria-label="Close filters"
+    >
+      {%
+        render 'component-icon',
+        icon: 'close-icon'
+      %}
+    </button>
+  </div>
+
+  <div class="{{c}}__body">
+    {% if category_links %}
+      <div class="{{c}}__category-links">
+        {%
+          render 'category-links',
+          collection_handle: collection_handle,
+          category_links: category_links,
+        %}
+      </div>
+    {% endif %}
+
+    <div class="{{c}}__sort">
+      {%
+        render 'sort',
+        sort_by: sort_by,
+        sort_options: sort_options,
+      %}
+    </div>
+
+    {% for filter in filters %}
+      {%
+        render 'filter-category',
+        filter: filter,
+      %}
+    {% endfor %}
+  </div>
+
+  <div class="{{c}}__footer">
+    {% render 'filter-clear' %}
+
+    <button
+      class="{{c}}__view-btn btn-copy js-filterToggleBtn"
+      aria-label="View results"
+    >
+      View Results
+    </button>
+  </div>
+</div>

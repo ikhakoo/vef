@@ -1,0 +1,73 @@
+{% liquid
+  assign c = "AddCardModal"
+  assign card_image = card_image
+  assign card_title = card_title
+  assign card_message_placeholder  = card_message_placeholder
+  assign image_component_class = c | append: '__image-wrap'
+  assign image_class = c | append: '__image'
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  aria-hidden="true"
+  aria-expanded="false"
+>
+  <div class="{{c}}__header">
+    <div class="{{c}}__title caption">
+      Add a Card
+    </div>
+
+    <button 
+      class="{{c}}__close-btn js-closeAddCard"
+      aria-label="Close add card modal"
+    >
+      {%
+        render 'component-icon',
+        icon: 'close-icon',
+      %}
+    </button>
+  </div>
+
+  <div class="{{c}}__body">
+    <div class="{{c}}__card">
+      {%
+        render 'image',
+        component_class: image_component_class,
+        class: image_class,
+        image: card_image,
+        sizes: '0'
+      %}
+
+      <div class="{{c}}__card-title body-s js-addCardTitle">
+        {{ settings.card_title }}
+      </div>
+    </div>
+
+    <div class="{{c}}__message-wrap">
+      <textarea 
+        class="{{c}}__textarea body js-addCardMessage"
+        placeholder="{{ card_message_placeholder }}"
+        aria-label="Enter your gift card message"
+        rows="4"
+        maxlength="125"
+      ></textarea>
+    </div>
+
+    <button 
+      class="{{c}}__submit cta cta--black js-addCardBtn js-klaviyoAddToCart"
+      aria-label="Add card to order"
+    >
+      Add Card
+    </button>
+
+    <button 
+      class="{{c}}__clear-btn js-skipCardBtn js-klaviyoAddToCart"
+      aria-label="Skip and add to cart without a card"
+    >
+      <span class="body-s">
+        Skip & Continue to Cart
+      </span>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,101 @@
+{% 
+  render 'size-guide-landing-page-table',
+  section: section.settings,
+  blocks: section.blocks,
+%}
+
+{% 
+  render 'size-guide-pdp-modal-table',
+  section: section.settings,
+  blocks: section.blocks,
+%}
+
+{% schema %}
+{
+  "name": "Size Guide Table",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Shape title"
+    },
+    {
+      "type": "text",
+      "id": "disclaimer",
+      "label": "Disclaimer (optional)"
+    }
+  ],
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "name": "Size",
+      "type": "size",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Size title"
+        },
+        {
+          "type": "image_picker",
+          "id": "page_img",
+          "label": "Landing page image"
+        },
+        {
+          "type": "image_picker",
+          "id": "modal_img",
+          "label": "Modal image"
+        },
+        {
+          "type": "text",
+          "id": "number_of_roses",
+          "label": "# of roses"
+        },
+        {
+          "type": "text",
+          "id": "size_in",
+          "label": "Size (in)"
+        },
+        {
+          "type": "text",
+          "id": "size_cm",
+          "label": "Size (cm)"
+        },
+        {
+          "type": "text",
+          "id": "weight_lbs",
+          "label": "Weight (lbs)"
+        },
+        {
+          "type": "text",
+          "id": "weight_kg",
+          "label": "Weight (kg)"
+        },
+        {
+          "type": "text",
+          "id": "notes",
+          "label": "Notes"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Landing page image link"
+        },
+        {
+          "type": "text",
+          "id": "url_text",
+          "label": "Landing page image link text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Size Guide Table"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["page"]
+  }
+}
+{% endschema %}

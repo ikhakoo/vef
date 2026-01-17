@@ -1,0 +1,61 @@
+{% 
+  render 'collection' 
+  has_delivery_selection: true,
+  section: section.settings,
+%}
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Same Day Delivery"
+    },
+    {
+      "type": "text",
+      "id": "same_day_title",
+      "label": "Title",
+      "default": "Same-Day Delivery"
+    },
+    {
+      "type": "textarea",
+      "id": "same_day_text",
+      "label": "Text",
+      "default": "These products are available for delivery today,"
+    },
+    {
+      "type": "header",
+      "content": "Next Day Delivery"
+    },
+    {
+      "type": "text",
+      "id": "next_day_title",
+      "label": "Title",
+      "default": "Next-Day Delivery"
+    },
+    {
+      "type": "textarea",
+      "id": "next_day_text",
+      "label": "Text",
+      "default": "These products are available for next day delivery,"
+    },
+    {
+      "type": "header",
+      "content": "Zipcode search"
+    },
+    {
+      "type": "text",
+      "id": "zipcode_input_title",
+      "label": "Zipcode input title",
+      "default": "Sending to"
+    },
+    {
+      "type": "textarea",
+      "id": "zipcode_not_found_message",
+      "label": "Zipcode not found message",
+      "default": "Sorry we do not have same-day/next-day delivery to this area. Please enter a zip code within New York, Florida, and Los Angeles."
+    }
+  ]
+}
+{% endschema %}

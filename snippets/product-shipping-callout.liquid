@@ -1,0 +1,20 @@
+{% liquid
+  assign c = "ProductShippingCallout"
+  assign settings = settings
+  assign image_component_class = c | append: '__icon-wrap'
+  assign image_class = c | append: '__icon'
+%}
+
+<div class="{{c}}">
+  {%
+    render 'image'
+    component_class: image_component_class,
+    class: image_class,
+    image: settings.shipping_message_icon,
+    sizes: '0',
+  %}
+
+  <div class="{{c}}__text body">
+    {{ settings.shipping_message_text }}
+  </div>
+</div>

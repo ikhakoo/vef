@@ -1,0 +1,45 @@
+{% liquid
+  assign c = "BlogArticleCard"
+  assign image = image | default: false
+  assign title = title | default: false
+  assign date = date | default: false
+  assign url = url | default: false
+  assign target_blank = target_blank | default: false
+  assign image_component_class = c | append: "__image-wrap"
+  assign image_class = c | append: "__image"
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__container js-container">
+
+    {% if image %}
+      {% render 'image',
+        component_class: image_component_class,
+        class: image_class,
+        image: image,
+        sizes: '350, 768'
+      %}
+    {% else %}
+      <div class="{{c}}__fill-container">
+        <div class="{{c}}__fill"></div>
+      </div>
+    {% endif %}
+
+    <div class="{{c}}__date subheader">
+      {{ date }}
+    </div>
+
+    <a 
+      href="{{ url }}" 
+      class="{{c}}__title body js-link"
+      {% if target_blank %}
+        target="_blank"
+      {% endif %}
+    >
+      {{ title | truncatewords: 8 }}
+    </a>
+  </div>
+</div>

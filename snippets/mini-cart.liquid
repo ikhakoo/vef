@@ -1,0 +1,80 @@
+{% liquid
+  assign c = "MiniCart"
+%}
+
+<div
+  class="
+    {{c}}
+    js-emptyCheckContainer
+    {% unless cart.item_count > 0 %} is-empty {% endunless %}
+  "
+  data-component="{{c}}"
+  aria-hidden="true"
+  aria-expanded="false"
+>
+  <div class="{{c}}__header">
+    <button
+      class="{{c}}__close-btn js-toggleMiniCart"
+      aria-label="Close cart drawer"
+    >
+      {%
+        render 'component-icon',
+        icon: 'close-icon'
+      %}
+    </button>
+
+    <div class="{{c}}__title subheader">
+      {{ settings.mini_cart_title }}
+    </div>
+
+    <div class="{{c}}__count subheader js-cartItemCount">
+      {{ cart.item_count }}
+    </div>
+  </div>
+
+  <div class="{{c}}__body">
+
+    {%- section 'mini-cart-header' -%}
+    
+    {%- section 'mini-cart-progress' -%}
+
+    <div class="{{c}}__empty-container">
+      {% section 'empty-cart' %}
+    </div>
+
+    <div class="{{c}}__items-wrapper">
+      <div class="{{c}}__items js-cartBody">
+        {%
+          render 'cart-body',
+          items: cart.items
+        %}
+        
+      </div>
+      {%- section 'mini-cart-recommendations' -%}
+    </div>
+
+
+    <div class="{{c}}__footer">
+      <div class="{{c}}__summary">
+        <div class="{{c}}__label subheader">
+          Subtotal
+        </div>
+
+        <div class="{{c}}__total body js-cartTotal">
+          {{ cart.total_price | money_without_trailing_zeros }}
+        </div>
+      </div>
+
+      <a
+        class="{{c}}__submit cta cta--black js-miniCartCheckout"
+        href="/checkout"
+      >
+        checkout
+      </a>
+
+      <div class="{{c}}__message body-s">
+        Shipping & taxes calculated at checkout
+      </div>
+    </div>
+  </div>
+</div>

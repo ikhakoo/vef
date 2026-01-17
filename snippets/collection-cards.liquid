@@ -1,0 +1,86 @@
+{% liquid
+  assign c = "CollectionCards"
+  assign section = section
+  assign blocks = blocks
+
+  assign title = section.title | default: false
+  assign bg_gradient = section.bg_gradient | default: false
+  assign bg_gradient_mobile = section.bg_gradient_mobile | default: false
+
+  assign image_component_class = c | append: "__image-container"
+  assign image_class = c | append: "__image"
+  assign video_component_class = c | append: '__video-container'
+  assign video_class = c | append: '__video'
+  assign control_modifier_class = c | append: '__video-control'
+%}
+
+<div class="{{c}}">
+  {% if title %}
+    <div class="{{c}}__title h3">
+      {{ title }}
+    </div>
+  {% endif %}
+
+  <div class="{{c}}__cards">
+    {% for block in blocks %}
+      {% liquid
+        assign bg_video = block.settings.bg_video | default: false
+        assign bg_image = block.settings.bg_image | default: false
+        assign card_title = block.settings.text | default: false
+      %}
+
+      <a 
+        class="{{c}}__card"
+        href="{{ block.settings.url }}"
+      >
+        <div class="{{c}}__card-content">
+          {% if block.settings.bg_video %}
+            {% liquid
+              assign video_src = bg_video.sources | where: 'mime_type', 'video/mp4'
+              assign poster = bg_video.preview_image | image_url: width: 780
+            %}
+  
+            {%
+              render 'video',
+              component_class: video_component_class,
+              class: video_class,
+              video: video_src[0].url,
+              poster: poster,
+              control_modifier_class: control_modifier_class,
+            %}
+  
+          {% else %}
+            {%
+              render 'image',
+              component_class: image_component_class,
+              class: image_class,
+              image: bg_image,
+              sizes: '325,425,525,600,768,820,1024',
+            %}
+  
+          {% endif %}
+
+          {% if card_title %}
+            <div class="{{c}}__card-title h4 {{ block.settings.text_color }}">
+              {{ card_title }}
+            </div>
+          {% endif %}
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
+{% if bg_gradient %}
+  <style>
+    .{{ c }}__cards {
+      background: {{ bg_gradient_mobile }};
+    }
+  
+    @media (min-width: 1024px) {
+      .{{ c }}__cards {
+        background: {{ bg_gradient }};
+      }
+    }
+  </style>
+{% endif %}

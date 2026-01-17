@@ -1,0 +1,48 @@
+{% liquid
+  assign c = "PageShoppableContent"
+  assign cta = cta | default: false
+  assign id = id  | default: false
+  assign featured_variants = shop.metaobjects.shoppable_content[id].variants.value
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  data-id="{{ id }}"
+  aria-hidden="true"
+  aria-expanded="false"
+>
+  <div class="{{c}}__header">
+    <button
+      class="{{c}}__close-btn js-toggleShoppable"
+      data-id="{{ id }}"
+      aria-label="Close cards drawer"
+    >
+      {%
+        render 'component-icon',
+        icon: 'close-icon'
+      %}
+    </button>
+
+    <div class="{{c}}__title subheader">
+      {{ cta }}
+    </div>
+  </div>
+
+  <div class="{{c}}__container">
+    <div class="{{c}}__container-title">
+      <h4 class="h4">Featured Products</h4>
+    </div>
+
+    <div class="{{c}}__featured-products">
+      <div class="{{c}}__featured-products-grid">
+        {% for variant in featured_variants %}
+          {%
+            render 'variant-card',
+            variant: variant
+          %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>

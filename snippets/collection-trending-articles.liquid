@@ -1,0 +1,40 @@
+{% liquid
+  assign c = "CollectionTrendingArticles"
+  assign field = field
+  assign trending_articles = trending_articles
+
+  assign title = field.title | default: 'Trending Articles'
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <h2 class="{{c}}__title h5">
+    {{ title }}
+  </h2>
+
+  <div class="{{c}}__container swiper js-trendingArticleSwiper">
+    <div class="{{c}}__wrapper swiper-wrapper">
+      {% for article_handle in trending_articles %}
+        {% liquid
+          assign article = articles[article_handle]
+          assign image = article.image | default: false
+          assign title = article.title | default: false
+          assign date = article.published_at | date: format: 'abbreviated_date' | default: false
+          assign url = article.url
+        %}
+
+        <div class="{{c}}__slide swiper-slide">
+          {% render 'blog-article-card',
+            image: image,
+            title: title,
+            date: date,
+            url: url,
+            target_blank: true,
+          %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

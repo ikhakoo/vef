@@ -1,0 +1,45 @@
+{% liquid
+  assign c = "CollectionRelatedTags"
+  assign field = field
+  assign tags = tags
+
+  assign title = field.title | default: 'Related Searches'
+  assign hover_color = field.hover_color | default: '#833D3D'
+%}
+
+<div class="{{c}}">
+  <h2 class="{{c}}__title h5">
+    {{ title }}
+  </h2>
+
+  <div class="{{c}}__tags">
+    {% for tag in tags %}
+      {% liquid
+        assign tag_text = tag
+        assign search_term = tag_text | url_encode
+        assign url = '/search?shopify_products%5Bquery%5D=' | append: search_term
+
+        if tag_text contains ':'
+          assign tag_text = tag | split: ':' | first
+          assign url = tag | split: ':' | last
+        endif
+      %}
+      
+      <a 
+        class="{{c}}__tag"
+        href="{{ url }}" 
+        target="_blank"
+      >
+        <span class="btn-copy">
+          {{ tag_text }}
+        </span>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+  .{{c}}__tag:hover {
+    background-color: {{ hover_color }};
+  }
+</style>

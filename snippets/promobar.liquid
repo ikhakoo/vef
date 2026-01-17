@@ -1,0 +1,42 @@
+{% liquid
+  assign c = "Promobar"
+  assign type = settings.promo_type
+  assign title = settings.promo_title_1
+  assign countdown_date_time = settings.countdown_date_time | default: false
+  assign title_fallback = settings.countdown_fallback_text
+%}
+
+<div
+  class="{{c}} {{ type }}"
+>
+
+  {% if type == 'countdown' %}
+    {% render 'countdown-timer',
+      countdown_date_time: countdown_date_time
+    %}
+
+    <h2 class="{{c}}__title caption js-promoTitle settings-text-color {% if type == 'countdown' %}hide{% endif %}">{{ title }}</h2>
+
+    <h2 class="{{c}}__title--fallback caption hide js-countdownFallback settings-text-color">{{ title_fallback }}</h2>
+
+  {% elsif type == 'carousel' %}
+    {% render 'promobar-carousel' %}
+
+  {% else %}
+    <h2 class="{{c}}__title caption settings-text-color">{{ title }}</h2>
+
+  {% endif %}
+</div>
+
+<style>
+  .Promobar {
+    background-color: {{ settings.promo_background }};
+  }
+
+  .settings-text-color,
+  .settings-text-color a,
+  .settings-text-color path {
+    color: {{ settings.promo_text_color }};
+    fill: {{ settings.promo_text_color }};
+  }
+</style>

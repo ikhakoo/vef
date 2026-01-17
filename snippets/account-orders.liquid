@@ -1,0 +1,29 @@
+{% liquid
+  assign c = "AccountOrders"
+  assign settings = settings | default: false
+  assign no_orders = settings.no_orders | default: false
+  assign order_detail = order_detail | default: false
+%}
+
+<div
+  class="{{c}} js-section"
+  data-section="orders"
+>
+  {% if order_detail %}
+    {% render 'account-order-detail' %}
+  {% elsif customer.orders.size == 0 %}
+    <div class="{{c}}__copy copy-bold">{{ no_orders }}</div>
+  {% else %}
+    {% paginate customer.orders by 10 %}
+      {% for order in customer.orders %}
+        {% render 'account-order', order: order %}
+      {% endfor %}
+      <div class="{{c}}__pagination">
+        {% render 'pagination',
+          paginate: paginate,
+          urlParam: 'display=orders'
+        %}
+      </div>
+    {% endpaginate %}
+  {% endif %}
+</div>

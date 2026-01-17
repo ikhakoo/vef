@@ -1,0 +1,84 @@
+{% liquid
+  assign c = "CartShippingEstimator"
+  assign header = "Estimate Shipping"
+  assign index = 0
+%}
+
+<div
+  class="{{c}} js-shippingEstimator"
+  data-component="{{c}}"
+  
+>
+  <div id="ShippingEstimator">
+    <div class="{{c}}__container js-accordionParent">
+      <button
+        class="{{c}}__toggle js-accordionItemToggle"
+        aria-label="Open {{ header }} section"
+        aria-controls="{{c}}__{{ index }}"
+      >
+        <span class="{{c}}__header body">
+          {{ header }}
+        </span>
+        <div class="{{c}}__toggle-icons">
+          {% render "icon", icon: "minus", component: c %}
+          {% render "icon", icon: "plus", component: c %}
+        </div>
+      </button>
+      <div 
+        id="{{c}}__{{ index }}"
+        class="{{c}}__content js-accordionItemContent"
+        aria-expanded="false"
+        aria-hidden="true"
+      >
+        <div class="{{c}}__fields">
+          <div class="{{c}}__fields-wrap">
+            <div class="{{c}}__field">
+              <select 
+                id="address_country" 
+                class="{{c}}__select" 
+                name="address[country]" 
+                data-default="{% if shop.customer_accounts_enabled and customer %}{{ customer.default_address.country }}{% elsif settings.shipping_calculator_default_country != '' %}{{ settings.shipping_calculator_default_country }}{% endif %}"
+                required
+              >
+                {{ country_option_tags }}
+              </select>
+            </div>
+            <div class="{{c}}__field" id="address_province_container">
+              <select 
+                id="address_province" 
+                class="{{c}}__select"
+                name="address[province]"
+                required
+                data-default="{% if shop.customer_accounts_enabled and customer and customer.default_address.province != '' %}{{ customer.default_address.province }}{% endif %}">
+              </select>
+            </div>
+            <div class="{{c}}__field">
+              <input 
+                type="text" 
+                id="address_zip" 
+                class="{{c}}__input" 
+                name="address[zip]" 
+                placeholder="Your Zipcode" 
+                {% if shop.customer_accounts_enabled and customer %} value="{{ customer.default_address.zip }}"{% endif %}
+              />
+            </div>
+            <div class="{{c}}__submit">
+              <button class="{{c}}__btn cta cta--black js-getRates" type="submit" aria-label="Submit shipping estimator form">
+                estimate  rates
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="{{c}}__response js-shippingResponse">
+          <div class="{{c}}__rates js-shippingRates">
+
+          </div>
+          <div class="{{c}}__error js-shippingRatesError">
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,75 @@
+{% liquid
+  assign c = "ProductOptionsDrawer"
+  assign option = option
+  assign product_handle = product_handle
+  assign product_specific_image_swatch_options = product_specific_image_swatch_options
+  assign option_name = option.name | downcase
+  assign available_variants = available_variants
+  assign is_homeware = is_homeware | default: false
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  data-option-position="{{ option.position }}"
+  aria-hidden="true"
+  aria-expanded="false"
+>
+  <div class="{{c}}__header">
+    <button
+      class="{{c}}__close-btn js-optionDrawerToggle"
+      data-option-position="{{ option.position }}"
+      aria-label="Close {{ option_name }} options drawer"
+    >
+      {%
+        render 'component-icon',
+        icon: 'close-icon'
+      %}
+    </button>
+
+    <div class="{{c}}__title subheader">
+      {% render 'product-option-name',
+        option_name: option.name
+      %}:
+    </div>
+
+    <div
+      class="{{c}}__selected-value subheader js-selectedOptionValue"
+      data-option-position="{{ option.position }}"
+    >
+      {{ option.selected_value }}
+    </div>
+  </div>
+
+  <div class="{{c}}__values-container">
+    <div class="{{c}}__values">
+      {% for value in option.values %}
+        {%
+          render 'product-image-option',
+          option: option,
+          value: value,
+          option_name: option_name,
+          product_handle: product_handle,
+          product_specific_image_swatch_options: product_specific_image_swatch_options,
+          is_homeware: is_homeware,
+          available_variants: available_variants,
+          show_only_available: true,
+        %}
+      {% endfor %}
+
+      {% for value in option.values %}
+        {%
+          render 'product-image-option',
+          option: option,
+          value: value,
+          option_name: option_name,
+          product_handle: product_handle,
+          product_specific_image_swatch_options: product_specific_image_swatch_options,
+          is_homeware: is_homeware,
+          available_variants: available_variants,
+          show_only_unavailable: true,
+        %}
+      {% endfor %}
+    </div>
+  </div>
+</div>

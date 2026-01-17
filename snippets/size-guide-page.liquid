@@ -1,0 +1,34 @@
+{% liquid
+  assign c = "SizeGuidePage"
+  assign section = section
+  assign blocks = blocks
+
+  assign first_shape = blocks[0].settings.title | handleize
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__header">
+    <h1 class="{{c}}__title h3">
+      {{ section.title }}
+    </h1>
+  
+    <div class="{{c}}__text body">
+      {{ section.text }}
+    </div>
+  </div>
+
+  {%
+    render 'size-guide-page-nav',
+    blocks: blocks,
+  %}
+
+  <div 
+    class="{{c}}__table-container js-tableContainer"
+    data-table-page="{{ section.size_guide_tables_page }}"
+    data-first-shape="{{ first_shape }}"
+  ></div>
+
+</div>

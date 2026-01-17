@@ -1,0 +1,57 @@
+{% liquid
+  assign c = "CorporatePage"
+  assign sections = shop.metafields.acf_settings.page_layouts | where: "id", page.id | first | map: "sections" | where: "visible"
+  assign settings = settings | default: false
+%}
+
+<div
+  class="{{c}}"
+  
+>
+  {% comment %} Modules {% endcomment %}
+  {% for section in sections %}
+
+    {% case section.name %}
+
+      {% when 'media_hero' %}
+        {% assign fields = page.metafields.flexible %}
+        {% render 'media-hero',
+          image: fields.hero_image[0],
+          image_mobile: fields.hero_image_mobile[0]
+        %}
+
+      {% when 'text_container' %}
+        {% assign fields = page.metafields.flexible %}
+        {% render 'page-text-container',
+          alignment: fields.text_container_alignment[section.index],
+          header: fields.text_container_header[section.index],
+          body: fields.text_container_body[section.index].html,
+          cta_text: fields.text_container_cta_text[section.index],
+          cta_link: fields.text_container_cta_link[section.index]
+        %}
+
+      {% when 'steps' %}
+        {% assign fields = page.metafields.flexible %}
+        {% render 'corporate-steps',
+          header: fields.steps_header,
+          email_text: fields.steps_email_text[section.index],
+          email: fields.steps_email_to[section.index],
+          list: fields.steps_list[section.index].markdown
+        %}
+
+      {% when 'logos' %}
+        {% assign fields = page.metafields.flexible %}
+        {% render 'corporate-logos',
+          header: fields.logos_header[section.index],
+          images: fields.logos_images[section.index]
+        %}
+    {% endcase %}
+
+  {% endfor %}
+
+  {% if settings.action_url %}
+    {% render 'corporate-form' 
+      settings: settings
+    %}
+  {% endif %}
+</div>

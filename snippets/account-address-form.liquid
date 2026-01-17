@@ -1,0 +1,215 @@
+{% liquid
+  assign c = "AccountAddressForm"
+  assign form_class = c | append: "__form AccountForm js-address-form"
+  assign address = address
+  assign action = action
+  assign id = action | append: '_customer_address'
+  if address
+    assign id = id | append: "_" | append: address.id
+  endif
+%}
+
+{% capture address_fields %}
+  <div class="{{c}}__field AccountForm__field js-required-field">
+    <input
+      class="{{c}}__input AccountForm__input"
+      id="AddressFirstName_{{ id }}"
+      type="text"
+      name="address[first_name]"
+      autocomplete="given-name"
+      aria-label="First name"
+      placeholder="first name"
+      {% if address %}
+        value="{{ address.first_name }}"
+      {% endif %}
+    >
+    <label
+      class="{{c}}__label AccountForm__label caption"
+      for="AddressFirstName_{{ id }}"
+    >
+      first name
+      <span class="{{c}}__required-indicator AccountForm__required-indicator">*</span>
+    </label>
+  </div>
+  <div class="{{c}}__field AccountForm__field js-required-field">
+    <input
+      class="{{c}}__input AccountForm__input"
+      id="AddressLastName_{{ id }}"
+      type="text"
+      name="address[last_name]"
+      autocomplete="family-name"
+      aria-label="Last name"
+      placeholder="last name"
+      {% if address %}
+        value="{{ address.last_name }}"
+      {% endif %}
+    >
+    <label
+      class="{{c}}__label AccountForm__label caption"
+      for="AddressLastName_{{ id }}"
+    >
+      last name
+      <span class="{{c}}__required-indicator AccountForm__required-indicator">*</span>
+    </label>
+  </div>
+  <div class="{{c}}__field {{c}}__field--single AccountForm__field js-required-field">
+    <input
+      class="{{c}}__input AccountForm__input"
+      id="AddressAddress1_{{ id }}"
+      type="text"
+      name="address[address1]"
+      autocomplete="address-line1"
+      aria-label="Street address"
+      placeholder="street address"
+      {% if address %}
+        value="{{ address.address1 }}"
+      {% endif %}
+    >
+    <label
+      class="{{c}}__label AccountForm__label caption"
+      for="AddressAddress1_{{ id }}"
+    >
+      street address
+      <span class="{{c}}__required-indicator AccountForm__required-indicator">*</span>
+    </label>
+  </div>
+  <div class="{{c}}__field AccountForm__field">
+    <input
+      class="{{c}}__input AccountForm__input"
+      id="AddressAddress2_{{ id }}"
+      type="text"
+      name="address[address2]"
+      autocomplete="address-line2"
+      aria-label="Apt / Suit (optional)"
+      placeholder="apt / suit (optional)"
+      {% if address %}
+        value="{{ address.address2 }}"
+      {% endif %}
+    >
+    <label
+      class="{{c}}__label AccountForm__label caption"
+      for="AddressAddress2_{{ id }}"
+    >
+      apt / suit (optional)
+    </label>
+  </div>
+  <div class="{{c}}__field AccountForm__field js-required-field">
+    <input
+      class="{{c}}__input AccountForm__input"
+      id="AddressCity_{{ id }}"
+      type="text"
+      name="address[city]"
+      autocomplete="address-level2"
+      aria-label="City"
+      placeholder="city"
+      {% if address %}
+        value="{{ address.city }}"
+      {% endif %}
+    >
+    <label
+      class="{{c}}__label AccountForm__label caption"
+      for="AddressCity_{{ id }}"
+    >
+      city
+      <span class="{{c}}__required-indicator AccountForm__required-indicator">*</span>
+    </label>
+  </div>
+  <div class="{{c}}__field {{c}}__field--third AccountForm__select-wrap">
+    <select
+      class="{{c}}__input AccountForm__select caption js-country-select"
+      id="AddressCountry_{{ id }}"
+      name="address[country]"
+      autocomplete="country"
+      {% if address %}
+        data-default="{{ address.country }}"
+      {% else %}
+        data-default="{{ customer.default_address.country }}"
+      {% endif %}
+      data-address-country-select
+      required
+    >
+      {{ all_country_option_tags }}
+    </select>
+    <label
+      class="visually-hidden"
+      for="AddressCountry_{{ id }}"
+    >
+      country
+    </label>
+  </div>
+  <div
+    class="{{c}}__field {{c}}__field--third AccountForm__select-wrap js-province-select-wrap"
+    id="ProvinceSelectWrap"
+  >
+    <select
+      class="{{c}}__input AccountForm__select caption js-province-select"
+      id="AddressProvince_{{ id }}"
+      name="address[province]"
+      autocomplete="address-level1"
+      {% if address %}
+        data-default="{{ customer.default_address.province }}"
+      {% else %}
+        data-default="{{ address.province }}"
+      {% endif %}
+    >
+    </select>
+    <label
+      class="visually-hidden"
+      for="AddressProvince_{{ id }}"
+    >
+      province
+    </label>
+  </div>
+  <div class="{{c}}__field {{c}}__field--third AccountForm__field js-required-field">
+    <input
+      class="{{c}}__input AccountForm__input"
+      id="AddressZip_{{ id }}"
+      type="text"
+      name="address[zip]"
+      autocomplete="postal-code"
+      aria-label="Zip code"
+      placeholder="zip code"
+      {% if address %}
+        value="{{ address.zip }}"
+      {% endif %}
+    >
+    <label
+      class="{{c}}__label AccountForm__label caption"
+      for="AddressZip_{{ id }}"
+    >
+      zip code
+      <span class="{{c}}__required-indicator AccountForm__required-indicator">*</span>
+    </label>
+  </div>
+  <div class="{{c}}__submit">
+    <button
+      class="{{c}}__btn cta cta--black"
+      type="submit"
+    >
+      Save
+    </button>
+  </div>
+{% endcapture %}
+
+<div 
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  {% if address %}
+    {% form 'customer_address',
+      address,
+      id: id,
+      class: form_class
+    %}
+      {{ address_fields }}
+    {% endform %}
+  {% else %}
+    {% form 'customer_address',
+      customer.new_address,
+      id: id,
+      class: form_class
+    %}
+      {{ address_fields }}
+    {% endform %}
+  {% endif %}
+</div>

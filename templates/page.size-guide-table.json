@@ -1,0 +1,319 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "size-guide-table",
+      "blocks": {
+        "size_kgDREP": {
+          "type": "size",
+          "settings": {
+            "title": "Large",
+            "page_img": "shopify://shop_images/size_guide_large_9b69f3a7-37ed-4824-bd07-422a4a9e6e94.jpg",
+            "modal_img": "shopify://shop_images/size_guide_modal_large_7befe185-4a1f-4029-b8d8-c7192dbd581e.jpg",
+            "number_of_roses": "42-49 eternity roses",
+            "size_in": "12” x 12” x 9”",
+            "size_cm": "60 x 60 x 60",
+            "weight_lbs": "4-5 lbs",
+            "weight_kg": "4.5 - 5.5 kg",
+            "notes": "Fits on a Dining or large coffee table",
+            "url": "shopify://collections/hidden-classic-collection-test-kp",
+            "url_text": "Shop large square"
+          }
+        },
+        "size_9aJbkU": {
+          "type": "size",
+          "settings": {
+            "title": "Small",
+            "page_img": "shopify://shop_images/size_guide_small_adc45def-6ec7-4564-84d6-cd7a72dddee8.jpg",
+            "modal_img": "shopify://shop_images/size_guide_modal_small_e747a114-57af-464a-aaaf-8e1596a19d88.jpg",
+            "number_of_roses": "16 eternity roses",
+            "size_in": "7” x 7” x 5”",
+            "size_cm": "30 x 30 x 30",
+            "weight_lbs": "2-3 lbs",
+            "weight_kg": "2.5-3.5 lbs",
+            "notes": "fits on a dresser or mantle",
+            "url": "shopify://collections/hidden-classic-collection-test-kp",
+            "url_text": "Shop small square"
+          }
+        },
+        "size_AJa8cN": {
+          "type": "size",
+          "settings": {
+            "title": "Petit",
+            "page_img": "shopify://shop_images/size_guide_petit.jpg",
+            "modal_img": "shopify://shop_images/size_guide_modal_petit.jpg",
+            "number_of_roses": "4 eternity roses",
+            "size_in": "4” x 4” x 4.5”",
+            "size_cm": "13 x 13 x 13",
+            "weight_lbs": "1-2 lbs",
+            "weight_kg": "1-2 lbs",
+            "notes": "perfect for your desk or side table",
+            "url": "shopify://collections/hidden-classic-collection-test-kp",
+            "url_text": "Shop petit square"
+          }
+        },
+        "size_NxiymK": {
+          "type": "size",
+          "settings": {
+            "title": "Mini",
+            "page_img": "shopify://shop_images/size_guide_mini.jpg",
+            "modal_img": "shopify://shop_images/size_guide_modal_mini.jpg",
+            "number_of_roses": "9 spray roses*",
+            "size_in": "2” x 2” x 2”",
+            "size_cm": "5 x 5 x 5",
+            "weight_lbs": "0.5-1 lbs",
+            "weight_kg": "0.2-0.5 lbs",
+            "notes": "Fits in the palm of your hand",
+            "url": "shopify://collections/hidden-classic-collection-test-kp",
+            "url_text": "Shop mini square"
+          }
+        }
+      },
+      "block_order": [
+        "size_kgDREP",
+        "size_9aJbkU",
+        "size_AJa8cN",
+        "size_NxiymK"
+      ],
+      "settings": {
+        "title": "Square",
+        "disclaimer": "*The Mini Square and Mini Dome use Spray Roses. These are smaller in size and have a different finish than Eternity Roses."
+      }
+    },
+    "size_guide_table_gDwbBq": {
+      "type": "size-guide-table",
+      "blocks": {
+        "size_L4TigX": {
+          "type": "size",
+          "settings": {
+            "title": "Large",
+            "page_img": "shopify://shop_images/largeround-whiteclassic-roses-champagne_25526498-0a5a-49e5-b1cb-f7323be7e33a.jpg",
+            "modal_img": "shopify://shop_images/largeround-whiteclassic-roses-purewhite_95326017-3253-45ac-82f7-5d462d02c795.jpg",
+            "number_of_roses": "42-49 eternity roses",
+            "size_in": "12” x 12” x 9”",
+            "size_cm": "60 x 60 x 60",
+            "weight_lbs": "4-5 lbs",
+            "weight_kg": "4.5 - 5.5 kg",
+            "notes": "Fits on a Dining or large coffee table",
+            "url": "shopify://collections/hidden-classic-collection-test-kp",
+            "url_text": "Shop large round"
+          }
+        },
+        "size_Xf6z9M": {
+          "type": "size",
+          "settings": {
+            "title": "Small",
+            "page_img": "shopify://shop_images/smallround-whiteclassic-roses-champagne_4a98fd40-e90b-4f7f-9625-0a5fbed4db2c.jpg",
+            "modal_img": "shopify://shop_images/smallround-whiteclassic-roses-purewhite_b2318015-3da2-4592-b41e-6d813c59e664.jpg",
+            "number_of_roses": "13-15 eternity roses",
+            "size_in": "7” x 7” x 5”",
+            "size_cm": "30 x 30 x 30",
+            "weight_lbs": "2-3 lbs",
+            "weight_kg": "2.5-3.5 lbs",
+            "notes": "Fits on a Dining or large coffee table",
+            "url": "shopify://collections/hidden-classic-collection-test-kp",
+            "url_text": "Shop small round"
+          }
+        },
+        "size_RyKkYG": {
+          "type": "size",
+          "disabled": true,
+          "settings": {
+            "title": "Petit",
+            "page_img": "shopify://shop_images/lepetitround-whiteclassic-roses-champagne_b5121219-12d9-4785-8a3c-e583649496c8.jpg",
+            "modal_img": "shopify://shop_images/lepetitround-whiteclassic-roses-purewhite_1d9ef63a-e2cf-455c-aa27-f76663f39913.jpg",
+            "number_of_roses": "4 eternity roses",
+            "size_in": "4” x 4” x 4.5”",
+            "size_cm": "13 x 13 x 13",
+            "weight_lbs": "2-3 lbs",
+            "weight_kg": "1-2 lbs",
+            "notes": "perfect for your desk or side table",
+            "url": "shopify://collections/hidden-classic-collection-test-kp",
+            "url_text": "Shop petit round"
+          }
+        },
+        "size_9YBJEA": {
+          "type": "size",
+          "settings": {
+            "title": "Mini",
+            "page_img": "shopify://shop_images/leminiround-whiteclassic-roses-champagne_17f69850-a8a4-455a-a85f-ddab363fbcfd.jpg",
+            "modal_img": "shopify://shop_images/leminiround-whiteclassic-roses-purewhite_68bc6c39-b165-4b92-a684-ba4db4229824.jpg",
+            "number_of_roses": "1 eternity rose",
+            "size_in": "2” x 2” x 2”",
+            "size_cm": "5 x 5 x 5",
+            "weight_lbs": "0.5-1 lbs",
+            "weight_kg": "0.2-0.5 lbs",
+            "notes": "fits in the palm of your hand",
+            "url": "shopify://collections/hidden-classic-collection-test-kp",
+            "url_text": "Shop mini round"
+          }
+        }
+      },
+      "block_order": [
+        "size_L4TigX",
+        "size_Xf6z9M",
+        "size_RyKkYG",
+        "size_9YBJEA"
+      ],
+      "settings": {
+        "title": "Round",
+        "disclaimer": ""
+      }
+    },
+    "size_guide_table_663d4H": {
+      "type": "size-guide-table",
+      "blocks": {
+        "size_aTRRkg": {
+          "type": "size",
+          "settings": {
+            "title": "Large",
+            "page_img": "shopify://shop_images/leplein-whiteclassic-roses-champagne_bf550f58-d75e-4d9c-834c-9370cce31297.jpg",
+            "modal_img": "shopify://shop_images/leplein-whiteclassic-roses-purewhite_ab9b1abd-8f02-45be-ba08-407f833796a2.jpg",
+            "number_of_roses": "150 eternity roses",
+            "size_in": "16” x 16” x 16”",
+            "size_cm": "60 x 60 x 60",
+            "weight_lbs": "6-7 lbs",
+            "weight_kg": "4.5 - 5.5 kg",
+            "notes": "Fits on a Dining or large coffee table",
+            "url": "shopify://collections/hidden-classic-collection-test-kp",
+            "url_text": "Shop large dome"
+          }
+        },
+        "size_BaArpi": {
+          "type": "size",
+          "settings": {
+            "title": "Small",
+            "page_img": "shopify://shop_images/smallleplein-whiteclassic-roses-champagne_3dd22248-8621-4d95-9747-9ab4bad7e1a6.jpg",
+            "modal_img": "shopify://shop_images/smallleplein-whiteclassic-roses-purewhite_6c37e6c9-298c-463b-8eb9-2c0b245f2bf3.jpg",
+            "number_of_roses": "45-49 eternity roses",
+            "size_in": "12” x 12” x 10\"",
+            "size_cm": "30 x 30 x 30",
+            "weight_lbs": "3-4 lbs",
+            "weight_kg": "2.5-3.5 lbs",
+            "notes": "fits on a dresser or mantle",
+            "url": "shopify://collections/hidden-classic-collection-test-kp",
+            "url_text": "Shop small dome"
+          }
+        },
+        "size_V6E9pb": {
+          "type": "size",
+          "settings": {
+            "title": "Mini",
+            "page_img": "shopify://shop_images/lepleinmini-whiteclassic-roses-pearl_549362d1-6a5c-4cb5-925a-a9bb2a524a91.jpg",
+            "modal_img": "shopify://shop_images/lepleinmini-whiteclassic-roses-purewhite_bde98289-15ed-4b76-a798-ee48f097c406.jpg",
+            "number_of_roses": "15-27 spray roses*",
+            "size_in": "5” x 4.5”",
+            "size_cm": "5 x 5 x 5",
+            "weight_lbs": "0.5-1 lbs",
+            "weight_kg": "0.2-0.5 lbs",
+            "notes": "fits in the palm of your hand",
+            "url": "shopify://collections/hidden-classic-collection-test-kp",
+            "url_text": "Shop mini dome"
+          }
+        }
+      },
+      "block_order": [
+        "size_aTRRkg",
+        "size_BaArpi",
+        "size_V6E9pb"
+      ],
+      "settings": {
+        "title": "Dome",
+        "disclaimer": "*The Mini Square and Mini Dome use Spray Roses. These are smaller in size and have a different finish than Eternity Roses."
+      }
+    },
+    "size_guide_table_hAC9gy": {
+      "type": "size-guide-table",
+      "blocks": {
+        "size_Gwdt9w": {
+          "type": "size",
+          "settings": {
+            "title": "Large",
+            "page_img": "shopify://shop_images/largeheart-blushsuede-roses-champagne_75716eac-cf8f-49e1-8240-ca98ee9f1279.jpg",
+            "modal_img": "shopify://shop_images/largeheart-blushsuede-roses-purewhite_bebd5235-64d3-4456-a068-e408033f5dcd.jpg",
+            "number_of_roses": "42-49 eternity roses",
+            "size_in": "24” x 24” x 24”",
+            "size_cm": "60 x 60 x 60",
+            "weight_lbs": "10-12 lbs",
+            "weight_kg": "4.5 - 5.5 kg",
+            "notes": "Fits on a Dining or large coffee table",
+            "url": "shopify://collections/hidden-classic-collection-test-kp",
+            "url_text": "Shop large heart"
+          }
+        },
+        "size_xh8ThY": {
+          "type": "size",
+          "settings": {
+            "title": "Small",
+            "page_img": "shopify://shop_images/smallheart-whiteclassic-roses-champagne_a3ca37a0-a46a-4830-ac78-1f531a0047cc.jpg",
+            "modal_img": "shopify://shop_images/smallheart-whiteclassic-roses-purewhite_8f6e2a56-4b00-491b-a0c4-ca1127634d9d.jpg",
+            "number_of_roses": "16 eternity roses",
+            "size_in": "12” x 12” x 12”",
+            "size_cm": "30 x 30 x 30",
+            "weight_lbs": "5-8 lbs",
+            "weight_kg": "2.5-3.5 lbs",
+            "notes": "fits on a dresser or mantle",
+            "url": "shopify://collections/hidden-classic-collection-test-kp",
+            "url_text": "Shop small heart"
+          }
+        },
+        "size_dH4nEN": {
+          "type": "size",
+          "settings": {
+            "title": "Petit",
+            "page_img": "shopify://shop_images/petitheart-whiteclassic-roses-pearl_copy.jpg",
+            "modal_img": "shopify://shop_images/petitheart-whiteclassic-roses-pearl_2fda3242-be0d-4380-b00f-f27246d0e14a.jpg",
+            "number_of_roses": "4 eternity roses",
+            "size_in": "5” x 5” x 5”",
+            "size_cm": "13 x 13 x 13",
+            "weight_lbs": "2-3 lbs",
+            "weight_kg": "1-2 lbs",
+            "notes": "perfect for your desk or side table",
+            "url": "shopify://collections/hidden-classic-collection-test-kp",
+            "url_text": "Shop petit heart"
+          }
+        },
+        "size_3dgxWN": {
+          "type": "size",
+          "settings": {
+            "title": "Dome",
+            "page_img": "shopify://shop_images/lepleinheart-blushsuede-roses-champagne_b3a03cb0-0def-4edb-9a37-3d013d09a650.jpg",
+            "modal_img": "shopify://shop_images/lepleinheart-blushsuede-roses-purewhite_564e3101-dc04-4b1e-80e5-b0bdcaa4fb18.jpg",
+            "number_of_roses": "42-49 eternity roses",
+            "size_in": "24” x 24” x 24”",
+            "size_cm": "60 x 60 x 60",
+            "weight_lbs": "10-12 lbs",
+            "weight_kg": "4.5 - 5.5 kg",
+            "notes": "Fits on a Dining or large coffee table",
+            "url": "shopify://collections/hidden-classic-collection-test-kp",
+            "url_text": "Shop dome heart"
+          }
+        }
+      },
+      "block_order": [
+        "size_Gwdt9w",
+        "size_xh8ThY",
+        "size_dH4nEN",
+        "size_3dgxWN"
+      ],
+      "settings": {
+        "title": "Heart",
+        "disclaimer": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "size_guide_table_gDwbBq",
+    "size_guide_table_663d4H",
+    "size_guide_table_hAC9gy"
+  ]
+}

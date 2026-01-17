@@ -1,0 +1,62 @@
+{% liquid
+  assign c = "SubmenuLinks"
+  assign links = links
+  assign media = media | strip | default: false
+
+  if media == "mobile"
+    assign accordion_parent_klass = " js-accordionParent"
+  endif
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <ul class="{{c}}__child-list">
+    {% for link in links %}
+      {% liquid
+        assign link_style = false
+        assign has_header = true
+        if link.title == '#'
+          assign link_style = 'link'
+          assign has_header = false
+        endif
+      %}
+      <li class="{{c}}__child-item {% if has_header %} {{ accordion_parent_klass }}{% else %} {{c}}__child-item--no-header{% endif %}">
+          {% if has_header %}
+            {% if link.url == "#" %}
+              {% if media == 'desktop' %}
+                <h4 class="{{c}}__list-title subheader">
+                  {{ link.title }}
+                </h4>
+              {% else %}
+                {% render "navigation-menu-button",
+                  link: link, level: "child",
+                  arrow: "down",
+                  js_assignment: " js-accordionItemToggle"
+                %}
+              {% endif %}
+            {% else %}
+              {% render "navigation-menu-link",
+                link: link,
+                level: "child"
+              %}
+            {% endif %}
+          {% endif %}
+        {% if link.links.size > 0 %}
+          <ul class="{{c}}__grandchild-list js-accordionItemContent">
+            {% for child_link in link.links %}
+              <li class="{{c}}__grandchild-item">
+                {% render "navigation-menu-link",
+                  link: child_link,
+                  level: "grandchild",
+                  style: link_style
+                %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</div>

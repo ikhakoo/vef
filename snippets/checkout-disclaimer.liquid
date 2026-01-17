@@ -1,0 +1,53 @@
+{% liquid
+  assign c = "CheckoutDisclaimer"
+%}
+
+<div
+  class="{{c}} section__content"
+  style="display: none;"
+>
+  <div class="notice notice--warning" tabindex="-1" role="alert" style="display: none;">
+    <p class="notice__text">
+      {{ 'layout.checkout.disclaimer_notice' | t }}
+    </p>
+  </div>
+  <div class="checkbox-wrapper">
+    <div class="checkbox__input">
+      <input class="input-checkbox disclaimer-input" type="checkbox" checked>
+    </div>
+    <label class="checkbox__label body-s" for="disclaimer-input">
+      {{ 'layout.checkout.disclaimer' | t }}
+    </label>
+  </div>
+</div>
+
+<script>
+  Checkout.$(document).on('page:load page:change', function() {
+    if (Shopify.Checkout.step === "payment_method") {
+      if (Checkout.$(".CheckoutDisclaimer").length == 1) {
+        var html = Checkout.$(".CheckoutDisclaimer")[0].outerHTML;
+        var section = Checkout.$(".section--remember-me");
+        if (section.length == 0) {
+          section = Checkout.$(".section--billing-address");
+        }
+        section.after(Checkout.$(html).show());
+        Checkout.$(document).on("click", "form[data-payment-form]  [type='submit']", function(e) {
+          e.preventDefault();
+          if (Checkout.$(".CheckoutDisclaimer input").is(":checked")) {
+            Checkout.$(".CheckoutDisclaimer").removeClass("error");
+            Checkout.$("form[data-payment-form]").submit();
+          }
+          else {
+            Checkout.$(".CheckoutDisclaimer").addClass("error");
+            Checkout.$(".CheckoutDisclaimer .notice").show();
+          }
+        });
+        Checkout.$(document).on("change", ".disclaimer-input", function(e) {
+          if (Checkout.$(".CheckoutDisclaimer input").is(":checked")) {
+            Checkout.$(".CheckoutDisclaimer").removeClass("error");
+          }
+        });
+      }
+    }
+  });
+</script>

@@ -1,0 +1,105 @@
+{% liquid
+  assign c = "LandingMediaTextCarousel"
+  assign fields = fields
+  assign sectionIndex = index
+  assign desktop_images = fields.images_desktop[sectionIndex]
+  assign mobile_images = fields.images_mobile[sectionIndex]
+  assign media_size = desktop_images | size
+  assign media_component_class = c | append: '__media-wrap'
+%}
+
+<div class="{{c}}" data-component="{{c}}">
+  <div class="{{c}}__container swiper js-carousel">
+    <div class="{{c}}__wrapper swiper-wrapper">
+      {% for image in desktop_images %}
+        {% liquid
+          assign index0 = forloop.index0
+          assign index = forloop.index
+          assign field_prefix = 'slide_' | append: index | append: '_'
+          assign alignment_field = field_prefix | append: 'alignment'
+          assign video_field = field_prefix | append: 'video_url'
+          assign video_mobile_field = field_prefix | append: 'video_url_mobile'
+          assign background_color_field = field_prefix | append: 'background_color'
+          assign header_field = field_prefix | append: 'header'
+          assign date_field = field_prefix | append: 'date'
+          assign paragraph_field = field_prefix | append: 'paragraph'
+          assign cta_text_field = field_prefix | append: 'cta_text'
+          assign cta_url_field = field_prefix | append: 'cta_url'
+          assign image_desktop = desktop_images[index0] | default: false
+          assign image_mobile = mobile_images[index0] | default: image_desktop
+          assign alignment = fields[alignment_field][sectionIndex] | downcase | default: "left"
+          assign video_url = fields[video_field][sectionIndex] | default: false
+          assign video_url_mobile = fields[video_mobile_field][sectionIndex] | default: video_url_mobile
+          assign background_color = fields[background_color_field][sectionIndex] | default: "#f5f1ed"
+          assign header = fields[header_field][sectionIndex] | default: false
+          assign date = fields[date_field][sectionIndex] | default: false
+          assign paragraph = fields[paragraph_field][sectionIndex].markdown | default: false
+          assign cta_text = fields[cta_text_field][sectionIndex] | default: false
+          assign cta_url = fields[cta_url_field][sectionIndex] | default: false
+          assign image_loading = 'lazy'
+          if index == 1
+            assign image_loading = 'eager'
+          endif
+          assign custom_style = ''
+          if background_color
+            assign custom_style = 'style="' | append: "background-color:" | append: background_color | append: ';"'
+          endif
+        %}
+        <div class="{{c}}__inner {{c}}__inner--media-{{ alignment }} swiper-slide" {{ custom_style }}>
+          <div class="{{c}}__media-container">
+            {% if video_url %}
+              {% render 'video',
+                component_class: media_component_class,
+                video: video_url,
+                mobile_video: video_url_mobile
+              %}
+            {% elsif image_desktop %}
+              {% render 'image',
+                component_class: media_component_class,
+                image: image_mobile,
+                sizes: '350',
+                image_2: image_desktop,
+                sizes_2: '768, 1024, 1440',
+                loading: image_loading
+              %}
+            {% endif %}
+
+            {% if media_size > 1 %}
+              <div class="{{c}}__arrow {{c}}__arrow--left js-carouselPrev">
+                {% render 'icon', icon: 'arrow-left' %}
+              </div>
+              <div class="{{c}}__arrow {{c}}__arrow--right js-carouselNext">
+                {% render 'icon', icon: 'arrow-right' %}
+              </div>
+            {% endif %}
+          </div>
+          <div class="{{c}}__text">
+            {% if header %}
+              <div class="{{c}}__header h3">
+                {{ header }}
+              </div>
+            {% endif %}
+            {% if date %}
+              <div class="{{c}}__date btn-copy">
+                {{ date }}
+              </div>
+            {% endif %}
+            {% if paragraph %}
+              <div class="{{c}}__copy body">
+                {{ paragraph }}
+              </div>
+            {% endif %}
+            {% if cta_text %}
+              <a class="{{c}}__cta cta cta--black" href="{{ cta_url }}">
+                {{ cta_text }}
+              </a>
+            {% endif %}
+            {% if media_size > 1 %}
+              <div class="{{c}}__pagination js-carouselPagination"></div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

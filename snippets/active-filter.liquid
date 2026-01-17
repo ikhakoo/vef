@@ -1,0 +1,45 @@
+{% liquid
+  assign c = "ActiveFilter"
+  assign value = value
+  assign price_filter = price_filter | default: false
+%}
+
+<button
+  class="{{c}}"
+  data-component="{{c}}"
+  
+  {% if price_filter %}
+    data-reset-price-filter="true"
+    aria-label="Remove price filters"
+  {% else %}
+    data-name="{{ value.param_name }}"
+    data-value="{{ value.value }}"
+    aria-label="Remove {{ value.label }} filter"
+  {% endif %}
+>
+  <span class="body-s">
+    {% if price_filter %}
+      {% if price_filter.min_value.value %}
+        {{ price_filter.min_value.value | money_without_trailing_zeros }}
+      {% else %}
+        {{ 0 | money_without_trailing_zeros }}
+      {% endif %}
+
+      -
+
+      {% if price_filter.max_value.value %}
+        {{ price_filter.max_value.value | money_without_trailing_zeros }}
+      {% else %}
+        {{ price_filter.range_max | money_without_trailing_zeros }}
+      {% endif %}
+
+    {% else %}
+      {{ value.label }}
+    {% endif %}
+  </span>
+
+  {%
+    render 'component-icon',
+    icon: 'remove-filter-icon'
+  %}
+</button>

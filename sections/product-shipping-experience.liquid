@@ -1,0 +1,99 @@
+{%
+  render 'product-shipping-experience',
+  section: section.settings,
+%}
+
+{% schema %}
+{
+  "name": "Product Shipping",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA Text"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    },
+    {
+      "type": "header",
+      "content": "Column 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "info_column_icon_1",
+      "label": "Icon"
+    },
+    {
+      "type": "text",
+      "id": "info_column_title_1",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "info_column_text_1",
+      "label": "Text"
+    },
+    {
+      "type": "header",
+      "content": "Column 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "info_column_icon_2",
+      "label": "Icon"
+    },
+    {
+      "type": "text",
+      "id": "info_column_title_2",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "info_column_text_2",
+      "label": "Text"
+    },
+    {
+      "type": "header",
+      "content": "Column 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "info_column_icon_3",
+      "label": "Icon"
+    },
+    {
+      "type": "text",
+      "id": "info_column_title_3",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "info_column_text_3",
+      "label": "Text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Shipping"
+    }
+  ],
+  "enabled_on": {
+    "templates": [
+      "product"
+    ]
+  }
+}
+{% endschema %}

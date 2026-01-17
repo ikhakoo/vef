@@ -1,0 +1,27 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "layout": {
+    "footer": {
+      "title": "Stay In Touch"
+    },
+    "legal": {
+      "copyright": "Venus ET Fleur &nbsp;&nbsp;|&nbsp;&nbsp;   All rights reserved ",
+      "terms": "Terms & Conditions",
+      "privacy": "Privacy Policy",
+      "accessibility": "Accessibility"
+    },
+    "checkout": {
+      "disclaimer": "I understand this order cannot be modified, cancelled or changed in any way. All sales are final. I also understand that any FedEx/UPS related delays of my order are out of the hands of Venus ET Fleur and will be taken up with FedEx/UPS. In the event of potential weather or courier delays, VEF may ship your order early. Please note due to COVID19 most courier services will utilize a contactless delivery process - please be aware this may result in deliveries to be left unsigned for.",
+      "disclaimer_notice": "Please read and accept the terms below before you complete your order.",
+      "safety_guarantee": "Guaranteed safe and secure checkout. Your satisfaction is our top priority, for any client service needs,"
+    }
+  }
+}

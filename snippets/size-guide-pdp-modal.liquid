@@ -1,0 +1,44 @@
+{% liquid
+  assign c = "SizeGuidePdpModal"
+  assign section = section
+  assign hatbox_shape = hatbox_shape
+
+  assign title = hatbox_shape | append: ' ' | append: section.size_guide_modal_title
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  role="dialog"
+  aria-modal="true"
+  aria-label="{{ title }}"
+>
+  <div class="{{c}}__header">
+    <div class="{{c}}__title caption">
+      {{ title }}
+    </div>
+
+    <button 
+      class="{{c}}__close-btn js-closeSizeGuideBtn"
+      aria-label="Close size guide modal"
+    >
+      {%
+        render 'component-icon',
+        icon: 'close-icon',
+      %}
+    </button>
+  </div>
+
+  <div class="{{c}}__body">
+    <div class="{{c}}__text body">
+      {{ section.size_guide_modal_text }}
+    </div>
+
+    <div 
+      class="{{c}}__table-container js-modalTableContainer"
+      data-table-page="{{ section.size_guide_tables_page }}"
+      data-shape="{{ hatbox_shape | handleize }}"
+    >
+    </div>
+  </div>
+</div>

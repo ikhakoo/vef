@@ -1,0 +1,76 @@
+{% liquid
+  assign c = "SizeGuidePdpModalTable"
+  assign section = section
+  assign blocks = blocks
+
+  assign image_component_class = c | append: '__image-wrap'
+  assign image_class = c | append: '__image'
+%}
+
+<div
+  class="js-sizeGuideModalTable"
+  data-shape="{{ section.title | handleize }}"
+>
+  <div 
+    class="{{c}}"
+    data-component="{{c}}"
+  >
+    <div class="{{c}}__container swiper js-sizeGuideModalTableContainer">
+      <div class="{{c}}__wrapper swiper-wrapper">
+        <div class="{{c}}__slide swiper-slide">
+          <div class="{{c}}__table">
+            {% for block in blocks %}
+              <div class="{{c}}__column">
+                {%
+                  render 'image',
+                  component_class: image_component_class,
+                  class: image_class,
+                  image: block.settings.modal_img,
+                  sizes: '325,425,525,600',
+                %}
+          
+                <div class="{{c}}__cell">
+                  <div class="{{c}}__title body">
+                    {{ block.settings.title }} {{ section.title }}
+                  </div>
+                  <div class="{{c}}__notes body-s">
+                    {{ block.settings.notes }}
+                  </div>
+                </div>
+          
+                <div class="{{c}}__cell">
+                  <div class="{{c}}__cell-text subheader">
+                    {{ block.settings.number_of_roses }}
+                  </div>
+                  <div class="{{c}}__label caption">
+                    # of roses
+                  </div>
+                </div>
+          
+                <div class="{{c}}__cell">
+                  <div class="{{c}}__cell-text subheader">
+                    {{ block.settings.size_in }}
+                  </div>
+                  <div class="{{c}}__label caption">
+                    W X D X H
+                  </div>
+                </div>
+          
+                <div class="{{c}}__cell">
+                  <div class="{{c}}__cell-text subheader">
+                    {{ block.settings.weight_lbs }}
+                  </div>
+                  <div class="{{c}}__label caption">
+                    Weight
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      
+      <div class="{{c}}__scroll-bar js-sizeGuideModalTableScrollbar"></div>
+    </div>
+  </div>
+</div>

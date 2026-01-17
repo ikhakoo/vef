@@ -1,0 +1,8 @@
+/*!
+ * Splide.js
+ * Version  : 4.1.4
+ * License  : MIT
+ * Copyright: 2022 Naotoshi Fujita
+ */
+
+/*! algoliasearch-lite.umd.js | 4.14.2 | © Algolia, inc. | https://github.com/algolia/algoliasearch-client-javascript */

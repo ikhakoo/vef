@@ -1,0 +1,18 @@
+{% liquid
+  assign c = "PageContentTable"
+  assign content_left = content_left | default: false
+  assign content_right = content_right | default: false
+%}
+
+<div
+  class="{{c}}"
+>
+  <div class="{{c}}__container">
+    <div class="{{c}}__content">
+      {{ content_left }}
+    </div>
+    <div class="{{c}}__content">
+      {{ content_right }}
+    </div>
+  </div>
+</div>

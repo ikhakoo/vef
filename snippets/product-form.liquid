@@ -1,0 +1,332 @@
+{% liquid
+  assign c = 'ProductForm'
+  assign settings = settings
+  assign product = product
+  assign blocks = blocks
+  assign current_variant = current_variant
+  assign related_products = related_products | default: false
+  assign product_collection = product_collection | default: false
+  assign is_gift_card = is_gift_card | default: false
+  assign retail_exclusive = retail_exclusive | default: false
+  assign product_image_swatch_options = settings.product_image_swatch_options
+  assign product_specific_image_swatch_options = settings.product_specific_image_swatch_options
+  assign product_disable_shipping_callout = product.metafields.custom.disable_complimentary_shipping_message | default: false
+  assign product_disable_action_callouts = product.metafields.custom.disable_product_action_callouts | default: false
+  assign action_callout_shop_pay_bg = settings.action_callout_shop_pay_bg | default: false
+  assign action_callout_shop_pay_text = settings.action_callout_shop_pay_text | default: false
+  if product.tags contains 'shop-pay-test'
+    assign enable_shop_pay = true
+  endif
+  assign enable_zipcode_checker = product.metafields.custom.product_zipcode_checker | default: false
+
+  if enable_zipcode_checker contains 'Enable checker & disable ATC'
+    assign disableATC = true
+  endif
+
+  assign available_variants = ''
+  for variant in product.variants
+    if variant.available
+      assign variant_options = ''
+
+      for value in variant.options
+        assign option_value = '|' | append: value | append: '|'
+        assign variant_options = variant_options | append: option_value
+      endfor
+
+      assign available_variants = available_variants | append: variant_options
+    endif
+  endfor
+
+  assign has_subscriptions = product.selling_plan_groups | where: 'app_id', '5859381' | size
+  if has_subscriptions == 0
+    assign has_subscriptions = false
+  endif
+
+  assign is_homeware = false
+  if template.suffix == 'homeware'
+    assign is_homeware = true
+  endif
+
+  assign is_locks_box = false
+  if product.title contains 'Love Locks Box'
+    assign is_locks_box = true
+  endif
+
+  assign available_text = 'Add To Cart'
+  for tag in product.tags
+    if tag contains 'AltCTA:'
+      assign available_text = tag | remove: 'AltCTA:'
+    endif
+  endfor
+
+  assign unavailable_text = 'Out of Stock - Notify Me'
+  for tag in product.tags
+    if tag contains 'NotifyMeText:'
+      assign unavailable_text = tag | remove: 'NotifyMeText:'
+    endif
+  endfor
+
+  assign is_hatbox_product = false
+  assign hatbox_shape = product.metafields.custom.hatbox_shape | default: false
+  assign hatbox_size = product.metafields.custom.hatbox_size | default: false
+  assign hatbox_material = current_variant.option1
+  if hatbox_shape and hatbox_size
+    assign is_hatbox_product = true
+  endif
+%}
+
+<div
+  class="{{c}} {% if retail_exclusive %}retail-exclusive{% endif %}"
+  data-component="{{c}}"
+  data-product-id="{{ product.id }}"
+>
+  <div id="DeliveryBannerFlag" data-delivery-banner="{{ product.metafields.custom.delivery_banner }}"></div>
+
+  {% if is_hatbox_product %}
+    {% render 'hatbox-product-options',
+      hatbox_shape: hatbox_shape,
+      hatbox_size: hatbox_size,
+      material: hatbox_material
+    %}
+  {% endif %}
+
+  {% unless product.has_only_default_variant %}
+    {% for option in product.options_with_values %}
+      {% liquid
+        assign option_name = option.name | downcase
+        assign values_count = option.values | size
+      %}
+
+      {% if related_products and values_count == 1 and forloop.index == 1 %}
+        {% render 'related-product-options',
+          option: option,
+          related_products: related_products,
+          current_product: product,
+          product_collection: product_collection
+        %}
+
+      {% elsif product_image_swatch_options contains option_name
+        or product_specific_image_swatch_options contains option_name
+      %}
+        {% render 'product-image-options',
+          option: option,
+          product_handle: product.handle,
+          product_specific_image_swatch_options: product_specific_image_swatch_options,
+          available_variants: available_variants,
+          is_homeware: is_homeware
+        %}
+
+        {% if option_name == 'floral color' %}
+          {% render 'product-rose-options',
+            settings: settings,
+            option: option,
+            available_variants: available_variants
+          %}
+        {% else %}
+          {% render 'product-options-drawer',
+            option: option,
+            product_handle: product.handle,
+            product_specific_image_swatch_options: product_specific_image_swatch_options,
+            available_variants: available_variants,
+            is_homeware: is_homeware
+          %}
+        {% endif %}
+
+      {% else %}
+        {% unless is_locks_box %}
+          {% if is_gift_card %}
+            {% render 'product-option-select', variants: product.variants, current_variant: current_variant %}
+          {% else %}
+            {% render 'product-text-options', option: option, available_variants: available_variants %}
+          {% endif %}
+        {% endunless %}
+      {% endif %}
+    {% endfor %}
+  {% endunless %}
+
+  {% if is_locks_box %}
+    {%- comment -%}
+      {% render 'lock-box-engraving' %}
+    {%- endcomment -%}
+  {% endif %}
+
+  {% for block in blocks %}
+    {% if block.type == '@app' and block.id contains 'uploadery_app_block' %}
+      {% render block %}
+    {% endif %}
+  {% endfor %}
+
+  {% render 'product-builder-snippets', location: 'above-add-to-cart' %}
+
+  {% if has_subscriptions and product.available %}
+    {% render 'product-subscription-widget', settings: settings %}
+  {% endif %}
+
+  {% if enable_zipcode_checker %}
+    {% render 'product-delivery-checker', checker_type: enable_zipcode_checker %}
+  {% endif %}
+
+  <form
+    class="
+      {{c}}__form
+      js-productForm
+      {% if enable_shop_pay and additional_checkout_buttons %} {{c}}__form--alt-pay-enabled {% endif %}
+      {% if retail_exclusive %} {{c}}__form--is-retail-exclusive {% endif %}
+    "
+    action="/cart/add"
+    method="post"
+  >
+    <select
+      class="{{c}}__variant-select js-variantId"
+      name="id"
+    >
+      {% for variant in product.variants %}
+        <option
+          value="{{ variant.id }}"
+          data-price="{{ variant.price | money_without_trailing_zeros }}"
+          data-compare-at="{{ variant.compare_at_price | money_without_trailing_zeros }}"
+          {% if variant.id == current_variant.id %}
+            selected
+          {% endif %}
+        >
+          {{ variant.title }}
+        </option>
+      {% endfor %}
+    </select>
+
+    <input
+      type="hidden"
+      name="quantity"
+      value="1"
+    >
+
+    <input
+      type="hidden"
+      name="selling-plan"
+      class="js-selectedSellingPlan"
+      value=""
+    >
+
+    <input
+      type="hidden"
+      name="engraving_initials"
+      class="js-lineItemProperty js-engravingInput"
+      value=""
+    >
+
+    {% render 'product-checkout-attributes', product: product %}
+
+    {% unless retail_exclusive %}
+      <div class="{{c}}__form-actions {% unless enable_shop_pay %}full-width{% endunless %}">
+        <button
+          class="
+            {{c}}__submit
+            js-productSubmitBtn
+            cta
+            cta--black
+            {% if disableATC %}delivery-disabled{% endif %}
+            {% unless current_variant.available %} not-available {% endunless %}
+          "
+          {% unless current_variant.available %}
+            disabled
+          {% endunless %}
+          type="submit"
+        >
+          <span class="{{c}}__submit--available-text">
+            {{ available_text }}
+          </span>
+
+          <span class="{{c}}__submit--unavailable-text">
+            {{ unavailable_text }}
+          </span>
+        </button>
+
+        {% if enable_shop_pay and additional_checkout_buttons %}
+          <style>
+            shopify-accelerated-checkout {
+              --shopify-accelerated-checkout-skeleton-background-color: {{ action_callout_shop_pay_bg }};
+            }
+
+            shopify-accelerated-checkout-cart {
+              --shopify-accelerated-checkout-skeleton-background-color: {{ action_callout_shop_pay_bg }};
+            }
+          </style>
+
+          {% form 'product', product %}
+            {{ form | payment_button }}
+          {% endform %}
+
+          <div class="{{c}}__additional-checkout-buttons" id="accelerated-checkout">
+            {{ content_for_additional_checkout_buttons }}
+          </div>
+        {% endif %}
+      </div>
+    {% endunless %}
+  </form>
+
+  {% if retail_exclusive %}
+    <div
+      class="{{c}}__retail-exclusive"
+    >
+      <a
+        class="
+          {{c}}__retail-exclusive--cta
+          cta
+          cta--black
+        "
+        href="/pages/flower-store-boutique"
+      >
+        <span class="{{c}}__retail-exclusive-text"> Visit a Boutique </span>
+      </a>
+    </div>
+  {% endif %}
+
+  {% unless product_disable_shipping_callout %}
+    {% if settings.shipping_message_enable %}
+      {% render 'product-shipping-callout', settings: settings %}
+    {% endif %}
+  {% endunless %}
+
+  {% comment %}
+    {% unless product_disable_action_callouts %}
+      {%
+        render 'product-action-callouts',
+        settings: settings,
+      %}
+    {% endunless %}
+  {% endcomment %}
+
+  {% for block in blocks %}
+    {% if block.type == '@app' and block.id contains 'boutique_inventory_widget' %}
+      {% render block %}
+    {% endif %}
+  {% endfor %}
+
+  {% render 'product-form-notify-me', settings: settings, current_variant: current_variant %}
+
+  {% render 'product-builder-snippets', location: 'below-add-to-cart' %}
+</div>
+
+<style>
+  .ProductForm__accelerated-checkout {
+    background-color: {{ action_callout_shop_pay_bg }};
+    color: {{ action_callout_shop_pay_text }};
+  }
+
+
+  .ProductForm__accelerated-checkout:hover {
+    filter: brightness(90%);
+  }
+
+  .ProductForm__shop-pay-icon svg {
+    fill: {{ action_callout_shop_pay_text }};
+  }
+</style>
+
+{% if action_callout_shop_pay_text == '#fff' %}
+  <style>
+    .ProductForm__accelerated-checkout:hover {
+      filter: brightness(120%);
+    }
+  </style>
+{% endif %}

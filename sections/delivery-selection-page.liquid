@@ -1,0 +1,88 @@
+{% 
+  render 'delivery-selection-page',
+  section: section.settings,
+%}
+
+{% schema %}
+{
+  "name": "Delivery Selection Page",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Same-Day & Next-Day Delivery"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "We offer same-day and next-day delivery to the New York tristate area and Los Angeles. Our same-day shipping cut off ends at 2pm ET for the East coast, and 2pm PT for the West coast."
+    },
+    {
+      "type": "text",
+      "id": "zipcode_input_title",
+      "label": "Zipcode input title",
+      "default": "Please enter delivery zip code"
+    },
+    {
+      "type": "textarea",
+      "id": "zipcode_not_found_message",
+      "label": "Zipcode not found message",
+      "default": "Sorry we do not have same-day/next-day delivery to this area. Please enter a zip code within New York, Florida, and Los Angeles."
+    },
+    {
+      "type": "text",
+      "id": "select_date_text",
+      "label": "Select date text",
+      "default": "please select desired delivery date"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Same Day/Next Day Collection"
+    },
+    {
+      "type": "header",
+      "content": "Loading Screen"
+    },
+    {
+      "type": "text",
+      "id": "loading_title",
+      "label": "Loading title",
+      "default": "Please Wait..."
+    },
+    {
+      "type": "text",
+      "id": "loading_text",
+      "label": "Loading text",
+      "default": "We are loading your results"
+    },
+    {
+      "type": "range",
+      "id": "loading_duration",
+      "label": "Loading duration",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "color_background",
+      "id": "loading_bg_gradient",
+      "label": "Background gradient",
+      "default": "linear-gradient(166.07deg, #E4B36F -5.04%, #D2B692 53.9%, #AC9890 113.06%)"
+    }
+  ]
+}
+{% endschema %}

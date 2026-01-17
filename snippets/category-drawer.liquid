@@ -1,0 +1,45 @@
+{% liquid
+  assign c = "CategoryDrawer"
+  assign collection_handle = collection_handle | default: false
+  assign category_links_title = category_links_title | default: false
+  assign category_links = category_links | default: false
+%}
+
+<div
+  class="{{c}} js-categoriesDrawer"
+  id="{{c}}"
+  aria-hidden="true"
+  aria-expanded="false"
+>
+  <div class="{{c}}__header">
+    <div class="{{c}}__header-content">
+      <div class="{{c}}__title subheader">
+        Shop By Category
+      </div>
+      
+      {% if category_links_title %}
+        <div class="{{c}}__subtitle body-s">
+          {{ category_links_title }}
+        </div>
+      {% endif %}
+    </div>
+
+    <button 
+      class="{{c}}__close-drawer js-categoryToggleBtn"
+      aria-label="Close category drawer"
+    >
+      {%
+        render 'component-icon',
+        icon: 'close-icon'
+      %}
+    </button>
+  </div>
+
+  <div class="{{c}}__body">
+    {%
+      render 'category-links',
+      collection_handle: collection_handle,
+      category_links: category_links,
+    %}
+  </div>
+</div>

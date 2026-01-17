@@ -1,0 +1,77 @@
+{% liquid
+  assign c = "RelatedProductOption"
+  assign product = product
+  assign title = title
+  assign url = url
+  assign current_url = current_url
+  assign product_images = product_images
+  assign is_box_material = is_box_material
+  assign product_collection = product_collection | default: false
+  assign modifier = modifier
+
+  assign image_component_class = c | append: '__image-wrap'
+  assign image_class = c | append: '__image'
+  assign swatch_image = nil
+  if is_box_material
+    assign image_filename = title | handleize | append: '.jpg'
+    assign swatch_image = images[image_filename]
+  else
+    for image in product_images
+      if image.alt contains 'emptybox'
+        assign swatch_image = image
+        break
+      endif
+    endfor
+  endif
+
+  if product_collection
+    assign url = url | within: product_collection
+    assign current_url = current_url | within: product_collection
+  endif
+%}
+
+<button
+  class="
+    {{c}} {{ modifier }} 
+    {% if url == current_url %} active-option {% endif %}
+    {% unless product.available %} sold-out {% endunless %}
+  "
+  data-component="{{c}}"
+  data-url="{{ url }}"
+  data-product-id="{{ product.id }}"
+  aria-label="Select {{ title }} product variant"
+>
+  <div class="{{c}}__swatch-wrap">
+    {%
+      render 'image',
+      component_class: image_component_class,
+      class: image_class,
+      image: swatch_image,
+      sizes: '0',
+    %}
+
+    {% unless product.available %}
+      {% 
+        render 'component-icon',
+        icon: 'sold-out-cross-large'
+      %}
+    {% endunless %}
+  </div>
+
+  <div class="{{c}}__title body-s">
+    {{ title }}
+  </div>
+
+  {% unless product.available %}
+    <div class="{{c}}__sold-out-text caption">
+      Sold out
+    </div>
+  {% endunless %}
+</button>
+
+<script
+  class="js-relatedProductJson-{{ product.id }}"
+  type="application/json"
+>
+  {{ product | json }}
+</script>

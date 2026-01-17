@@ -1,0 +1,90 @@
+{% liquid
+  assign c = "EditorialCarousel"
+  assign settings = settings | default: false
+  assign blocks = blocks | default: false
+  assign header = settings.header
+  assign caption = settings.caption
+  assign subheader = settings.subheader
+  assign url = settings.url
+  assign url_text = settings.url_text
+  assign background_color = settings.background_color
+  assign media_size = 0
+  assign modifiers = ""
+%}
+
+<section
+  class="{{c}}"
+  data-component="{{c}}"
+  style="background-color:{{ background_color }}"
+>
+  <div class="{{c}}__text-container">
+    {% if header != blank %}
+      <h3 class="{{c}}__header h3">
+        {{ header }}
+      </h3>
+    {% endif %}
+    {% if caption != blank %}
+      <div class="{{c}}__caption subheader">
+        {{ caption }}
+      </div>
+    {% endif %}
+    {% if subheader != blank %}
+      <div class="{{c}}__subheader body">
+        {{ subheader }}
+      </div>
+    {% endif %}
+    {% if url != blank %}
+      <a href="{{ url }}" class="{{c}}__btn cta cta--black">
+        {{ url_text }}
+      </a>
+    {% endif %}
+  </div>
+
+  <div class="{{c}}__carousel-container">
+    <div class="{{c}}__container swiper js-editorialCarousel">
+      <div class="{{c}}__wrapper swiper-wrapper">
+        {% for block in blocks %}
+          {% liquid
+            assign image = block.settings.image | default: false
+            assign video_url = block.settings.video_url | default: false
+            assign alignment = block.settings.alignment | split: ":" | first | default: "center"
+            assign flex_align = block.settings.alignment | split: ":" | last | default: "center"
+            assign quote = block.settings.quote | default: false
+            assign logo = block.settings.logo | default: false
+
+            if image != blank
+              assign media_size = media_size | plus: 1
+            endif
+          %}
+
+          {% render 'editorial-carousel-slide',
+            video_url: video_url,
+            image: image,
+            alignment: alignment,
+            flex_align: flex_align,
+            quote: quote,
+            logo: logo,
+          %}
+        {% endfor %}
+      </div>
+    </div>
+
+    {% if media_size > 0 %}
+      <button
+        class="{{c}}__arrow prev js-editorialCarouselPrev"
+        aria-label="Previous image"
+      >
+        {% render "icon", icon: "arrow-left", component: c %}
+      </button>
+
+      <button
+        class="{{c}}__arrow next js-editorialCarouselNext"
+        aria-label="Next image"
+      >
+        {% render "icon", icon: "arrow-right", component: c %}
+      </button>
+
+      <div class="{{c}}__pagination js-editorialCarouselPagination"></div>
+    {% endif %}
+  </div>
+</section>

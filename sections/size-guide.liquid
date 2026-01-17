@@ -1,0 +1,47 @@
+{% 
+  render 'size-guide-page',
+  section: section.settings,
+  blocks: section.blocks,
+ %}
+
+{% schema %}
+{
+  "name": "Size Guide Page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Header title"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Header text"
+    },
+    {
+      "type": "page",
+      "id": "size_guide_tables_page",
+      "label": "Size guide tables page"
+    }
+  ],
+  "max_blocks": 5,
+  "blocks": [
+    {
+      "name": "Shape",
+      "type": "shape",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "image_picker",
+          "id": "shape_thumb",
+          "label": "Thumbnail image"
+        }        
+      ]
+    }
+  ]
+}
+{% endschema %}

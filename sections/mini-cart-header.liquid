@@ -1,0 +1,220 @@
+{% 
+  render 'mini-cart-header',
+  settings: section.settings,
+  blocks: section.blocks
+%}
+
+{% schema %}
+{
+  "name": "Mini Cart Header",
+  "settings": [
+
+  ],
+  "blocks": [
+    {
+      "type": "tag_gwp",
+      "name": "Tag GWP",
+      "settings": [
+        {
+          "type": "header",
+          "content": "GWP Settings"
+        },
+        {
+          "type": "text",
+          "id": "gwp_id",
+          "label": "GWP Id",
+          "info": "Qualifying products tag: 'gwp-qualifier:<gwp id>'. Gift product tag: 'gwp-gift:<gwp id>'."
+        },
+        {
+          "type": "product",
+          "id": "gift",
+          "label": "Gift"
+        },
+        {
+          "type": "header",
+          "content": "Cart Qualifies State"
+        },
+        {
+          "type": "text",
+          "id": "qualifying_message",
+          "label": "Cart Qualifies Messaging",
+          "default": "Free Gift !",
+          "info": "To disable the banner in cart, leave this settings blank."
+        },
+        {
+          "type": "text",
+          "id": "gift_lineitem_note",
+          "label": "Gift Lineitem Parameter Note",
+          "info": "This text will show as a parameter under product info in cart item."
+        },
+        {
+          "type": "image_picker",
+          "id": "qualifying_image",
+          "label": "Cart Qualifies Image"
+        },
+        {
+          "type": "header",
+          "content": "GWP Styling"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "background color",
+          "default": "#f5f1ed"
+        },
+        {
+          "type": "select",
+          "id": "message_text",
+          "label": "GWP message text color",
+          "options": [
+            {
+              "value": "#fff",
+              "label": "White"
+            },
+            {
+              "value": "#000",
+              "label": "Black"
+            }
+          ],
+          "default": "#000"
+        },
+        {
+          "type": "select",
+          "id": "message_text_align",
+          "label": "GWP message text alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            }
+          ],
+          "default": "center"
+        }
+      ]
+    },
+    {
+      "type": "collection_gwp",
+      "name": "Collection GWP",
+      "settings": [
+        {
+          "type": "header",
+          "content": "GWP Settings"
+        },
+        {
+          "type": "text",
+          "id": "gwp_id",
+          "label": "GWP Id",
+          "info": "Qualifying products tag: 'gwp-qualifier:<gwp id>'. Gift product tag: 'gwp-gift:<gwp id>'."
+        },
+        {
+          "type": "product",
+          "id": "gift",
+          "label": "Gift"
+        },
+        {
+          "type": "header",
+          "content": "Cart Qualifies State"
+        },
+        {
+          "type": "text",
+          "id": "qualifying_message",
+          "label": "Cart Qualifies Messaging",
+          "default": "Free Gift !",
+          "info": "To disable the banner in cart, leave this settings blank."
+        },
+        {
+          "type": "text",
+          "id": "gift_lineitem_note",
+          "label": "Gift Lineitem Parameter Note",
+          "info": "This text will show as a parameter under product info in cart item."
+        },
+        {
+          "type": "image_picker",
+          "id": "qualifying_image",
+          "label": "Cart Qualifies Image"
+        },
+        {
+          "type": "header",
+          "content": "GWP Styling"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "background color",
+          "default": "#f5f1ed"
+        },
+        {
+          "type": "select",
+          "id": "message_text",
+          "label": "GWP message text color",
+          "options": [
+            {
+              "value": "#fff",
+              "label": "White"
+            },
+            {
+              "value": "#000",
+              "label": "Black"
+            }
+          ],
+          "default": "#000"
+        },
+        {
+          "type": "select",
+          "id": "message_text_align",
+          "label": "GWP message text alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            }
+          ],
+          "default": "center"
+        }
+      ]
+    },
+    {
+      "type": "promo_bar",
+      "name": "Cart Promo bar",
+      "settings": [
+        {
+          "type": "text",
+          "id": "cart_message",
+          "label": "Cart message",
+          "default": "Free ground shipping on all domestic orders."
+        },
+        {
+          "type": "color",
+          "id": "cart_message_background",
+          "label": "Cart message background",
+          "default": "#c4b0a9"
+        },
+        {
+          "type": "select",
+          "id": "cart_message_text",
+          "label": "Cart message text color",
+          "options": [
+            {
+              "value": "#fff",
+              "label": "White"
+            },
+            {
+              "value": "#000",
+              "label": "Black"
+            }
+          ],
+          "default": "#000"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,96 @@
+{% liquid
+  assign c = "ProductGridHeader"
+  assign category_links = category_links | default: false
+  assign sort_by = sort_by
+  assign sort_options = sort_options
+  assign filters = filters
+  assign active_filter_count = active_filter_count
+  assign use_algolia = use_algolia | default: false
+%}
+
+<div class="{{c}} js-productGridHeader">
+  <div class="{{c}}__filter-controls">
+    <button
+      class="{{c}}__filter-toggle {{c}}__filter-toggle--mobile js-filterToggleBtn"
+      aria-label="Toggle product filters"
+      aria-controls="#Filter"
+    >
+      <span class="caption">
+        Filter & Sort
+      </span>
+
+      {%
+        render 'component-icon',
+        icon: 'filter-icon'
+      %}
+    </button>
+
+    <button
+      class="{{c}}__filter-toggle {{c}}__filter-toggle--desktop js-filterToggleBtn js-desktopFilterBtn"
+      aria-label="Toggle product filters"
+      aria-controls="#Filter"
+    >
+      <span class="filter-closed-text subheader">
+        Show Filters
+      </span>
+
+      <span class="filter-open-text subheader">
+        Hide Filters
+      </span>
+
+      {%
+        render 'component-icon',
+        icon: 'filter-icon'
+      %}
+    </button>
+
+    <div class="{{c}}__active-filters">
+      {% if use_algolia %}
+        {% render 'algolia-active-filters' %}
+      {% else %}
+        {%
+          render 'active-filters',
+          filters: filters,
+          active_filter_count: active_filter_count,
+        %}
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="{{c}}__count subheader js-resultsCount">
+    {{ collection.products_count }} {{ collection.products_count | pluralize: 'Product', 'Products' }}
+  </div>
+
+  <div class="{{c}}__sort-category-controls">
+    {% if category_links %}
+      <button
+        class="{{c}}__category-links-toggle js-categoryToggleBtn"
+        aria-label="Toggle category links"
+        aria-controls="#CategoryDrawer"
+      >
+        <span class="caption">
+          Shop By Category
+        </span>
+
+        {%
+          render 'component-icon',
+          icon: 'plus-icon'
+        %}
+      </button>
+    {% endif %}
+
+    <div class="{{c}}__sort">
+      {% if use_algolia %}
+        {% render 'algolia-sort',
+          type: 'desktop'
+        %}
+      {% else %}
+        {%
+          render 'sort',
+          sort_by: sort_by,
+          sort_options: sort_options,
+        %}
+      {% endif %}
+    </div>
+  </div>
+</div>

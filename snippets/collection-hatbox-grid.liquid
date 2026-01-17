@@ -1,0 +1,69 @@
+{% liquid
+  assign c = "CollectionHatboxGrid"
+  assign blocks = blocks
+  assign collection = collection
+
+  assign image_component_class = c | append: '__image-wrap'
+  assign image_class = c | append: '__image'
+  assign video_component_class = c | append: '__video-wrap'
+  assign video_class = c | append: '__video'
+  assign control_modifier_class = c | append: '__video-control'
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  {% for block in blocks %}
+    <div 
+      class="{{c}}__shape-wrap js-hatboxShapeContainer"
+      data-shape="{{ block.settings.title | handleize }}"
+      data-index="{{ forloop.index0 }}"
+    >
+      {% if block.settings.video %}
+        {% liquid
+          assign video_src = block.settings.video.sources | where: 'mime_type', 'video/mp4' | first
+          assign video_mobile_src = block.settings.video_mobile.sources | where: 'mime_type', 'video/mp4' | first
+          assign poster = block.settings.banner_image | image_url: width: 1024
+        %}
+        {%
+          render 'video',
+          component_class: video_component_class,
+          class: video_class,
+          video: video_src.url,
+          mobile_video: video_mobile_src.url,
+          poster: poster,
+          control_modifier_class: control_modifier_class,
+        %}
+
+      {% else %}
+        {%
+          render 'image',
+          component_class: image_component_class,
+          class: image_class,
+          image: block.settings.banner_image_mobile,
+          sizes: '300,420,567,660,768',
+          image_2: block.settings.banner_image,
+          sizes_2: '1024,1280,1980,1440',
+        %}
+
+      {% endif %}
+
+      <div class="{{c}}__text-wrap">
+        <h2 class="{{c}}__title h4">
+          {{ block.settings.title }}
+        </h2>
+        
+        <span class="{{c}}__size body">
+          {{ block.settings.size_count }} sizes
+        </span>
+      </div>
+
+      {% 
+        render 'collection-hatbox-product-grid',
+        collection: collection,
+        shape: block.settings.title,
+      %}
+    </div>
+  {% endfor %}
+</div>

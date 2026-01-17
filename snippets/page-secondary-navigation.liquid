@@ -1,0 +1,29 @@
+{% liquid
+  assign c = "PageSecondaryNavigation"
+  assign component_class = component_class | default: ''
+  assign component_container = component_container | default: ''
+  assign list = list | split: "*" | default: false
+%}
+
+<div
+  class="{{c}} {{ component_class }}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__container {{ component_container }} js-secondary-nav-container">
+    <ul class="{{c}}__list js-nav-list">
+      {% for item in list %}
+        {% unless item == blank %}
+          {% assign item_handle = item | handleize %}
+          <li class="{{c}}__item">
+            <a
+              href="#location--{{ item_handle }}"
+              class="{{c}}__link link js-secondary-links"
+            >
+              {{ item }}
+            </a>
+          </li>
+        {% endunless %}
+      {% endfor %}
+    </ul>
+  </div>
+</div>

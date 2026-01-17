@@ -1,0 +1,119 @@
+{% liquid
+  assign c = "CartFooterProduct"
+  assign image_class = c | append: '__image-wrap'
+  assign cart_footer_product_handle = cart_footer_product_handle | default: false
+  assign cart_footer_variant_id = cart_footer_variant_id | default: false
+  assign product = all_products[cart_footer_product_handle] | default: false
+  assign variant = product.first_available_variant | default: false
+  assign variant_size = product.variants | size
+  assign description = product.description | split: '<!-- tab content split -->'
+  assign description = description[1] | split: '<!-- product tab -->' | first
+  assign cart_footer_background_color = section.settings.cart_footer_background_color
+  assign show_price_over_image = section.settings.show_price_over_image | default: false
+  assign use_links = section.settings.cart_footer_use_href | default: false
+  assign cart_footer_text_color = section.settings.cart_footer_text_color | default: '#000'
+
+
+  if cart_footer_variant_id
+    assign cart_footer_variant_id = cart_footer_variant_id | plus: 0 
+    assign variant = product.variants | where: "id", cart_footer_variant_id | first
+  endif
+
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  data-variant-id="{{ variant.id }}"
+  data-variant-price="{{ variant.price | money_without_currency }}"
+  style="background-color: {{ cart_footer_background_color }}; color: {{ cart_footer_text_color }}"
+>
+
+
+
+  {% if use_links %}
+    <a class="{{c}}__image-link" href="{{ variant.url }}">
+  {% else %}
+    <div class="{{c}}__image-link">
+  {% endif %}
+
+    {%
+      render 'image',
+      image: variant.image,
+      sizes: '120',
+      class: image_class
+    %}
+
+    {% if section.settings.show_price_over_image %}
+      <span class="{{c}}__image-price js-priceTotal">{{ variant.price | money }}</span>
+    {% endif %}
+
+  {% if use_links %}
+    </a>
+  {% else %}
+    </div>
+  {% endif %}
+
+  <div class="{{c}}__quantity-selector js-qtySelector">
+    <button
+      class="{{c}}__quantity-btn js-minusQtyBtn"
+      aria-label="Increment quantity of '{{ product.title }} - {{ variant.option1 }}' to be added to cart"
+    >
+      {%
+        render 'component-icon',
+        icon: 'quantity-minus'
+      %}
+    </button>
+
+    <div class="{{c}}__quantity-value body-s js-qtyAmount">
+      1
+    </div>
+
+    <button
+      class="{{c}}__quantity-btn js-addQtyBtn"
+      aria-label="Decrement quantity of '{{ product.title }} - {{ variant.option1 }}' to be added to cart"
+    >
+      {%
+        render 'component-icon',
+        icon: 'quantity-plus'
+      %}
+    </button>
+  </div>
+
+
+  <div class="{{c}}__title-description">
+    {% if use_links %}
+      <a href="{{ variant.url }}">
+    {% else %}
+      <div>
+    {% endif %}
+    
+        <div class="{{c}}__title">
+          {{ product.title }}{% if variant_size > 1 %} - {{ variant.option2 }}{% endif %}
+        </div>
+    
+    {% if use_links %}
+      </a>
+    {% else %}
+      </div>
+    {% endif %}
+
+    <div class="{{c}}__line" style="background-color:{{ cart_footer_text_color }}"></div>
+
+    <div class="{{c}}__description body">{{ description }}</div>
+  </div>
+
+  <div class="{{c}}__total-add">
+
+    {% unless show_price_over_image %}
+      <div class="{{c}}__price js-priceTotal">{{ variant.price | money }}</div>
+    {% endunless %}
+
+    <button
+      class="{{c}}__add-btn btn-copy js-cartFooterAddBtn"
+      aria-label="Add '{{ product.title }} - {{ variant.option1 }}' to cart"
+    >
+      Add
+    </button>
+  </div>
+</div>

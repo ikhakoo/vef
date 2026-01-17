@@ -1,0 +1,33 @@
+{% liquid
+  assign option = option
+  assign value = value
+  assign available_variants = available_variants
+  assign show_only_available = show_only_available | default: false
+  assign show_only_unavailable = show_only_unavailable | default: false
+
+  assign available = true
+  assign option_value = '|' | append: value | append: '|'
+  unless available_variants contains option_value
+    assign available = false
+  endunless
+
+  assign display_option = true
+  if show_only_available
+    unless available
+      assign display_option = false
+    endunless
+  elsif show_only_unavailable
+    if available
+      assign display_option = false
+    endif
+  endif
+%}
+
+{% if display_option %}
+  {%
+    render 'product-option',
+    option: option,
+    value: value,
+    available: available,
+  %}
+{% endif %}

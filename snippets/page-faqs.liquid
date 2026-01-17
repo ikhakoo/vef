@@ -1,0 +1,56 @@
+{% liquid
+  assign c = "PageFaqs"
+  assign section_index = index | default: false
+  assign title = title | default: false
+  assign description = description | default: false
+  assign cta = cta | default: false
+  assign background = background | default: false
+  assign cta_link = cta_link | default: false
+  assign drawers = drawers | default: false
+  assign drawers_arr = drawers | split: '*'
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div
+  class="{{c}}__container"
+  style="background: {{ background }};"
+  >
+  <div class="{{c}}__left">
+    <h2 class="{{c}}__title h4">
+      {{ title }}
+    </h2>
+    <div class="{{c}}__description body">
+      {{ description }}
+    </div>
+  </div>
+  <div class="{{c}}__right">
+    <div class="{{c}}__right-wrapper">
+      <div class="{{c}}__drawers">
+        {% for drawer in drawers_arr %}
+          {% assign header_body_arr = drawer | split: "::" %}
+
+          {% unless header_body_arr == blank %}
+            {% render 'faq-drawer',
+              header: header_body_arr[0],
+              body: header_body_arr[1],
+              index: section_index | append: ":" | append: forloop.index
+            %}
+          {% endunless %}
+        {% endfor %}
+      </div>
+      <div class="{{c}}__footer">
+        {% if cta_link and cta %}
+          <a href="{{ cta_link }}">
+            <button class="{{c}}__cta cta cta--black">
+              {{ cta }}
+            </button>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  </div>
+</div>

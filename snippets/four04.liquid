@@ -1,0 +1,15 @@
+{% liquid
+  assign c = "Four04"
+  assign settings = settings | default: false
+  assign header = settings.header | default: "Sorry"
+  assign body = settings.body | default: "We can’t find the page you were looking for."
+%}
+
+<div
+  class="{{c}}"
+>
+  <div class="{{c}}__container">
+    <h1 class="{{c}}__header h2">{{ header }}</h1>
+    <div class="{{c}}__body body">{{ body }}</div>
+  </div>
+</div>

@@ -1,0 +1,85 @@
+{% liquid
+  assign c = "ProductCardImages"
+  assign featured_image = featured_image
+  assign images = images
+  assign media = media
+  assign lifestyle_images_enabled = lifestyle_images_enabled | default: false
+  assign image_component_class = c | append: '__image-wrap'
+  assign image_class = image_class | default: c
+  assign image_class = image_class | append: "__image"
+  assign js_product_card_image_class = ' js-productCardImage'
+  assign hover_image = false
+  assign hover_image_component_class = c | append: '__hover-image-wrap js-productCardHoverImage'
+  assign hover_image_class = c | append: '__hover-image'
+  assign hover_image_alt = ''
+
+  for image in images
+    assign image_alt = image.alt | downcase
+
+    if image_alt contains 'hover image'
+      assign hover_image = image
+      assign hover_image_alt = image.alt | remove_first: 'hover image'
+      break
+    endif
+  endfor
+
+  assign featured_image_src = featured_image
+  assign hover_image_src = hover_image
+  if lifestyle_images_enabled and hover_image
+    assign featured_image_src = hover_image
+    assign hover_image_src = featured_image
+    assign hover_image_component_class = hover_image_component_class | append: js_product_card_image_class
+  else
+    assign image_component_class = image_component_class | append: js_product_card_image_class
+  endif
+
+  assign hover_video = false
+  assign product_videos = media | where: 'media_type', 'video'
+  for video in product_videos
+    assign alt = video.alt | downcase
+    if alt contains 'hover video'
+      assign hover_video = video
+      break
+    endif
+  endfor
+
+  assign show_hover_video = hover_video | default: false
+  if lifestyle_images_enabled
+    assign show_hover_video = false
+  endif
+%}
+
+<div 
+  class="
+    {{c}} 
+    {% if lifestyle_images_enabled %} lifestyle-images-enabled {% endif %}
+    {% if show_hover_video %} has-hover-video {% endif %}
+  "
+>
+  {%
+    render 'image',
+    component_class: image_component_class,
+    class: image_class,
+    image: featured_image_src,
+    sizes: '325,425,600',
+  %}
+
+  {% if hover_image %}
+    {%
+      render 'image',
+      component_class: hover_image_component_class,
+      class: hover_image_class,
+      image: hover_image_src,
+      sizes: '325,425,600',
+      alt: hover_image_alt,
+    %}
+  {% endif %}
+
+  {% if show_hover_video %}
+    {%
+      render 'product-card-video',
+      video: hover_video,
+      poster: hover_image_src,
+    %}
+  {% endif %}
+</div>

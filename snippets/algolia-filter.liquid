@@ -1,0 +1,55 @@
+{% liquid
+  assign c = "AlgoliaFilter"
+  assign filters = "Price::price_range, Floral Color::options.floral_color, Vessel Material::meta.custom.vessel_material, Vessel Shape::meta.custom.vessel_shape" | split: ","
+%}
+
+<div
+  class="{{c}} js-filterDrawer"
+  id="{{c}}"
+  aria-hidden="true"
+  aria-expanded="false"
+>
+  <div class="{{c}}__header">
+    <div class="{{c}}__header-content">
+        <div class="{{c}}__title subheader">
+          Filter & Sort
+        </div>
+    </div>
+
+    <button
+      class="{{c}}__close-filter js-filterToggleBtn"
+      aria-label="Close filters"
+    >
+      {%
+        render 'component-icon',
+        icon: 'close-icon'
+      %}
+    </button>
+  </div>
+  <div class="{{c}}__body">
+
+    <div class="{{c}}__sort">
+      {% render 'algolia-sort', type: 'mobile' %}
+    </div>
+
+    {% liquid
+      for filter in filters
+        assign filterItem = filter | split: "::"
+        assign label = filterItem[0]
+        assign type = filterItem[1]
+        render 'algolia-filter-category', type: type, label: label
+      endfor
+    %}
+  </div>
+
+  <div class="{{c}}__footer">
+    {% render 'filter-clear' %}
+
+    <button
+      class="{{c}}__view-btn btn-copy js-filterToggleBtn"
+      aria-label="View results"
+    >
+      View Results
+    </button>
+  </div>
+</div>

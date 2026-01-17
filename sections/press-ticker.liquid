@@ -1,0 +1,81 @@
+{%
+  render 'press-ticker',
+  section: section.settings,
+%}
+
+{% schema %}
+{
+  "name": "Press Ticker",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Featured In"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#F5F1ED"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#AC9890"
+    },
+    {
+      "type": "header",
+      "content": "Featured Logos"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_nyt",
+      "label": "Enable New York Times",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_forbes",
+      "label": "Enable Forbes",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_bazaar",
+      "label": "Enable Bazaar",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_vogue",
+      "label": "Enable Vogue",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_allure",
+      "label": "Enable Allure",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_marie-claire",
+      "label": "Enable Marie Claire",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_cosmopolitan",
+      "label": "Enable Cosmopolitan",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Press Ticker"
+    }
+  ]
+}
+{% endschema %}

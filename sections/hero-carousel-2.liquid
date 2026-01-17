@@ -1,0 +1,160 @@
+{% render 'hero-carousel-2',
+  blocks: section.blocks
+%}
+
+{% schema %}
+{
+  "name": "Hero",
+  "blocks": [
+    {
+      "type": "carousel-block",
+      "name": "Carousel Block Contents",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "select",
+          "id": "alignment",
+          "label": "Carousel Block Media Alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_desktop",
+          "label": "Carousel Block Image (Desktop)"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Carousel Block Image (Mobile)"
+        },
+        {
+          "type": "text",
+          "id": "video_url",
+          "label": "Hero Video Desktop (Overrides Image)"
+        },
+        {
+          "type": "text",
+          "id": "video_url_mobile",
+          "label": "Hero Video Mobile (Optional)"
+        },
+        {
+          "type": "select",
+          "id": "background_color",
+          "label": "Carousel Block Text Background",
+          "options": [
+            {
+              "value": "white",
+              "label": "White"
+            },
+            {
+              "value": "black",
+              "label": "Black"
+            },
+            {
+              "value": "#EB59a9",
+              "label": "pink"
+            },
+            {
+              "value": "#388A96",
+              "label": "teal"
+            },
+            {
+              "value": "#8F9DAC",
+              "label": "dusty blue"
+            },
+            {
+              "value": "#BAD5E3",
+              "label": "powder blue"
+            },
+            {
+              "value": "#F2716D",
+              "label": "coral"
+            },
+            {
+              "value": "#F0B9A8",
+              "label": "peach"
+            },
+            {
+              "value": "#82BFB9",
+              "label": "emerald"
+            },
+            {
+              "value": "#65B4E0",
+              "label": "electric blue"
+            },
+            {
+              "value": "#DCE8E7",
+              "label": "seafoam green"
+            },
+            {
+              "value": "#F5EBED",
+              "label": "powder pink"
+            },
+            {
+              "value": "#D8D5E3",
+              "label": "soft lavender"
+            },
+            {
+              "value": "#C4B0A9",
+              "label": "cocoa"
+            },
+            {
+              "value": "#E5D9D3",
+              "label": "latte"
+            },
+            {
+              "value": "#F5F1ED",
+              "label": "cream"
+            }
+          ],
+          "default": "#F5EBED"
+        },
+        {
+          "type": "text",
+          "id": "header",
+          "label": "Carousel Block Title"
+        },
+        {
+          "type": "text",
+          "id": "date",
+          "label": "Date"
+        },
+        {
+          "type": "textarea",
+          "id": "copy",
+          "label": "Carousel Block Caption"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "Carousel Block CTA Text"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "Carousel Block CTA URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Carousel 2"
+    }
+  ],
+  "templates": [
+    "index",
+    "list-collections"
+  ]
+}
+{% endschema %}

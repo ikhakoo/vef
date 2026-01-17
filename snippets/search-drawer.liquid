@@ -1,0 +1,70 @@
+{% liquid
+  assign c = "SearchDrawer"
+  assign section = section
+  assign blocks = blocks
+  assign terms = blocks | where: 'type', 'top-search-term'
+%}
+
+<div
+  class="{{c}} js-searchDrawer"
+  id="{{c}}"
+  data-component="{{c}}"
+  data-enable-autocomplete-search="{{ section.enable_autocomplete_search }}"
+  aria-hidden="true"
+  aria-expanded="false"
+>
+  <div class="{{c}}__header">
+    <button 
+      class="{{c}}__close-drawer js-searchToggleBtn"
+      aria-label="Close search drawer"
+    >
+      {%
+        render 'component-icon',
+        icon: 'close-icon'
+      %}
+    </button>
+
+    <div class="{{c}}__title subheader">
+      Search
+    </div>
+  </div>
+
+  <div class="{{c}}__body">
+    <div class="{{c}}__input-wrap">
+      {% 
+        render 'autocomplete-search-input',
+        placeholder_text: section.input_placeholder,
+        enable_autocomplete_search: section.enable_autocomplete_search,
+      %}
+    </div>
+    
+    <div class="{{c}}__search-body">
+      {% if section.enable_autocomplete_search %}
+        <div class="{{c}}__search-categories-wrap">
+          {% render 'autocomplete-search-product-hits' %}
+    
+          {% render 'autocomplete-search-collection-hits' %}
+    
+          {% render 'autocomplete-search-blog-page-hits' %}
+  
+          {% 
+            render 'autocomplete-search-empty-state',
+            title: section.empty_search_title,
+            text: section.empty_search_text,
+            reset_btn_text: section.reset_btn_text,
+          %}
+        </div>
+      {% endif %}
+
+      {% if section.enable_top_searches %}
+        <div class="{{c}}__top-searches-wrap">
+          {%
+            render 'search-drawer-top-searches',
+            title: section.top_searches_title,
+            blocks: terms,
+          %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>

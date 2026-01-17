@@ -1,0 +1,49 @@
+{% liquid
+  assign c = "AccountAddresses"
+  assign numAddresses = customer.addresses_count
+%}
+
+<div
+  class="{{c}} js-section {% if numAddresses == 0 %}no-address{% endif %}"
+  data-component="{{c}}"
+  data-section="addresses"
+>
+  {% if numAddresses == 0 %}
+    <div class="{{c}}__copy body">You have no addresses.
+      <span class="{{c}}__add-address">
+        <button
+          class="{{c}}__add-first-address body js-address-action"
+          data-action="add"
+          type="button"
+        >
+          Add address.
+        </button>
+      <span>
+    </div>
+  {% else %}
+    {% paginate customer.addresses by 10 %}
+      {% render 'account-address', address: customer.default_address %}
+      {% for address in customer.addresses %}
+        {% unless address == customer.default_address %}
+          {% render 'account-address', address: address %}
+        {% endunless %}
+      {% endfor %}
+      <div class="{{c}}__add-address">
+        <button
+          class="{{c}}__add-address-btn cta cta--black js-address-action"
+          data-action="add"
+          type="button"
+        >
+          Add New Address
+        </button>
+      </div>
+      <div class="{{c}}__pagination">
+        {% render 'pagination', paginate: paginate %}
+      </div>
+    {% endpaginate %}
+  {% endif %}
+  {% render 'account-address-modal',
+    action: 'add',
+    header: 'add new address'
+  %}
+</div>

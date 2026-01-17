@@ -1,0 +1,35 @@
+{% liquid
+  assign c = "AccountAddressModal"
+  assign address = address
+  assign action = action
+  assign header = header
+%}
+
+<div
+  class="{{c}} js-address-modal"
+  data-component="{{c}}"
+  data-action="{{ action }}"
+  aria-hidden="true"
+  aria-expanded="false"
+  {% if address %}
+    data-address-id="{{ address.id }}"
+  {% endif %}
+>
+  <div class="{{c}}__form-wrapper">
+    <div class="{{c}}__header  subheader">{{ header }}</div>
+    {% render 'account-address-form',
+      address: address,
+      action: action
+    %}
+    <button
+      class="{{c}}__close js-close"
+      type="button"
+      aria-label="close address modal"
+    >
+      {% render 'icon',
+        icon: 'close',
+        component: c
+      %}
+    </button>
+  </div>
+</div>

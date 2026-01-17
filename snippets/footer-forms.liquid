@@ -1,0 +1,18 @@
+{% liquid
+  assign c = "FooterForms"
+  assign settings = settings | default: false
+  assign klaviyo_email_id = settings.klaviyo_email_id | default: false
+  assign klaviyo_phone_id = settings.klaviyo_phone_id | default: false
+%}
+
+<div
+  class="{{c}}"
+>
+  <div class="{{c}}__form {{c}}__form--email">
+    <div class="klaviyo-form-{{ klaviyo_email_id }}"></div>
+  </div>
+
+  {% comment %} <div class="{{c}}__form {{c}}__form--sms">
+    <div class="klaviyo-form-{{ klaviyo_phone_id }}"></div>
+  </div> {% endcomment %}
+</div>

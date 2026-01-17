@@ -1,0 +1,47 @@
+{% liquid
+  assign c = "CorporateSteps"
+  assign list_arr = list | split: "*" | default: false
+  assign header = header | default: false
+  assign email_text = email_text | default: false
+  assign email = email | default: false
+  assign step_count = 1
+%}
+
+<div
+  class="{{c}}"
+>
+  <div class="{{c}}__container">
+
+    <h2 class="{{c}}__header h4">
+      {{ header }}
+    </h2>
+
+    <ul class="{{c}}__list-container">
+      {% for item in list_arr %}
+        {% unless item == blank %}
+          <li class="{{c}}__item">
+            <div class="{{c}}__index-container h4">
+              <span class="{{c}}__index">
+                {{ step_count }}
+              </span>
+            </div>
+            <div class="{{c}}__item-header subheader">
+              Step {{ step_count }}
+            </div>
+            <div class="{{c}}__item-body body">
+              {{ item }}
+            </div>
+          </li>
+          {% assign step_count = step_count | plus: 1 %}
+        {% endunless %}
+      {% endfor %}
+    </ul>
+
+    <a
+      href="#CorporateForm"
+      class="{{c}}__btn btn-copy cta--black"
+    >
+      {{ email_text }}
+    </a>
+  </div>
+</div>

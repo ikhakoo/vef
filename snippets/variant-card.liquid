@@ -1,0 +1,86 @@
+{% liquid
+  assign c = "VariantCard"
+  assign variant = variant | default: false
+  assign featured_product = variant.product
+  assign url = variant.url
+  assign options = variant.options
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  data-id="{{ variant.id }}"
+  data-available="{{ variant.available }}"
+>
+  <a class="{{c}}__image-link" 
+    href="{{ url }}"
+  >
+    <div class="{{c}}__top">
+      {% render 'product-card-wishlist-btn'
+        product: featured_product,
+        current_variant: variant
+      %}
+    </div>
+
+    {%
+      render 'product-card-images',
+      featured_image: variant.featured_image,
+      images: featured_product.images
+    %}
+  </a>
+
+  <div class="{{c}}__details-wrap">
+    <div class="{{c}}__details">
+      <a 
+        class="{{c}}__text-link" 
+        href="{{ url }}"
+      >
+        <div class="{{c}}__info">
+          <div class="{{c}}__title body-s">
+            {{ featured_product.title }}
+          </div>
+          <div class="{{c}}__options caption">
+            <span>{{ options[0] }}</span>
+            {% if options[1] %}
+              <span>{{ options[1] }}</span>
+            {% endif %}
+          </div>
+        </div>
+      </a>
+
+      <div class="{{c}}__footer">
+        <button 
+          class="{{c}}__submit cta js-quickAdd"
+          name="quick-add"
+          type="button"
+          {% unless variant.available %}disabled{% endunless %}
+        >
+          {% if variant.available %}
+              <span class="{{c}}__icon">
+                {%
+                  render 'component-icon',
+                  icon: 'quick-shop-bag',
+                %}
+              </span>
+              <span class="{{c}}__price">
+                {{ variant.price | money_without_trailing_zeros }}
+              </span> 
+          {% else %}
+            <span class="oos">Sold Out</span>
+          {% endif %}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  {% render "product-checkout-attributes",
+    product: featured_product,
+  %}
+
+  <script
+    class="js-pageTitle"
+    type="application/json"
+  >
+    {{ page.title }}
+  </script>
+</div>

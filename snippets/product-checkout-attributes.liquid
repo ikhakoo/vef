@@ -1,0 +1,34 @@
+{% liquid
+  assign c = "ProductCheckoutAttributes"
+  assign product = product | default: false
+%}
+
+{% comment %}
+  Add line item properties for use in calendar checkout extension
+{% endcomment %}
+
+
+{% if product.tags contains 'calendar-min-spend-override' %}
+  <input
+    type="hidden"
+    name="_calendar_min_spend_override"
+    class="js-lineItemProperty"
+    value="true"
+  >
+{% endif %}
+{% if product.tags contains 'calendar-pre-order' %}
+  <input
+    type="hidden"
+    name="_pre_order"
+    class="js-lineItemProperty"
+    value="true"
+  >
+{% endif %}
+{% if product.tags contains 'calendar-disqualify' %}
+  <input
+    type="hidden"
+    name="_calendar_disqualified"
+    class="js-lineItemProperty"
+    value="true"
+  >
+{% endif %}

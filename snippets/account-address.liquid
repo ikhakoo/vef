@@ -1,0 +1,168 @@
+{% liquid
+  assign c = "AccountAddress"
+  assign settings = settings | default: false
+  assign address = address
+  assign default_address_form_class = c | append: '__default-address'
+  assign modifiers = ''
+  if address == customer.default_address
+    assign modifiers = c | append: '--default-address'
+  endif
+%}
+
+{% capture hidden_form_fields %}
+  <input
+    type="hidden"
+    name="address[first_name]"
+    value="{{ address.first_name }}"
+  >
+  <input
+    type="hidden"
+    name="address[last_name]"
+    value="{{ address.last_name }}"
+  >
+  <input
+    type="hidden"
+    name="address[company]"
+    value="{{ address.company }}"
+  >
+  <input
+    type="hidden"
+    name="address[address1]"
+    value="{{ address.address1 }}"
+  >
+  <input
+    type="hidden"
+    name="address[address2]"
+    value="{{ address.address2 }}"
+  >
+  <input
+    type="hidden"
+    name="address[city]"
+    value="{{ address.city }}"
+  >
+  <input
+    type="hidden"
+    name="address[country]"
+    value="{{ address.country }}"
+  >
+  <input
+    type="hidden"
+    name="address[province]"
+    value="{{ address.province }}"
+  >
+  <input
+    type="hidden"
+    name="address[zip]"
+    value="{{ address.zip }}"
+  >
+  <input
+    type="hidden"
+    name="address[default]"
+    value="1"
+  >
+{% endcapture %}
+
+<div class="{{c}} {{ modifiers }}">
+  {% if address == customer.default_address %}
+    <div class="{{c}}__default-intro">
+      <span class="{{c}}__default-intro-copy subheader">Default Address:</span>
+    </div>
+  {% endif %}
+
+  <div class="{{c}}__main">
+    <div class="{{c}}__details">
+      {% if address.name != blank %}
+        <span class="{{c}}__name body">{{ address.name }}</span>
+      {% else %}
+        <span class="{{c}}__name body">{{ customer.name }}</span>
+      {% endif %}
+      {% if address.street != blank
+        and address.city != blank
+        and address.province_code != blank
+        and address.zip != blank
+      %}
+        <span class="{{c}}__street body">
+          {{ address.street }}<br>
+          {{ address.city }}, {{ address.province_code }}, {{ address.zip }}
+        </span>
+      {% endif %}
+      {% if address.country != blank %}
+        <span class="{{c}}__country body">{{ address.country }}</span>
+      {% endif %}
+    </div>
+
+    <div class="{{c}}__actions">
+      <div class="{{c}}__address-action-btns">
+        <button
+          class="{{c}}__edit-address body-s js-address-action"
+          data-action="edit"
+          type="button"
+          id="EditFormButton_{{ address.id }}"
+          aria-label="edit address {{ forloop.index }}"
+          aria-controls="EditAddress_{{ address.id }}"
+          aria-expanded="false"
+          data-address-id="{{ address.id }}"
+        >
+          Edit
+        </button>
+
+        <button
+          class="{{c}}__edit-address body-s js-address-action"
+          data-action="delete"
+          type="button"
+          id="DeleteFormButton_{{ address.id }}"
+          aria-label="delete address {{ forloop.index }}"
+          aria-controls="DeleteAddress_{{ address.id }}"
+          aria-expanded="false"
+          data-address-id="{{ address.id }}"
+        >
+          Delete
+        </button>
+
+        {% render 'account-address-modal',
+          address: address,
+          action: 'edit',
+          header: 'edit address'
+        %}
+        {% render 'account-delete-modal',
+          address: address,
+          action: 'delete',
+          index: forloop.index
+        %}
+      </div>
+      {% unless address == customer.default_address %}
+        {% form 'customer_address', address,
+          class: default_address_form_class
+        %}
+          {{ hidden_form_fields }}
+          <input
+            id="address_default_address_{{ address.id }}"
+            class="{{c}}__checkbox CustomForm__checkbox"
+            type="checkbox"
+            {% if address == customer.default_address %}
+            checked
+            {% endif %}
+          >
+          <label
+            for="address_default_address_{{ address.id }}"
+          >
+            <button
+              class="{{c}}__checkbox-label {{c}}__make-default CustomForm__checkbox-label"
+              type="submit"
+              aria-label="make default address"
+            >
+              <div class="CustomForm__check-wrap">
+                <div class="CustomForm__check">
+                  {% render 'icon', icon: 'check' %}
+                </div>
+              </div>
+              <span class="body-s">
+                Make Default
+              </span>
+            </button>
+          </label>
+        {% endform %}
+      {% endunless %}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+{% liquid
+  assign c = "AlgoliaSort"
+  assign type = type | camelize | default: false
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  data-type="{{ type }}"
+>
+  <div class="{{c}}__label subheader">
+    Sort By:
+  </div>
+
+  <button
+    class="{{c}}__toggle js-sortToggleBtn"
+    aria-label="Toggle search options"
+    aria-controls="#SortOptions{{ type }}"
+  >
+    <span class="{{c}}__subheader subheader">
+      Sort By:
+
+      <span class="{{c}}__active-sort js-activeSort">Relevance</span>
+    </span>
+
+    {%
+      render 'component-icon',
+      icon: 'chevron-icon'
+    %}
+  </button>
+
+  <div class="js-algoliaSort{{ type }}"></div>
+</div>

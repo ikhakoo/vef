@@ -1,0 +1,151 @@
+{% liquid
+  assign c = "QuickShopProductOptions"
+  assign product = product
+  assign current_variant = current_variant
+  assign product_image_swatch_options = settings.product_image_swatch_options
+  assign product_specific_image_swatch_options = settings.product_specific_image_swatch_options
+
+  assign related_products = false
+  for collection in product.collections
+    if collection.handle contains '-novariantlimit'
+      assign related_products = collection.products
+    endif
+  endfor
+
+  assign available_variants = ''
+  for variant in product.variants
+    if variant.available
+      assign variant_options = ''
+
+      for value in variant.options
+        assign option_value = '|' | append: value | append: '|'
+        assign variant_options = variant_options | append: option_value
+      endfor
+
+      assign available_variants = available_variants | append: variant_options
+    endif
+  endfor
+
+  assign is_homeware = false
+  if product.template_suffix == 'homeware'
+    assign is_homeware = true
+  endif
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  data-locale="{{ localization.language.iso_code | json }}"
+  data-currency="{{ shop.currency | json }}"
+>
+  {%
+    render 'quick-shop-product-info',
+    product: product,
+    current_variant: current_variant,
+  %}
+
+  <div class="{{c}}__tabs-container">
+    <div 
+      class="{{c}}__tabs-list"
+      role="tablist"
+      aria-label="Product Option Tabs"
+    >
+      {% for option in product.options_with_values %}
+        {% liquid
+          assign tab_id = 'product-option-tab-' | append: forloop.index
+          assign panel_id = 'product-option-panel-' | append: forloop.index
+          assign option_name = option.name | downcase
+        %}
+
+        <button 
+          id="{{ tab_id }}"
+          class="{{c}}__tab-button caption js-tabBtn"
+          role="tab"
+          aria-selected="{{ forloop.first }}"
+          aria-controls="{{ panel_id }}"
+          data-option-name="{{ option_name }}"
+        >
+          {%
+            render 'product-option-name',
+            option_name: option.name
+          %}
+        </button>
+      {% endfor %}
+
+      <button 
+        id="product-option-tab-card"
+        class="{{c}}__tab-button caption js-tabBtn"
+        role="tab"
+        aria-selected="false"
+        aria-controls="product-option-panel-card"
+        data-option-name="card"
+      >
+        Card
+      </button>
+    </div>
+
+    {% for option in product.options_with_values %}
+      {% liquid
+        assign tab_id = 'product-option-tab-' | append: forloop.index
+        assign panel_id = 'product-option-panel-' | append: forloop.index
+        assign option_name = option.name | downcase
+        assign values_count = option.values | size
+      %}
+
+      <div 
+        id="{{ panel_id }}"
+        class="{{c}}__tab-panel js-tabPanel"
+        role="tabpanel"
+        aria-labelledby="{{ tab_id }}"
+        {% unless forloop.first %} hidden {% endunless %}
+      >
+        {%
+          if related_products and
+          values_count == 1 and
+          forloop.index == 1
+        %}
+          {%
+            render 'quick-shop-related-product-options',
+            product: product,
+            option: option,
+            related_products: related_products,
+          %}
+
+        {%
+          elsif product_image_swatch_options contains option_name or
+          product_specific_image_swatch_options contains option_name
+        %}
+          {%
+            render 'quick-shop-image-options',
+            product: product,
+            option_name: option_name,
+            option: option,
+            available_variants: available_variants,
+            product_specific_image_swatch_options: product_specific_image_swatch_options,
+            is_homeware: is_homeware,
+          %}
+
+        {% else %}
+          {%
+            render 'quick-shop-text-options',
+            product: product,
+            option_name: option_name,
+            option: option,
+            available_variants: available_variants,
+          %}
+
+        {% endif %}
+      </div>
+    {% endfor %}
+
+    <div 
+      id="product-option-panel-card"
+      class="{{c}}__tab-panel js-tabPanel"
+      role="tabpanel"
+      aria-labelledby="product-option-tab-card"
+      hidden
+    >
+      {% render 'quick-shop-product-card' %}
+    </div>
+  </div>
+</div>

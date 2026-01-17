@@ -1,0 +1,127 @@
+{% liquid
+  assign c = "SizeGuideLandingPageTable"
+  assign section = section
+  assign blocks = blocks
+
+  assign disclaimer = section.disclaimer | default: false
+  assign image_component_class = c | append: '__image-wrap'
+  assign image_class = c | append: '__image'
+%}
+
+<div 
+  class="js-sizeGuideLandingPageTable"
+  data-shape="{{ section.title | handleize }}"
+>
+  <div 
+    class="{{c}}"
+    data-component="{{c}}"
+  >
+    <div class="{{c}}__header">
+      <h2 class="{{c}}__title h5">
+        {{ section.title }}
+      </h2>
+
+      <button 
+        class="{{c}}__unit-toggle-btn js-tableUnitToggleBtn"
+        aria-label="Switch to metric units"
+      >
+        <span class="{{c}}__toggle-btn-text {{c}}__toggle-btn-text--imperial body-s">
+          In
+        </span>
+
+        <span class="{{c}}__toggle-btn-text {{c}}__toggle-btn-text--metric body-s">
+          Cm
+        </span>
+      </button>
+    </div>
+
+    <div class="{{c}}__container swiper js-sizeGuideTableContainer">
+      <div class="{{c}}__wrapper swiper-wrapper">
+        <div class="{{c}}__slide swiper-slide">
+          <div class="{{c}}__table">
+            {% for block in blocks %}
+              <div class="{{c}}__column">
+                <div class="{{c}}__cell">
+                  <div class="{{c}}__size-title body">
+                    {{ block.settings.title }}
+                  </div>
+                </div>
+        
+                <div class="{{c}}__cell">
+                  <div class="{{c}}__label caption">
+                    # of roses
+                  </div>
+                  <div class="{{c}}__cell-text subheader">
+                    {{ block.settings.number_of_roses }}
+                  </div>
+                </div>
+        
+                <div class="{{c}}__cell">
+                  <div class="{{c}}__label caption">
+                    Size
+                  </div>
+                  <div class="{{c}}__cell-text {{c}}__cell-text--imperial subheader">
+                    {{ block.settings.size_in }}
+                  </div>
+                  <div class="{{c}}__cell-text {{c}}__cell-text--metric subheader">
+                    {{ block.settings.size_cm }}
+                  </div>
+                </div>
+        
+                <div class="{{c}}__cell">
+                  <div class="{{c}}__label caption">
+                    Weight
+                  </div>
+                  <div class="{{c}}__cell-text {{c}}__cell-text--imperial subheader">
+                    {{ block.settings.weight_lbs }}
+                  </div>
+                  <div class="{{c}}__cell-text {{c}}__cell-text--metric subheader">
+                    {{ block.settings.weight_kg }}
+                  </div>
+                </div>
+        
+                <div class="{{c}}__cell">
+                  <a 
+                    class="{{c}}__img-link"
+                    href="{{ block.settings.url }}" 
+                    title="{{ block.settings.url_text }}"
+                  >
+                    {%
+                      render 'image',
+                      component_class: image_component_class,
+                      class: image_class,
+                      image: block.settings.page_img,
+                      sizes: '325,425,525,600',
+                    %}
+        
+                    <span class="{{c}}__link-text link">
+                      {{ block.settings.url_text }}
+                    </span>
+                  </a>
+                </div>
+        
+                <div class="{{c}}__cell">
+                  <div class="{{c}}__label caption">
+                    Notes
+                  </div>
+                  <div class="{{c}}__cell-text subheader">
+                    {{ block.settings.notes }}
+                  </div>
+                </div>
+        
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      
+      {% if disclaimer %}
+        <div class="{{c}}__disclaimer body-s">
+          {{ disclaimer }}
+        </div>
+      {% endif %}
+
+      <div class="{{c}}__scroll-bar js-sizeGuideTableScrollBar"></div>
+    </div>
+  </div>
+</div>

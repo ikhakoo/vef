@@ -1,0 +1,47 @@
+{% liquid
+  assign c = "ProductRoseOptions"
+  assign option = option
+  assign value = value
+  assign available_variants = available_variants
+  assign show_only_available = show_only_available | default: false
+  assign show_only_unavailable = show_only_unavailable | default: false
+
+  assign image_filename = value | handleize | append: '.png'
+  assign swatch_image = images[image_filename]
+
+  assign available = true
+  assign option_value = '|' | append: value | append: '|'
+  unless available_variants contains option_value
+    assign available = false
+  endunless
+
+  assign display_option = true
+  if show_only_available
+    unless available
+      assign display_option = false
+    endunless
+  elsif show_only_unavailable
+    if available
+      assign display_option = false
+    endif
+  endif
+
+  assign hidden_options = settings.product_variant_values_to_hide | split: ","
+  for option in hidden_options
+    if option == value
+      assign display_option = false
+    endif
+  endfor
+%}
+
+{% if display_option %}
+  <div class="{{c}}__value">
+    {%
+      render 'product-option',
+      option: option,
+      value: value,
+      swatch_image: swatch_image,
+      available: available,
+    %}
+  </div>
+{% endif %}

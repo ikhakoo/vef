@@ -1,0 +1,35 @@
+{% liquid
+  assign c = "UtilityHero"
+  assign fields = page.metafields.utilities | default: false
+  assign header = fields.hero_header | default: false
+  assign image = fields.hero_bkgd_img | default: false
+  assign image_mobile = fields.hero_bkgd_img_mobile | default: image
+  assign background_color = fields.hero_bkgd_color | default: false
+  assign color = fields.hero_color | default: false
+  assign image_component_class = c | append: "__image-container"
+  assign image_class = c | append: "__image"
+%}
+
+<div
+  class="{{c}}"
+  style="background-color: {{ background_color }}"
+>
+
+  {% if image %}
+    {% render 'image',
+      component_class: image_component_class,
+      class: image_class,
+      image: image_mobile[0],
+      sizes: "350",
+      image_2: image[0],
+      sizes_2: "768, 1024, 1200"
+    %}
+  {% endif %}
+
+  <h1
+    class="{{c}}__header h2"
+    style="color: {{ color }}"
+  >
+    {{ header }}
+  </h1>
+</div>

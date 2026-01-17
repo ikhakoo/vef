@@ -1,0 +1,55 @@
+{% liquid
+  assign c = "UtilityNavigation"
+  assign utility_nav = utility_nav | default: false
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__container js-accordionParent">
+    <button
+      class="{{c}}__mobile-toggle link js-accordionItemToggle"
+      aria-label="Open Utility Navigation section"
+      aria-controls="{{c}}__list"
+    >
+      <div class="{{c}}__mobile-toggle-container">
+        <span class="{{c}}__mobile-toggle-text">{{ page.title }}</span>
+        {% render 'icon', icon: 'caret-down', component: c %}
+      </div>
+    </button>
+    <ul 
+      class="{{c}}__list js-accordionItemContent"
+      aria-expanded="false"
+      aria-hidden="true"
+      id="{{c}}__list"
+    >
+      {% for link in utility_nav %}
+        <li 
+          class="{{c}}__item"
+        >
+          <a 
+            href= "{{ link.url }}"
+            class="{{c}}__link {% if link.active %}{{c}}__link--active{% endif %}"
+          >
+            {{ link.title }}
+          </a>
+          {% if link.active and link.links != blank %}
+            <ul class="{{c}}__child-list">
+              {% for child_link in link.links %}
+                <li class="{{c}}__child-item">
+                  <a 
+                    href="{{ child_link.url }}"
+                    class="{{c}}__child-link caption"
+                  >
+                  {{ child_link.title }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>

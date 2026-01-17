@@ -1,0 +1,55 @@
+{% liquid
+  assign c = "MiniCartProgress"
+  assign settings = settings
+  assign blocks = blocks
+  assign num_blocks = blocks | size
+%}
+
+<div
+  class="{{c}} {% if num_blocks == 0 %}hide{% endif %}"
+  data-component="{{c}}"
+  data-min-spend="{{ settings.min_spend }}"
+  data-max-spend="{{ settings.max_spend }}"
+>
+  <div class="{{c}}__wrapper js-progressBar">
+
+    <div class="{{c}}__progress-prompt body-s">
+      <div class="{{c}}__incomplete js-progressIncomplete">
+        <div class="{{c}}__incomplete-prompt">
+          <span class="{{c}}__previous-gifts js-previousGifts active"></span>
+          Add <span class="js-amountUntilNextMilestone"></span> for <span class="js-nextMilestoneReward"></span>.
+        </div>
+      </div>
+      <div class="{{c}}__complete js-progressComplete">{{ settings.progress_complete }}</div>
+    </div>
+    
+    <div class="{{c}}__bar">
+      <div
+        class="{{c}}__bar-fill js-progressFill"
+        style="background: {{ settings.progress_color }};"
+      >
+      </div>
+    </div>
+
+    <div class="{{c}}__bar-labels">
+      {% for block in blocks %}
+        {% case block.type %}
+          {% when 'milestone' %}
+            <div class="{{c}}__bar-label caption js-progressPrompt">
+              
+              {% assign gift_object = all_products[block.settings.gift] %}
+              <div 
+                class="{{c}}__milestone js-minSpendBlock"
+                data-step-index="{{ forloop.index }}"
+                data-step-max="{{ block.settings.max_spend }}"
+                data-step-label="{{ block.settings.reward_text }}"
+                data-step-gift="{{ gift_object.first_available_variant.id }}"
+              >
+                {{ block.settings.title }}
+              </div>
+            </div>
+        {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
+</div>

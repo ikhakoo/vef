@@ -1,0 +1,59 @@
+{% liquid
+  assign c = "ProductCollectionFeature"
+  assign collection = collection | default: false
+  assign default_collection = default_collection | default: false
+  
+  assign display_collection = collection
+  assign field = collection.metafields.pdp_collection_info | default: false
+  unless field
+    assign display_collection = default_collection
+    assign field = default_collection.metafields.pdp_collection_info | default: false
+  endunless
+  
+  assign image_component_class = c | append: '__image-wrap'
+  assign image_class = c | append: '__image'
+%}
+
+{% if field %}
+  <div class="{{c}}">
+    {% if field.title %}
+      <div class="{{c}}__title h3">
+        {{ field.title }}
+      </div>
+    {% endif %}
+    
+    <div class="{{c}}__info-wrap">
+      {% if field.text %}
+        <div class="{{c}}__text body">
+          {{ field.text.markdown }}
+        </div>
+      {% endif %}
+  
+      <a 
+        class="{{c}}__link link"
+        href="{{ display_collection.url }}" 
+      >
+        {% if field.link_text %}
+          {{ field.link_text }}
+        {% else %}
+          Shop {{ display_collection.title }}
+        {% endif %}
+      </a>
+    </div>
+
+    {% if field.image %}
+      {%
+        render 'image'
+        component_class: image_component_class,
+        class: image_class,
+        image: field.image[0],
+        sizes: '325,425,525,600',
+        image_2: field.image[1],
+        sizes_2: '768,820',
+        image_3: field.image[2],
+        sizes_3: '1024,1280,1440,1600,1800,2160',
+        use_original_accentuate: true,
+      %}
+    {% endif %}
+  </div>
+{% endif %}

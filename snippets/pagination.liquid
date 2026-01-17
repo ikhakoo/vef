@@ -1,0 +1,57 @@
+{% liquid
+  assign c = "Pagination"
+  assign paginate = paginate
+%}
+
+<div class="{{c}} js-paginationContainer">
+  {% if paginate.pages > 1 %}
+    <div class="{{c}}__wrap">
+      {% if paginate.previous.is_link %}
+        <a class="{{c}}__btn-link prev-link"
+          href="{{ paginate.previous.url }}"
+          aria-label="Navigate to previous page"
+         
+        >
+          {%
+            render 'component-icon',
+            icon: 'pagination-arrow'
+          %}
+        </a>
+      {% endif %}
+  
+      {% for part in paginate.parts %}
+        {% if part.title == paginate.current_page %}
+          <span class="{{c}}__current link">
+            {{ part.title }}
+          </span>
+  
+        {% elsif part.is_link %}
+          <a class="{{c}}__link link" 
+            href="{{ part.url }}"
+          >
+            {{ part.title }}
+          </a>
+  
+        {% else %}
+          <span class="{{c}}__dots link">
+            ...
+          </span>
+  
+        {% endif %}
+      {% endfor %}
+  
+      {% if paginate.next.is_link %}
+        <a class="{{c}}__btn-link next-link"
+          href="{{ paginate.next.url }}"
+          aria-label="Navigate to next page" 
+         
+        >
+          {%
+            render 'component-icon',
+            icon: 'pagination-arrow'
+          %}
+        </a>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>

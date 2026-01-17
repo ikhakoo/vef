@@ -1,0 +1,28 @@
+{% liquid
+  assign c = "AutocompleteSearchEmptyState"
+  assign title = title
+  assign text = text
+  assign reset_btn_text = reset_btn_text
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__title subheader">
+    {{ title }}
+  </div>
+
+  <div class="{{c}}__status">
+    <div class="{{c}}__text body">
+      {{ text }} "<span class="js-searchQueryText"></span>".
+    </div>
+
+    <button 
+      class="{{c}}__clear js-searchClear body"
+      aria-label="Reset search input"
+    >
+      {{ reset_btn_text }}
+    </button>
+  </div>
+</div>

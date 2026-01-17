@@ -1,0 +1,79 @@
+{% liquid
+  assign c = "Article"
+  assign article = article
+  assign content = article.content | default: false
+  assign disable_shopify_content = article.metafields.content.disable_shopify | default: false
+  assign hero = article.metafields.hero.image[0] | default: false
+  assign hero_mobile = article.metafields.hero.image_mobile[0] | default: hero
+  assign date = article.published_at | date: format: 'abbreviated_date' | default: false
+  assign author = article.metafields.content.author | default: false
+  assign title = article.title | default: false
+  assign sections = shop.metafields.acf_settings.article_layouts | where: "id", article.id | first | map: "sections" | where: "visible"
+%}
+
+<div class="{{c}}">
+  {% if hero %}
+    {% render 'media-hero',
+      image: hero
+      image_mobile: hero_mobile
+    %}
+  {% endif %}
+
+  <div class="{{c}}__details">
+    <div class="{{c}}__date subheader">{{ date }}</div>
+
+    <h1 class="{{c}}__title h3">{{ title }}</h1>
+
+    {% if author %}
+      <div class="{{c}}__author">
+        Written by {{ author }}
+      </div>
+    {% endif %}
+  </div>
+
+  {% unless disable_shopify_content %}
+    {% if content %}
+      <div class="{{c}}__content body">
+        {{ content }}
+      </div>
+    {% endif %}
+  {% endunless %}
+
+  {% for section in sections %}
+    {% case section.name %}
+
+      {% when 'article_image' %}
+        {% render 'article-image',
+          metafields: article.metafields,
+          index: section.index
+        %}
+
+      {% when 'article_paragraph_w_header' %}
+        {% render 'article-paragraph',
+          metafields: article.metafields,
+          index: section.index
+        %}
+
+      {% when 'article_custom_html' %}
+        {% render 'article-custom-html',
+          metafields: article.metafields,
+          index: section.index
+        %}
+
+      {% when 'article_2_column_image_w_copy' %}
+        {% render 'article-2-column-image-copy',
+          metafields: article.metafields,
+          index: section.index
+        %}
+
+    {% endcase %}
+  {% endfor %}
+
+  {% render 'article-external-sources',
+    metafields: article.metafields
+  %}
+
+  {% render 'article-suggested-products',
+    metafields: article.metafields
+  %}
+</div>

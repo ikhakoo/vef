@@ -1,0 +1,106 @@
+{% liquid
+  assign c = "CollectionMessagingBlock"
+  assign image = image
+  assign frame = frame
+  assign frame_color = frame_color
+%}
+
+<div class="{{c}}__frame-wrap {{c}}__frame-wrap--{{ frame | handleize }}">
+  {% case frame %}
+    {% when 'Large oval with square' %}
+      <svg width="303" height="439" viewBox="0 0 303 439" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M36.3762 437.929V406.275H1.03564V73.2658H36.2685C57.3932 29.2932 102.136 1.03564 151.071 1.03564C200.006 1.03564 244.749 29.2932 265.874 73.2658H301.107V406.275H265.766V437.929H36.3762Z" stroke="{{ frame_color }}" stroke-width="2.5" stroke-miterlimit="10"/>
+        <path d="M49.6643 417.26V385.606H18.0103V86.5537H44.7932L47.1542 81.3512C65.5949 40.6342 106.386 14.3235 151.072 14.3235C195.757 14.3235 236.548 40.6342 254.989 81.3512L257.35 86.5537H284.133V385.614H252.479V417.268H49.6643V417.26Z" stroke="{{ frame_color }}" stroke-width="1.5" stroke-miterlimit="10"/>
+        <path d="M60.0027 403.243V371.589H28.3486V96.8925H51.4616L56.5647 85.6177C73.3403 48.5872 110.429 24.6541 151.063 24.6541C191.697 24.6541 228.794 48.5789 245.569 85.6177L250.672 96.8925H273.785V371.589H242.131V403.243H60.0027Z" stroke="{{ frame_color }}" stroke-miterlimit="10"/>
+
+        <clipPath id="frame-shape">
+          <path d="M65.9011 397.336V365.682H34.2471V102.791H55.2642L61.9412 88.0531C77.7558 53.1268 112.74 30.5605 151.063 30.5605C189.386 30.5605 224.37 53.1268 240.185 88.0531L246.862 102.791H267.879V365.682H236.225V397.336H65.9011Z"/>
+        </clipPath>
+
+        
+        <image
+          {%
+            render 'collection-messaging-block-image-attributes'
+            image: image,
+            svg_height: 439,
+            offset: 2,
+          %}
+        >
+      </svg>
+
+    {% when 'Small oval with square bottom' %}
+      <svg width="173" height="269" viewBox="0 0 173 269" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19.7409 267.78V249.074H1.03516V86.1644C1.03516 39.2259 39.2255 1.03564 86.1639 1.03564C133.102 1.03564 171.293 39.2259 171.293 86.1644V249.074H152.587V267.78H19.7409Z" stroke="{{ frame_color }}" stroke-width="2.5" stroke-miterlimit="10"/>
+        <path d="M28.4646 259.056V240.351H9.75879V86.1645C9.75879 44.0392 44.0389 9.75903 86.1642 9.75903C128.29 9.75903 162.57 44.0392 162.57 86.1645V240.351H143.864V259.056H28.4646Z" stroke="{{ frame_color }}" stroke-miterlimit="10"/>
+
+        <clipPath id="frame-shape">
+          <path d="M33.8327 253.688V234.982H15.127V86.1645C15.127 46.9966 46.9964 15.1272 86.1642 15.1272C125.332 15.1272 157.201 46.9966 157.201 86.1645V234.982H138.496V253.688H137.825H33.8327Z"/>
+        </clipPath>
+
+        <image
+          {%
+            render 'collection-messaging-block-image-attributes'
+            image: image,
+            svg_height: 269,
+            offset: 3,
+          %}
+        />
+      </svg>
+
+    {% when 'Oval' %}
+      <svg width="145" height="181" viewBox="0 0 145 181" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M72.5032 179.395C111.974 179.395 143.971 139.468 143.971 90.2154C143.971 40.9628 111.974 1.03564 72.5032 1.03564C33.0325 1.03564 1.03516 40.9628 1.03516 90.2154C1.03516 139.468 33.0325 179.395 72.5032 179.395Z" stroke="{{ frame_color }}" stroke-width="2.5"/>
+        <path d="M72.5037 9.22876C37.6271 9.22876 9.36133 45.4888 9.36133 90.2154C9.36133 134.942 37.6271 171.21 72.5037 171.21C107.38 171.21 135.646 134.95 135.646 90.2154C135.646 45.4806 107.372 9.22876 72.5037 9.22876Z" stroke="{{ frame_color }}" stroke-width="0.82" stroke-miterlimit="10" stroke-linecap="square"/>
+
+        <clipPath id="frame-shape">
+          <path d="M72.5029 161.368C43.1104 161.368 19.2021 129.449 19.2021 90.2153C19.2021 50.9812 43.1104 19.0703 72.5029 19.0703C101.895 19.0703 125.804 50.9894 125.804 90.2236C125.804 129.458 101.895 161.377 72.5029 161.377"/>
+        </clipPath>
+
+        <image
+          {%
+            render 'collection-messaging-block-image-attributes'
+            image: image,
+            svg_height: 181,
+            offset: 9,
+          %}
+        />
+      </svg>
+
+    {% when 'Octagon' %}
+      <svg width="246" height="246" viewBox="0 0 246 246" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M80.8209 223.484L21.7295 164.392V80.8209L80.8209 21.7295H164.392L223.484 80.8209V164.392L164.392 223.484H80.8209Z" stroke="{{ frame_color }}" stroke-miterlimit="10"/>
+        <path d="M78.4019 229.332L15.8809 166.811V78.4019L78.4019 15.8809H166.811L229.332 78.4019V166.811L166.811 229.332H78.4019Z" stroke="{{ frame_color }}" stroke-miterlimit="10"/>
+        <path d="M72.1636 244.385L0.828125 173.049V72.1639L72.1636 0.828369H173.049L244.384 72.1639V173.049L173.049 244.385H72.1636Z" stroke="{{ frame_color }}" stroke-width="2" stroke-miterlimit="10"/>
+              
+        <clipPath id="frame-shape">
+          <path d="M83.7697 28.8539L28.8535 83.77V161.443L83.7697 216.359H161.443L216.359 161.443V83.77L161.443 28.8539H83.7697Z"/>
+        </clipPath>
+        
+        <image
+          clip-path="url(#frame-shape)"
+          width="246"
+          xlink:href="{{ image.src }}"
+        />
+      </svg>
+
+    {% when 'Rectangular portrait' %}
+      <svg width="315" height="390" viewBox="0 0 315 390" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M279.037 0.929443H180.032V11.2353H134.976V0.929443H35.9636C35.9636 20.277 20.2756 35.9662 0.929688 35.9662V354.034C20.2756 354.034 35.9636 369.723 35.9636 389.071H134.968V378.765H180.025V389.071H279.03C279.03 369.723 294.718 354.034 314.063 354.034V35.9662C294.718 35.9662 279.03 20.277 279.03 0.929443H279.037Z" stroke="{{ frame_color }}" stroke-width="2.5" stroke-miterlimit="10"/>
+        <path d="M262.896 12.2092H188.546V22.6638H126.389V12.2092H52.1052C47.0048 27.7721 34.6849 40.0855 19.1309 45.1863V344.025C34.6849 349.126 47.0048 361.447 52.1052 377.002H126.389V366.548H188.546V377.002H262.896C267.996 361.44 280.316 349.119 295.87 344.025V45.1863C280.309 40.0855 267.996 27.7646 262.896 12.2092Z" stroke="{{ frame_color }}" stroke-width="1.5" stroke-miterlimit="10"/>
+        <path d="M249.758 22.4556H196.359V33.1034H118.492V22.4556H65.25C58.8634 34.2634 49.116 44.0115 37.3018 50.3987V339.586C49.1086 345.973 58.8559 355.722 65.25 367.537H118.492V356.889H196.359V367.537H249.758C256.144 355.729 265.892 345.981 277.699 339.586V50.4062C265.892 44.019 256.144 34.2708 249.758 22.4556Z" stroke="{{ frame_color }}" stroke-miterlimit="10"/>
+        
+        <clipPath id="frame-shape">
+          <path d="M247.097 27.0212H200.91V37.6691H113.92V27.0212H67.8975C61.5479 37.7881 52.6185 46.7183 41.8525 53.0683V336.939C52.6185 343.289 61.5479 352.22 67.8975 362.986H113.92V352.339H200.91V362.986H247.097C253.446 352.22 262.376 343.289 273.141 336.939V53.0683C262.376 46.7183 253.446 37.7881 247.097 27.0212Z"/>
+        </clipPath>
+
+        <image
+          {%
+            render 'collection-messaging-block-image-attributes'
+            image: image,
+            svg_height: 390,
+            offset: 5,
+          %}
+        />
+      </svg>
+  {% endcase %}
+</div>

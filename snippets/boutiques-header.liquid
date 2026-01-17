@@ -1,0 +1,19 @@
+{% liquid
+  assign c = "BoutiquesHeader"
+  assign header = header | default: false
+  assign handle = header | handleize
+%}
+
+<div
+  class="{{c}}"
+>
+  <div
+    class="{{c}}__container  js-section-target"
+    data-section-target="location--{{ handle }}"
+    id="location--{{ handle }}"
+  >
+    <h2 class="{{c}}__header h4">
+      {{ header }}
+    </h2>
+  </div>
+</div>

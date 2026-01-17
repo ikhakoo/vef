@@ -1,0 +1,96 @@
+{% liquid
+  assign c = "NavigationDesktop"
+  assign settings = settings
+  assign blocks = blocks
+  assign navigation = navigation
+  assign ancillary_url_1 = settings.ancillary_url_1 | default: false
+  assign ancillary_text_1 = settings.ancillary_text_1 | default: false
+  assign ancillary_url_2 = settings.ancillary_url_2 | default: false
+  assign ancillary_text_2 = settings.ancillary_text_2 | default: false
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__main">
+
+    <div class="{{c}}__main-items {{c}}__main-items--left">
+      {% comment %}
+        <a
+          href="#"
+          class="UsableNetAssistive {{c}}__main-item caption"
+          onclick="return enableUsableNetAssistive()"
+        >
+          Enable Accessibility
+        </a>
+      {% endcomment %}
+      {% if ancillary_url_1 %}
+        <a href="{{ ancillary_url_1 }}" class="{{c}}__main-item caption">{{ ancillary_text_1 }}</a>
+      {% endif %}
+      {% if ancillary_url_2 %}
+        <a href="{{ ancillary_url_2 }}" class="{{c}}__main-item caption">{{ ancillary_text_2 }}</a>
+      {% endif %}
+    </div>
+
+    <div class="{{c}}__main-items {{c}}__main-items--right">
+      <a
+        href="/pages/my-wishlist"
+        class="{{c}}__main-item caption"
+      >
+        Wishlist
+      </a>
+      <button
+        class="{{c}}__main-item caption js-searchToggleBtn"
+        aria-label="Open search drawer"
+        aria-controls="#SearchDrawer"
+      >
+        Search
+      </button>
+
+      <button
+        class="{{ c }}__action-icon caption {{c}}__main-item {{ c }}__action-icon--account js-accountBtn {% if customer %}js-directToAccount{% else %}js-accountDrawerOpen{% endif %}"
+        aria-label="{% if customer %}View account{% else %}Login or create an account{% endif %}"
+      >
+        Account
+      </button>
+
+      <button
+        class="
+          {{c}}__cart-btn
+          js-toggleMiniCart
+          js-emptyCheckContainer
+          {% unless cart.item_count > 0 %} is-empty {% endunless %}
+        "
+        aria-label="Open cart drawer"
+      >
+        <span class="{{c}}__cart-btn--text caption">
+          Cart
+        </span>
+
+        <span class="{{c}}__cart-btn--count caption js-cartItemCount">
+          {{ cart.item_count }}
+        </span>
+      </button>
+    </div>
+
+    <div class="{{c}}__logo">
+      <a href="/" aria-label="Home Logo" class="{{c}}__logo-link">
+        {% render "icon", icon: "logo", component: c %}
+      </a>
+    </div>
+
+    {% render 'navigation-menu',
+      navigation: navigation,
+      media: "desktop"
+    %}
+  </div>
+
+  <div class="{{ c }}__drawer js-navDrawer">
+    {% render 'navigation-submenu',
+      navigation: navigation,
+      blocks: blocks,
+      media: "desktop"
+    %}
+  </div>
+</div>

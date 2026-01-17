@@ -1,0 +1,28 @@
+{%
+  render 'hatbox-ugc',
+  section: section.settings,
+%}
+
+{% schema %}
+{
+  "name": "Hatbox UGC",
+  "settings": [
+    {
+      "type": "page",
+      "id": "hatbox_ugc_content_page",
+      "label": "Hatbox UGC content page"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_editorial_ticker",
+      "label": "Hide editorial ticker?",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hatbox UGC"
+    }
+  ]
+}
+{% endschema %}

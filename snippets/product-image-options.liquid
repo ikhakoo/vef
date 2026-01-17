@@ -1,0 +1,89 @@
+{% liquid
+  assign c = "ProductImageOptions"
+  assign option = option
+  assign product_handle = product_handle
+  assign product_specific_image_swatch_options = product_specific_image_swatch_options
+  assign option_name = option.name | downcase
+  assign available_variants = available_variants
+  assign is_homeware = is_homeware | default: false
+
+  assign is_rose_color = false
+  if option_name == 'floral color'
+    assign is_rose_color = true
+  endif
+%}
+
+<div
+  class="{{c}} {% if is_rose_color %} rose-color {% endif %}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__header">
+    <div class="{{c}}__title subheader">
+      {% render 'product-option-name',
+        option_name: option.name
+      %}:
+    </div>
+
+    <div
+      class="{{c}}__selected-value subheader js-selectedOptionValue"
+      data-option-position="{{ option.position }}"
+    >
+      {{ option.selected_value }}
+    </div>
+  </div>
+
+  <div class="{{c}}__values-container js-valuesContainer">
+    <div class="{{c}}__values js-valuesWrap">
+      {% for value in option.values %}
+        {%
+          render 'product-image-option',
+          option: option,
+          value: value,
+          option_name: option_name,
+          product_handle: product_handle,
+          product_specific_image_swatch_options: product_specific_image_swatch_options,
+          is_homeware: is_homeware,
+          available_variants: available_variants,
+          show_only_available: true,
+        %}
+      {% endfor %}
+
+      {% for value in option.values %}
+        {%
+          render 'product-image-option',
+          option: option,
+          value: value,
+          option_name: option_name,
+          product_handle: product_handle,
+          product_specific_image_swatch_options: product_specific_image_swatch_options,
+          is_homeware: is_homeware,
+          available_variants: available_variants,
+          show_only_unavailable: true,
+        %}
+      {% endfor %}
+    </div>
+
+    <button
+      class="
+        {{c}}__view-more-btn
+        js-showMoreBtn
+        {% if is_rose_color %}
+          js-roseOptionsDrawerToggle
+        {% else %}
+          js-optionDrawerToggle
+        {% endif %}
+      "
+      data-option-position="{{ option.position }}"
+      aria-label="View more {{ option.name }} options"
+    >
+      <span class="caption">
+        More Options
+      </span>
+
+      {%
+        render 'component-icon',
+        icon: 'chevron-icon'
+      %}
+    </button>
+  </div>
+</div>

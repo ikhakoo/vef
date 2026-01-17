@@ -1,0 +1,28 @@
+{% liquid
+  assign c = "LandingParagraph"
+  assign fields = fields
+  assign index = index
+  assign position = fields.position[index] | default: left | downcase
+  assign header = fields.header[index] | default: false
+  assign body = fields.body[index].markdown | default: false
+  assign cta_text = fields.cta_text[index] | default: false
+  assign cta_link = fields.cta_link[index] | default: false
+%}
+
+<div class="{{c}} {{c}}--{{ position }}">
+  <div class="{{c}}__wrapper">
+    {% if header %}
+      <div class="{{c}}__header h3">{{ header }}</div>
+    {% endif %}
+    {% if body %}
+      <div class="{{c}}__body body">
+        {{ body }}
+      </div>
+    {% endif %}
+    {% if cta_text %}
+      <a class="{{c}}__cta cta cta--black" href="{{ cta_link }}">
+        {{ cta_text }}
+      </a>
+    {% endif %}
+  </div>
+</div>

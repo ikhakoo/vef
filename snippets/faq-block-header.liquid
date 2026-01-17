@@ -1,0 +1,14 @@
+{% liquid
+  assign c = "FaqBlockHeader"
+  assign header = header | default: false
+  assign id = id | default: false
+%}
+
+<div
+  class="{{c}}"
+  id="{{id}}"
+>
+  <h2 class="{{c}}__tile h5">
+    {{ header }}
+  </h2>
+</div>

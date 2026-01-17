@@ -1,0 +1,111 @@
+{% liquid
+assign c = "Header"
+%}
+
+<div class="{{c}} js-header" data-component="{{c}}">
+  {% section 'navigation' %}
+</div>
+
+{% section 'search-drawer' %}
+
+<style>
+  .Header {
+    background-color: {{ settings.header_fixed_background }};
+    color: {{ settings.header_fixed_text }};
+    fill: {{ settings.header_fixed_text }};
+  }
+  
+  .template-index .Header {
+    background: transparent;
+  }
+
+  /***
+    Default colors for non index pages
+  ****/
+  .Header .link,
+  .Header .caption,
+  .Header .Icon__logo,
+  .Header .Icon__burger {
+    color: {{ settings.header_fixed_text }};
+    fill: {{ settings.header_fixed_text }};
+    border-color: {{ settings.header_fixed_text }};
+  }
+
+  /***
+    Default colors for index page with white nav
+  ****/
+  .Header.is-white .link,
+  .Header.is-white .caption,
+  .Header.is-white .Icon__logo,
+  .Header.is-white .Icon__burger {
+    color: #fff;
+    fill: #fff;
+    border-color: #fff;
+  }
+  
+  /***
+    Default colors for index page with black nav
+  ****/
+  .Header.is-black .link,
+  .Header.is-black .caption,
+  .Header.is-black .Icon__logo,
+  .Header.is-black .Icon__burger {
+    color: #000;
+    fill: #000;
+    border-color: #000;
+  }
+
+  /***
+  Setting selected background color
+  ****/
+  .Header.is-pinned,
+  .Header.is-active,
+  .Header:hover,
+  .NavigationMobile__sidebar,
+  .NavigationSubmenu,
+  .PageSecondaryNavigation.is-pinned .PageSecondaryNavigation__container {
+    background-color: {{ settings.header_fixed_background }};
+  }
+
+
+  /***
+    Override for all text, fill and border colors in navigation elements
+  ****/
+  .Header.is-pinned,
+  .Header.is-active,
+  .Header:hover,
+  .Header.is-pinned .link,
+  .Header:hover .link,
+  .Header.is-pinned .body,
+  .Header:hover .body,
+  .Header.is-pinned button,
+  .Header:hover button,
+  .Header.is-pinned .caption,
+  .Header:hover .caption,
+  .Header.is-pinned .Icon__logo,
+  .Header:hover .Icon__logo,
+  .Header.is-pinned .Icon__burger,
+  .Header:hover .Icon__burger,
+  .Header .CustomForm,
+  .Header .CustomForm__input,
+  .Header .CustomForm__input::placeholder,
+  .Header .NavigationFooter,
+  .Header .NavigationMobile__sidebar,
+  .Header .NavigationMobile__sidebar .SubmenuImageBlocks__link,
+  .Header .NavigationSubmenu,
+  .Header .SubmenuImageLinks,
+  .Header .SubmenuLinksAndImageBlock__grandchild-item,
+  .Header .SubmenuLinksAndImageBlock__child-item,
+  .Header .SubmenuLinks__grandchild-item,
+  .Header .SubmenuLinks__child-item,
+  .PageSecondaryNavigation.is-pinned .PageSecondaryNavigation__link {
+    color: {{ settings.header_fixed_text }};
+    fill: {{ settings.header_fixed_text }};
+    border-color: {{ settings.header_fixed_text }} !important;
+  }
+
+  .SubmenuImageLinks:not(:last-child) .SubmenuImageLinks__list:before {
+    background-color: {{ settings.header_fixed_text }};
+  }
+
+</style>

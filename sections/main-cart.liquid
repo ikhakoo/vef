@@ -1,0 +1,46 @@
+{% 
+  render 'cart-page',
+  cart_footer_product_handle: section.settings.cart_footer_product_handle,
+  cart_footer_variant_id: section.settings.cart_footer_variant_id
+%}
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": [
+    {
+      "type": "product",
+      "id": "cart_footer_product_handle",
+      "label": "Cart Footer Product"
+    },
+    {
+      "type": "text",
+      "id": "cart_footer_variant_id",
+      "label": "Cart Footer Variant ID",
+      "info": "If blank, will default to first available variant"
+    },
+    {
+      "type": "color",
+      "id": "cart_footer_background_color",
+      "label": "Cart Footer Background Color",
+      "default": "#f3f3f3"
+    },
+    {
+      "type": "color",
+      "id": "cart_footer_text_color",
+      "label": "Cart Footer Text Color",
+      "default": "#000"
+    },
+    {
+      "type": "checkbox",
+      "id": "cart_footer_use_href",
+      "label": "Enable PDP link for product image and title"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price_over_image",
+      "label": "Show price over image"
+    }
+  ]
+}
+{% endschema %}

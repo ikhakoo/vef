@@ -1,0 +1,60 @@
+{% liquid
+  assign c = "ProductCustomizerInfo"
+  assign settings = settings
+  assign product = product
+  assign cards = cards
+  assign current_variant = current_variant
+  assign base_price = product.price_min | money_without_currency
+
+  assign rose_type = false
+  for tag in product.tags
+    if tag contains ':'
+      assign key = tag | split: ':' | first | downcase
+      assign value = tag | split: ':' | last
+
+      if key == 'rose type'
+        assign rose_type = value
+      endif
+    endif
+  endfor
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__wrap">
+    <h1 class="{{c}}__title h3">
+      {{ product.title }}
+    </h1>
+
+    <div class="{{c}}__content">
+      <div class="{{c}}__price body js-price js-threekitPrice" data-initial-price="{{ base_price }}">
+        {{ current_variant.price | money_without_trailing_zeros }}
+      </div>
+
+      {% if rose_type %}
+        <div class="{{c}}__seperator"></div>
+
+        <div class="{{c}}__rose-type body">
+          {{ rose_type }}
+        </div>
+      {% endif %}
+
+    </div>
+
+    {%
+      render 'product-customizer-form',
+      settings: settings,
+      product: product,
+      cards: cards
+      current_variant: current_variant,
+    %}
+
+    {% render 'product-form-notify-me'
+      settings: settings
+      current_variant: current_variant
+    %}
+
+  </div>
+</div>

@@ -1,0 +1,95 @@
+{% liquid
+  assign c = "HeroCarousel2"
+  assign blocks = blocks
+  assign media_component_class = c | append: "__media-wrap"
+  assign media_size = blocks | size
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__container swiper js-heroCarousel">
+    <div class="{{c}}__wrapper swiper-wrapper">
+    {% for block in blocks %}
+      {% liquid
+        assign alignment = block.settings.alignment
+        assign image_desktop = block.settings.image_desktop | default: false
+        assign image_mobile = block.settings.image_mobile | default: image_mobile
+        assign video_url = block.settings.video_url | default: false
+        assign video_url_mobile = block.settings.video_url_mobile | default: video_url
+        assign background_color = block.settings.background_color
+        assign header = block.settings.header | default: false
+        assign date = block.settings.date | default: false
+        assign copy = block.settings.copy | default: false
+        assign cta_text = block.settings.cta_text | default: false
+        assign cta_url = block.settings.cta_url | default: false
+      %}
+      {% liquid
+        assign image_loading = 'lazy'
+        if forloop.index0 == 0
+          assign image_loading = 'eager'
+        endif
+        assign custom_style = 'style="'
+        if background_color
+          assign custom_style = custom_style | append: "background-color:" | append: background_color | append: ';"'
+        endif
+      %}
+      <div class="{{c}}__inner {{c}}__inner--media-{{ alignment }} swiper-slide" {{ custom_style }}>
+        <div class="{{c}}__media-container">
+          {% if video_url %}
+            {% render 'video',
+              component_class: media_component_class,
+              video: video_url,
+              mobile_video: video_url_mobile
+            %}
+          {% elsif image_desktop %}
+            {% render 'image',
+              component_class: media_component_class,
+              image: image_mobile,
+              size: 350,
+              image_2: image_desktop,
+              sizes_2: 768, 1024, 1440,
+              loading: image_loading
+            %}
+          {% endif %}
+
+          {% if media_size > 1 %}
+            <div class="{{c}}__arrow {{c}}__arrow--left js-heroCarouselPrev">
+              {% render 'icon', icon: 'arrow-left' %}
+            </div>
+            <div class="{{c}}__arrow {{c}}__arrow--right js-heroCarouselNext">
+              {% render 'icon', icon: 'arrow-right' %}
+            </div>
+          {% endif %}
+        </div>
+        <div class="{{c}}__text">
+          {% if header %}
+            <div class="{{c}}__header h3">
+              {{ header }}
+            </div>
+          {% endif %}
+          {% if date %}
+            <div class="{{c}}__date btn-copy">
+              {{ date }}
+            </div>
+          {% endif %}
+          {% if copy %}
+            <div class="{{c}}__copy body">
+              {{ copy }}
+            </div>
+          {% endif %}
+          {% if cta_text %}
+            <a class="{{c}}__cta cta cta--black" href="{{ cta_url }}">
+              {{ cta_text }}
+            </a>
+          {% endif %}
+          {% if media_size > 1 %}
+            <div class="{{c}}__pagination js-heroCarouselPagination"></div>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+ </div>
+</div>

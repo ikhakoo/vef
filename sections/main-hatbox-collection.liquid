@@ -1,0 +1,88 @@
+{% 
+  render 'collection-hatbox',
+  section: section.settings,
+  blocks: section.blocks,
+%}
+
+{% schema %}
+{
+  "name": "Hatbox Collection",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Left Hand Panel"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video (optional)"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Shop our iconic hatboxes that started it all, ranging from 1 - 150 roses. All shapes and sizes come in various rose colors and box materials."
+    }
+  ],
+  "max_blocks": 5,
+  "blocks": [
+    {
+      "name": "Box Shape",
+      "type": "box-shape",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "nav_label",
+          "label": "Navigation Label"
+        },
+        {
+          "type": "image_picker",
+          "id": "nav_thumb",
+          "label": "Navigation Thumbnail Image"
+        },
+        {
+          "type": "number",
+          "id": "size_count",
+          "label": "Size Count"
+        },
+        {
+          "type": "header",
+          "content": "Banner"
+        },
+        {
+          "type": "image_picker",
+          "id": "banner_image",
+          "label": "Banner Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "banner_image_mobile",
+          "label": "Banner Image Mobile"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video (optional)"
+        },
+        {
+          "type": "video",
+          "id": "video_mobile",
+          "label": "Video Mobile (optional)",
+          "info": "Required if using video"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

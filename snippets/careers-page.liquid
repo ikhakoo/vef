@@ -1,0 +1,19 @@
+{% liquid
+  assign c = "CareersPage"
+  assign fields = page.metafields.flexible
+%}
+
+<div
+  class="{{c}}"
+>
+  {% render 'text-hero',
+    header: fields.hero_header,
+    subheader: fields.hero_subheader,
+    background_color: fields.hero_background_color,
+    color: fields.hero_color
+  %}
+
+  <div class="{{c}}__container">
+    {{ page.content }}
+  </div>
+</div>

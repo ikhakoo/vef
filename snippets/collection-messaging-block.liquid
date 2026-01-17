@@ -1,0 +1,60 @@
+{% liquid
+  assign c = "CollectionMessagingBlock"
+  assign field = field
+
+  assign title = field.title | default: false
+  assign text = field.text | default: false
+  assign url = field.url | default: false
+
+  assign image = field.image[0] | default: false
+  assign frame = field.frame | default: 'Large oval with square'
+  assign frame_color = field.frame_color | default: '#D4AE7B'
+  assign background_color = field.background_color | default: '#FCF6F1'
+  assign text_color = field.text_color | default: '#000'
+%}
+
+{% if url %}
+  <a
+    class="{{c}}"
+    href="{{ url }}"
+    target="_blank"
+  >
+{% else %}
+  <div
+    class="{{c}}"
+  >
+{% endif %}
+  <div 
+    class="{{c}}__wrap"
+    style="background-color: {{ background_color }};"
+  >
+    {%
+      render 'collection-messaging-block-frame',
+      image: image,
+      frame: frame,
+      frame_color: frame_color,
+    %}
+    
+    <div 
+      class="{{c}}__text-wrap"
+      style="color: {{ text_color }}"
+    >
+      {% if title %}
+        <div class="{{c}}__title h5">
+          {{ title }}
+        </div>
+      {% endif %}
+
+      {% if text %}
+        <div class="{{c}}__text body">
+          {{ text }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+{% if url %}
+  </a>
+{% else %}
+  </div>
+{% endif %}

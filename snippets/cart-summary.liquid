@@ -1,0 +1,31 @@
+{% liquid
+  assign c = "CartSummary"
+  assign subtotal = subtotal
+  assign total = total
+%}
+
+<div class="{{c}}">
+  <div class="{{c}}__title subheader">
+    Summary
+  </div>
+
+  <div class="{{c}}__item">
+    <div class="{{c}}__label body">
+      Subtotal
+    </div>
+
+    <div class="{{c}}__value body js-cartSubtotal">
+      {{ subtotal | money_without_trailing_zeros }}
+    </div>
+  </div>
+
+  <div class="{{c}}__item js-cartTotalWrapper">
+    <div class="{{c}}__label body">
+      Total
+    </div>
+
+    <div class="{{c}}__value body js-cartTotal">
+      {{ total | money_without_trailing_zeros }}
+    </div>
+  </div>
+</div>

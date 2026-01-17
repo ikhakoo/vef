@@ -1,0 +1,38 @@
+{% liquid
+  assign c = "CollectionFaq"
+  assign field = field
+  assign faq_drawers = faq_drawers
+
+  assign title = field.title | default: 'FAQs'
+  assign drawers_arr = faq_drawers.markdown | split: '*'
+%}
+
+<div 
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <h2 class="{{c}}__title h5">
+    {{ title }}
+  </h2>
+
+  <div class="{{c}}__faqs js-collectionFaqs">
+    {% for drawer in drawers_arr %}
+      {% liquid
+        assign drawer_data = drawer | split: '::' | default: false
+
+        unless drawer_data
+          continue
+        endunless
+      %}
+      
+      {%
+        render 'faq-drawer'
+        header: drawer_data[0],
+        body: drawer_data[1],
+        index: forloop.index,
+        use_cta_font: true,
+        modifiers: 'collection',
+      %}
+    {% endfor %}
+  </div>
+</div>

@@ -1,0 +1,147 @@
+{% liquid
+  assign c = "Page"
+  assign sections = shop.metafields.acf_settings.page_layouts | where: "id", page.id | first | map: "sections" | where: "visible"
+%}
+
+<div
+  class="{{c}}"
+>
+  {% comment %} Modules {% endcomment %}
+  {% for section in sections %}
+
+    {% case section.name %}
+
+      {% when 'media_hero' %}
+        {% assign fields = page.metafields.flexible %}
+        {% render 'media-hero',
+          image: fields.hero_image[0],
+          image_mobile: fields.hero_image_mobile[0]
+        %}
+
+      {% when 'text_hero' %}
+        {% assign fields = page.metafields.flexible %}
+        {% render 'text-hero',
+          header: fields.hero_header,
+          subheader: fields.hero_subheader,
+          background_color: fields.hero_background_color,
+          color: fields.hero_color
+        %}
+
+      {% when 'secondary_navigation' %}
+        {% assign fields = page.metafields.flexible %}
+        {% render 'page-secondary-navigation',
+          list: fields.secondary_navigation_list.markdown
+        %}
+
+      {% when 'one_column' %}
+        {% assign fields = page.metafields.flexible %}
+        {% render 'page-one-column',
+          nav_ref: fields.one_column_nav_ref[section.index],
+          image: fields.one_col_bkgd_img[section.index][0],
+          image_mobile: fields.one_col_bkgd_img_mobile[section.index][0],
+          background_color: fields.one_col_bkgd_color[section.index],
+          color: fields.one_col_color[section.index],
+          header: fields.one_col_header[section.index],
+          body: fields.one_col_body[section.index].html
+        %}
+
+      {% when 'two_column' %}
+        {% assign fields = page.metafields.flexible %}
+        {% render 'page-two-column',
+          nav_ref: fields.two_column_nav_ref[section.index],
+          text_first: fields.two_column_text_first[section.index],
+          top_margin: fields.two_column_top_margin[section.index],
+          bottom_margin: fields.two_column_bottom_margin[section.index],
+          header: fields.two_column_header[section.index],
+          body: fields.two_column_body[section.index].html,
+          cta_text: fields.two_column_cta_text[section.index],
+          cta_link: fields.two_column_cta_link[section.index],
+          image: fields.two_column_image[section.index][0],
+          video_url: fields.two_column_video[section.index][0].src,
+          video_url_mobile: fields.two_column_video_mobile[section.index][0].src,
+          index: section.index,
+          enable_shoppable: fields.enable_shoppable_module[section.index],
+          shoppable_id: fields.shoppable_id[section.index],
+          shoppable_cta: fields.shoppable_cta[section.index],
+        %}
+
+        {% 
+          render 'page-shoppable-content',
+          cta: fields.shoppable_cta[section.index],
+          id: fields.shoppable_id[section.index],
+        %}
+
+      {% when 'three_column' %}
+        {% assign fields = page.metafields.flexible %}
+        {% render 'page-three-column',
+          image: fields.three_col_img[section.index][0],
+          image_mobile: fields.three_col_img_mobile[section.index][0],
+          header_1: fields.three_col_header_1[section.index],
+          url_1: fields.three_col_url_1[section.index],
+          image_hover_1: fields.three_col_img_hover_1[section.index][0],
+          image_hover_mobile_1: fields.three_col_img_hover_mobile_1[section.index][0],
+          header_2: fields.three_col_header_2[section.index],
+          url_2: fields.three_col_url_2[section.index],
+          image_hover_2: fields.three_col_img_hover_2[section.index][0],
+          image_hover_mobile_2: fields.three_col_img_hover_mobile_2[section.index][0],
+          header_3: fields.three_col_header_3[section.index],
+          url_3: fields.three_col_url_3[section.index],
+          image_hover_3: fields.three_col_img_hover_3[section.index][0],
+          image_hover_mobile_3: fields.three_col_img_hover_mobile_3[section.index][0],
+        %}
+
+      {% when 'media_banner' %}
+        {% assign fields = page.metafields.flexible %}
+        {% render 'media-banner',
+          video_url: fields.banner_video[section.index][0].src,
+          video_url_mobile: fields.banner_video_mobile[section.index][0].src,
+          image: fields.banner_image[section.index][0],
+          image_mobile: fields.banner_image_mobile[section.index][0]
+        %}
+
+      {% when 'text_container' %}
+        {% assign fields = page.metafields.flexible %}
+        {% render 'page-text-container',
+          nav_ref: fields.text_container_nav_ref[section.index],
+          alignment: fields.text_container_alignment[section.index],
+          header: fields.text_container_header[section.index],
+          body: fields.text_container_body[section.index].html,
+          cta_text: fields.text_container_cta_text[section.index],
+          cta_link: fields.text_container_cta_link[section.index]
+        %}
+
+      {% when 'content_table' %}
+        {% assign fields = page.metafields.flexible %}
+        {% render 'page-content-table',
+          content_left: fields.content_table_column_left[section.index].html,
+          content_right: fields.content_table_column_right[section.index].html
+        %}
+
+      {% when 'media_faqs' %}
+        {% assign fields = page.metafields.flexible %}
+        {% render 'page-media-faqs',
+          nav_ref: fields.media_faqs_nav_ref[section.index],
+          video_url: fields.media_faq_video[section.index][0].src,
+          video_url_mobile: fields.media_faq_video_mobile[section.index][0].src,
+          image: fields.media_faq_image[section.index][0],
+          header: fields.media_faq_header[section.index],
+          drawers: fields.media_faq_drawers[section.index].markdown,
+          index: section.index
+        %}
+        
+      {% when 'page_faqs' %}
+        {% assign fields = page.metafields.flexible %}
+        {% render 'page-faqs',
+          title: fields.faqs_title[section.index],
+          description: fields.faqs_description[section.index],
+          cta: fields.faqs_cta[section.index],
+          background: fields.faqs_background[section.index],
+          drawers: fields.faq_drawers[section.index].markdown,
+          cta_link: fields.faqs_cta_link[section.index],
+          index: section.index
+        %}
+        
+      {% endcase %}
+    {% endfor %}
+  </div>
+  

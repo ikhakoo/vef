@@ -1,0 +1,33 @@
+{% liquid
+  assign c = "ProductTickerCarousel"
+  assign blocks = blocks
+
+  assign field = product.metafields.ticker_carousel | default: false
+  assign is_homeware = false
+  assign assets = blocks
+
+  if template.suffix == 'homeware' and field
+    assign is_homeware = true
+    assign assets = field.assets
+  endif
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__container splide js-imageTickerSwiper">
+    <div class="{{c}}__wrapper splide__track">
+      <div class="splide__list">
+        {% for asset in assets %}
+          {%
+            render 'product-ticker-carousel-slide',
+            asset: asset,
+            is_homeware: is_homeware,
+            field: field,
+          %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>

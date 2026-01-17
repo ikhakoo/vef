@@ -1,0 +1,90 @@
+{% liquid
+  assign c = "NavigationMenuLink"
+  assign link = link
+  assign link_handle = link.title | handleize
+  assign level = level | default: false
+  assign media = media | default: false
+  assign style = style | default: false
+
+  assign link_klass = c | append: '__link'
+
+  comment
+    'style' variable will take precedence of typography class assignment
+  endcomment
+  if style
+    assign link_klass = link_klass | append: ' ' | append: style
+  elsif level == "grandchild"
+    assign link_klass = link_klass | append: ' body'
+  else
+    assign link_klass = link_klass | append: ' link'
+  endif
+
+  assign image_component_klass = c | append: "__link-image-container"
+  assign image_klass = c | append: "__link-image"
+
+  assign accessible_link = accessible_link | default: false
+  assign js_assignment = js_assignment | default: ""
+  assign js_link = js_link | default: ""
+
+  if accessible_link
+    assign js_assignment = js_assignment | append: " js-container"
+    assign js_link = js_link | append: " js-link"
+  endif
+%}
+
+{% capture item_attributes %}
+  class="{{c}} {% if level %}{{c}}--{{ level }}{% endif %} {{ js_assignment }}"
+  {% if level == "main" %}
+    tabindex="0"
+    data-sublinks="{{ link_handle }}"
+    aria-haspopup="dialog"
+    aria-expanded="false"
+    aria-controls="{{ link_handle }}-{{ media }}-tab"
+  {% elsif level == "child" %}
+  {% elsif level == "grandchild" %}
+  {% endif %}
+{% endcapture %}
+
+<div
+  {{ item_attributes }}
+>
+  {% if accessible_link %}
+    {% if link.object.image == null %}
+      {%- comment -%}
+        If no object image, check if object is a product and use product
+        metafields for nav image.
+      {%- endcomment -%}
+      {% if link.object.metafields.navigation_image %}
+        {% for img in link.object.metafields.navigation_image.image %}
+          {% render 'image',
+            component_class: image_component_klass,
+            class: image_klass,
+            image: img,
+            sizes: "300"
+          %}
+        {% endfor %}
+      {% endif %}
+    {% else %}
+      {% render 'image',
+        component_class: image_component_klass,
+        class: image_klass,
+        image: link.object.image,
+        sizes: "300"
+      %}
+    {% endif %}
+  {% endif %}
+
+  <a
+    href="{{ link.url }}"
+    {% if level == "main" %}
+      tabindex="-1"
+    {% elsif level == "grandchild" and media == "mobile" %}
+      tabindex="-1"
+      aria-hidden="true"
+    {% endif %}
+    class="{{ link_klass }} {{ js_link }}"
+    aria-label="Shop {{ link.title }}"
+  >
+    {{ link.title }}
+  </a>
+</div>

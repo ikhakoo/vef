@@ -1,0 +1,103 @@
+{% liquid
+  assign c = "LandingEditorialCarousel"
+  assign fields = fields
+  assign slide_fields = page.metafields.editorial_carousel_slide
+  assign show_slides = false
+  assign slide_refs_size = slide_fields.carousel_ref | join | strip | size
+  assign index = index
+  assign header = fields.header[index] | default: false
+  assign subtext = fields.subtext[index] | default: false
+  assign images = fields.images[index] | default: false
+  assign background_color = fields.background_color[index] | default: false
+  assign font_color = fields.font_color[index] | default: 'dark'
+  assign image_component_class = c | append: '__image-wrap swiper-slide'
+  assign image_class = c | append: '__slide-image'
+  assign custom_style = ''
+
+  if background_color
+    assign custom_style = 'style="background-color:' | append: background_color | append: ';"'
+  endif
+
+  if font_color == 'light'
+    assign font_color_class = 'is-light-font'
+  endif
+
+  comment
+    Check new editorial carousel slide section reference field.
+    If joined reference fields are not empty toggle show_slides
+  endcomment
+  if slide_refs_size > 0
+    assign show_slides = true
+  endif
+%}
+
+<div
+  class="{{c}} {{ font_color_class }}"
+  data-component="{{c}}"
+  {{ custom_style }}
+>
+  <div class="{{c}}__text-container">
+    {% if header %}
+      <div class="{{c}}__header h3">{{ header }}</div>
+    {% endif %}
+
+    {% if subtext %}
+      <div class="{{c}}__subtext subheader">{{ subtext }}</div>
+    {% endif %}
+  </div>
+
+  <div class="{{c}}__carousel-wrapper swiper js-carousel">
+    <div class="{{c}}__images-container swiper-wrapper">
+      {% if show_slides %}
+        {% for ref in slide_fields.carousel_ref %}
+          {% assign ref_num = ref | plus: 0 %}
+          {% if ref != blank and ref_num == index %}
+            {% liquid
+              assign image = slide_fields.image[forloop.index0][0] | default: false
+              assign alignment = slide_fields.alignment[forloop.index0] | split: ":" | first | default: "center"
+              assign flex_align = slide_fields.alignment[forloop.index0] | split: ":" | last | default: "center"
+              assign quote = slide_fields.quote[forloop.index0] | default: false
+              assign logo = slide_fields.logo[forloop.index0][0] | default: false
+
+              if image != blank
+                assign media_size = media_size | plus: 1
+              endif
+            %}
+            {% comment %}
+              Editorial Carousel Slide is a reusable component
+              that comes from the Homepage components folder
+            {% endcomment %}
+            {% render 'editorial-carousel-slide',
+              image: image,
+              alignment: alignment,
+              flex_align: flex_align,
+              quote: quote,
+              logo: logo
+            %}
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        {% for image in images %}
+          {% render 'image'
+            component_class: image_component_class,
+            class: image_class,
+            image: image,
+            sizes: '350, 768, 1024, 1440'
+          %}
+        {% endfor %}
+      {% endif %}
+    </div>
+    <button
+      class="{{c}}__arrow prev js-carouselPrev"
+      aria-label="Previous image"
+    >
+      {% render "icon", icon: "arrow-left", component: c %}
+    </button>
+    <button
+      class="{{c}}__arrow next js-carouselNext"
+      aria-label="Next image"
+    >
+      {% render "icon", icon: "arrow-right", component: c %}
+    </button>
+  </div>
+</div>

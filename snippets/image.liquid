@@ -1,0 +1,79 @@
+{% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+{% liquid
+  assign component_class = component_class | default: ''
+  assign force_square_aspect = force_square_aspect | default: false
+  assign square_aspect_class = square_aspect_class
+  assign class = class
+  assign image = image
+  assign image_2 = image_2
+  assign image_3 = image_3
+  assign sizes = sizes | split: ',' | reverse
+  assign sizes_2 = sizes_2 | split: ',' | reverse
+  assign sizes_3 = sizes_3 | split: ',' | reverse
+  assign loading = loading | default: 'lazy'
+  assign js_lazy_load = js_lazy_load | default: false
+  assign direct_src = direct_src | default: false
+  assign alt = alt | default: image.alt
+  assign use_original_accentuate = use_original_accentuate | default: false
+%}
+
+{% comment %}
+  `js_lazy_load`: Boolean
+  Set to true to prefix src/srcset with `data-` so lazy loading can be handled with JS
+{% endcomment %}
+{% liquid
+  assign src_attr = 'src'
+  assign srcset_attr = 'srcset'
+  assign image_src = image.src | image_url: width: image.width
+
+  if direct_src
+    assign image_src = image
+  endif
+
+  if js_lazy_load
+    assign src_attr = src_attr | prepend: 'data-'
+    assign srcset_attr = srcset_attr | prepend: 'data-'
+  endif
+
+  if image.cloudinary_src != blank
+    assign image_src = image.cloudinary_src | append: 'w_' | append: image.width
+  endif
+%}
+<div
+  class="
+    Image 
+    {{ component_class }} 
+    {% if force_square_aspect %} 
+      {{ square_aspect_class }}
+    {% endif %}"
+  data-component="Image"
+>
+  <picture>
+    {% liquid
+      if image_3
+        for size in sizes_3
+          render 'image-source', image: image_3, size: size, srcset_attr: srcset_attr, use_original_accentuate: use_original_accentuate
+        endfor
+      endif
+
+      if image_2
+        for size in sizes_2
+          render 'image-source', image: image_2, size: size, srcset_attr: srcset_attr, use_original_accentuate: use_original_accentuate
+        endfor
+      endif
+
+      for size in sizes
+        render 'image-source', image: image, size: size, srcset_attr: srcset_attr, use_original_accentuate: use_original_accentuate
+      endfor
+    %}
+
+    <img
+      class="{{ class }} fallback-aspect"
+      {{ src_attr }}="{{ image_src }}"
+      alt="{{ alt }}"
+      width="{{ image.width }}"
+      height="{{ image.height }}"
+      loading="{{ loading }}"
+    >
+  </picture>
+</div>

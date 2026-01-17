@@ -1,0 +1,61 @@
+{% liquid
+  assign c = "ProductOption"
+  assign option = option
+  assign value = value
+  assign swatch_image = swatch_image | default: false
+  assign available = available | default: false
+  assign modifier = modifier
+  assign image_component_class = c | append: '__image-wrap'
+  assign image_class = c | append: '__image'
+  assign wide_swatch_options = 'hue'
+
+  assign option_name = option.name | downcase
+  assign is_rose_color = false
+  if option_name == 'floral color'
+    assign is_rose_color = true
+  endif
+%}
+
+<button
+  class="
+    {{c}} 
+    {{ modifier }} 
+    js-productOptionBtn
+    {% if value == option.selected_value %} active-option {% endif %}
+    {% unless swatch_image %} text-option {% endunless %}
+    {% if wide_swatch_options contains option_name %} wide-swatch-image {% endif %}
+    {% unless available %} not-available {% endunless %}
+  "
+  data-option-value="{{ value }}"
+  data-option-position="{{ option.position }}"
+  {% unless available %}
+    data-not-available="1"
+  {% endunless %}
+  aria-label="Select {{ value }} product variant"
+>
+  {% if swatch_image %}
+    {%
+      render 'image'
+      component_class: image_component_class,
+      class: image_class,
+      image: swatch_image,
+      sizes: '0',
+    %}
+    
+    <div class="{{c}}__title body-s">
+      {{ value }}
+      {% if is_rose_color %}
+        <span class="{{c}}__color-message">
+          - {{ swatch_image.alt | split: '-' | last | strip }}
+        </span>
+      {% endif %}
+    </div>
+
+  {% else %}
+    <div class="{{c}}__text-option">
+      <span class="body-s">
+        {{ value }}
+      </span>
+    </div>
+  {% endif %}
+</button>

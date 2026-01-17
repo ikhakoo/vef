@@ -1,0 +1,43 @@
+{% liquid
+  assign c = "CollectionHatboxNav"
+  assign blocks = blocks
+
+  assign image_component_class = c | append: '__thumbnail-image-wrap'
+  assign image_class = c | append: '__thumbnail-image'
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__container swiper js-hatboxNavContainer">
+    <div class="{{c}}__wrapper swiper-wrapper">
+      {% for block in blocks %}
+        {% liquid
+          assign label = block.settings.nav_label
+          assign thumbnail = block.settings.nav_thumb
+        %}
+
+        <div class="{{c}}__slide swiper-slide">
+          <button 
+            class="{{c}}__btn js-hatboxNavBtn {% if forloop.first %} is-active {% endif %}"
+            data-shape="{{ block.settings.title | handleize }}"
+            aria-label="Scroll to {{ label }} Hatboxes"
+          >
+            {%
+              render 'image',
+              component_class: image_component_class,
+              class: image_class,
+              image: thumbnail,
+              sizes: '0',
+            %}
+
+            <span class="{{c}}__btn-text btn-copy">
+              {{ label }}
+            </span>
+          </button>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

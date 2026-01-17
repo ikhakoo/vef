@@ -1,0 +1,93 @@
+{% liquid
+  assign c = 'ProductSubscriptionWidget'
+  assign settings = settings
+  assign bg_color = settings.subscription_benefit_bg | default: '#ffffff'
+  assign current_variant = product.selected_or_first_available_variant | default: product.variants.first
+  assign group = product.selling_plan_groups | where: 'app_id', '5859381' | first
+  assign allocation = current_variant | map: 'selling_plan_allocations' | where: 'selling_plan_group_id', group.id | first
+  assign plan = allocation.selling_plan
+  assign subscription_banners = section.blocks | where: 'type', 'subscription_banner'
+  assign banner_settings = false
+
+  for banner in subscription_banners
+    assign product_string = product.id | append: ''
+    if banner.settings.product_id == product_string
+      assign banner_settings = banner.settings
+    endif
+  endfor
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <script>
+    console.log("Hellow????", {{ product_string | json }}, {{ banner_settings | json }})
+  </script>
+  <div class="{{c}}__subscription-container js-subscriptionContainer">
+    <div class="{{c}}__option-header subheader">
+      <div class="{{c}}__option-title">Selling Plan :</div>
+      <div class="{{c}}__option-value js-selectedPlanName">{{ banner_settings.plan_display_name }}</div>
+    </div>
+
+    <div class="{{c}}__selling-plans">
+      <div
+        class="{{c}}__selling-plan body js-sellingPlan selected-plan"
+        data-plan-id="{{ plan.id }}"
+        data-plan-name="{{ plan.name }}"
+        data-plan-display-name="{{ banner_settings.plan_display_name }}"
+      >
+        <div class="{{c}}__selling-plan-top">
+          <div class="{{c}}__plan-name js-groupName">{{ banner_settings.plan_display_name }}</div>
+          <div class="{{c}}__selling-plan-badge caption">{{ banner_settings.badge_content }}</div>
+          <div class="{{c}}__plan-price ">
+            <span class="js-planPrice">{{ allocation.price | money_without_trailing_zeros }}</span>
+            <span class="compare-at js-planCompareAtPrice {% if allocation.compare_at_price == allocation.price %}hidden{% endif %}">
+              {{- allocation.compare_at_price | money_without_trailing_zeros -}}
+            </span>
+          </div>
+        </div>
+        <div class="{{c}}__selling-plan-content">
+          <div class="{{c}}__plan-benefits body-s">
+            <div class="{{c}}__benefits-column">
+              <ul>
+                {% if banner_settings.benefit_1 != '' %}
+                  <li>{{ banner_settings.benefit_1 }}</li>
+                {% endif %}
+                {% if banner_settings.benefit_2 != '' %}
+                  <li>{{ banner_settings.benefit_2 }}</li>
+                {% endif %}
+                {% if banner_settings.benefit_3 != '' %}
+                  <li>{{ banner_settings.benefit_3 }}</li>
+                {% endif %}
+                {% if banner_settings.benefit_4 != '' %}
+                  <li>{{ banner_settings.benefit_4 }}</li>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="{{c}}__selling-plan js-sellingPlan"
+        data-plan-id=""
+        data-plan-name=""
+        data-plan-display-name="One-time Purchase"
+      >
+        <div class="{{c}}__one-time-content body">
+          <div>One-time purchase</div>
+          <div class="{{c}}__plan-price js-planCompareAtPrice">
+            {{ current_variant.price | money_without_trailing_zeros }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .ProductSubscriptionWidget__selling-plan-badge {
+    background: {{ banner_settings.badge_color }}
+  }
+</style>

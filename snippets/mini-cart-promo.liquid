@@ -1,0 +1,15 @@
+{% liquid
+  assign c = "MiniCartPromo"
+  assign settings = settings
+%}
+
+<div
+  class="{{c}}"
+>
+  <div
+    class="{{c}}__cart-message caption"
+    style="background: {{ settings.cart_message_background }}; color: {{ settings.cart_message_text }};"
+  >
+    {{ settings.cart_message }}
+  </div>
+</div>

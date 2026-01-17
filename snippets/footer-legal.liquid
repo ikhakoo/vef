@@ -1,0 +1,38 @@
+{% liquid
+  assign c = "FooterLegal"
+  assign settings = settings | default: false
+  assign accessibility_url = settings.accessibility_url | default: false
+  assign accessibility = settings.accessibility_text | default: 'Accessibility'
+  assign legal_url = settings.legal_url | default: false
+  assign legal = settings.legal_text | default: 'Terms & Conditions - Privacy'
+%}
+
+{% capture copyright %}
+  © {{ 'now' | date: '%Y' }} {{ 'layout.legal.copyright' | t }}
+{% endcapture %}
+
+<div
+  class="{{c}}"
+>
+  <div class="{{c}}__container">
+    <ul class="{{c}}__list">
+      {% if legal_url %}
+        <li class="{{c}}__item">
+          <a href="{{ legal_url }}" class="{{c}}__link body-s">
+           {{ legal }}
+          </a>
+        </li>
+      {% endif %}
+      {% if accessibility_url %}
+        <li class="{{c}}__item">
+          <a href="{{ accessibility_url }}" class="{{c}}__link body-s">
+            {{ accessibility }}
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+    <div class="{{c}}__copyright body-s">
+      {{ copyright }}
+    </div>
+  </div>
+</div>

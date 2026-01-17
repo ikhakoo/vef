@@ -1,0 +1,34 @@
+{% liquid
+  assign c = "AccountBanner"
+%}
+
+<div
+  class="{{c}}"
+  
+>
+  <div class="{{c}}__wrapper">
+    <div class="{{c}}__banner">
+      <div class="{{c}}__image">
+        <img
+          class="{{ class }} fallback-aspect"
+          src="https://cdn.shopify.com/s/files/1/0859/1856/files/venus_archive_icon_5801dfb1-cc01-40f8-a2f0-90621836c358.png?v=1732136019"
+          alt="{{ alt }}"
+        >
+      </div>
+      <div class="{{c}}__content">
+        <div class="{{c}}__heading h5">
+          From the Venus Archives
+        </div>
+        <div class="{{c}}__subheading body">
+          Our celebrated past collections have returned for a limited time to the Venus vault with exclusive pricing.
+        </div>
+        <a
+          class="{{c}}__cta cta cta--black"
+          href="/collections/from-the-venus-archive"
+        >
+          Shop the archives
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

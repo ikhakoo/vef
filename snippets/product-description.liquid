@@ -1,0 +1,107 @@
+{% liquid
+  assign c = "ProductDescription"
+  assign title = title
+  assign product_media = product_media
+  assign featured_image = featured_image
+  assign no_media = no_media | default: false
+  assign description_media = featured_image
+  assign video_src = false
+  assign video_thumb = false
+  assign image_component_class = c | append: '__image-wrap'
+  assign image_class = c | append: '__image'
+  assign video_component_class = c | append: '__video-wrap'
+  assign video_class = c | append: '__video'
+
+  assign product_videos = product_media | where: 'media_type', 'video'
+  for video in product_videos
+    assign alt = video.alt
+    if alt == '' or alt == blank or alt == title
+      assign description_media = video
+      assign video_src = video.sources | where: 'mime_type', 'video/mp4' | first
+      assign video_thumb = video.preview_image | image_url: width: 1024
+      break
+    endif
+  endfor
+
+  unless video_src
+    for media in product_media
+      if media.alt contains 'description'
+        assign description_media = media
+        break
+      endif
+    endfor
+  endunless
+
+  assign description = description
+  assign split = '<!-- split -->'
+  assign tab_split = '<!-- product tab -->'
+  assign content_split = '<!-- tab content split -->'
+  assign accordions = description | split: split | first | split: tab_split
+%}
+
+<div
+  id="{{c}}"
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  {% if no_media == false %}
+    <div class="{{c}}__media">
+      {% if description_media.media_type == 'video' %}
+        {%
+          render 'video',
+          component_class: video_component_class,
+          class: video_class,
+          video: video_src.url,
+          poster: video_thumb,
+        %}
+      {% else %}
+        {%
+          render 'image',
+          component_class: image_component_class,
+          class: image_class,
+          image: description_media,
+          sizes: '325,425,600,768,1024',
+        %}
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div class="{{c}}__description {% if no_media %}full-width{% endif %}">
+    {% for accordion in accordions %}
+      {% liquid
+        assign parts = accordion | split: content_split
+        assign tab = parts | first | strip | strip_newlines
+        assign content = parts | last | strip | strip_newlines
+        assign id = c | append: forloop.index
+      %}
+
+      {% if tab and content %}
+        <button
+          class="{{c}}__accordion-btn js-accordionBtn"
+          data-index="{{ forloop.index }}"
+          aria-label="View {{ tab }} information"
+          aria-controls="{{ id }}"
+        >
+          <span class="subheader">
+            {{ tab }}
+          </span>
+
+          {%
+            render 'component-icon',
+            icon: 'accordion-plus'
+          %}
+        </button>
+
+        <div
+          id="{{ id }}"
+          class="{{c}}__accordion-content body js-accordionBody"
+          data-index="{{ forloop.index }}"
+          aria-hidden="true"
+          aria-expanded="false"
+        >
+          {{ content }}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>

@@ -1,0 +1,39 @@
+{% liquid
+  assign items = items
+  assign has_product_upsell = ''
+
+  for item in items
+    assign associated_prop = item.properties['_associated_product_key'] | default: false
+
+    if associated_prop
+      assign has_product_upsell = has_product_upsell | append: associated_prop | append: ','
+    endif
+  endfor
+%}
+
+{% liquid
+  for item in items
+
+    assign product_upsells = item.product.metafields.custom.product_upsells.value
+    assign has_upsell = false
+    assign upsell_keys = ''
+    assign upsells_in_cart = ''
+    if has_product_upsell contains item.key
+      assign has_upsell = true
+      for cart_item in items
+
+        if cart_item.properties['_associated_product_key'] == item.key
+          assign upsell_keys = upsell_keys | append: ',' | append: cart_item.key
+          assign upsells_in_cart = upsells_in_cart | append: ',' | append: cart_item.properties['_upsell_id']
+        endif
+      endfor
+    endif
+
+    assign upsell_keys = upsell_keys | remove_first: ","
+    render 'cart-item', item: item, upsell_keys: upsell_keys
+
+    if product_upsells
+      render 'cart-upsells' product_upsells: product_upsells, cart_item: item, upsells_in_cart: upsells_in_cart
+    endif
+  endfor
+%}

@@ -1,0 +1,55 @@
+{% liquid
+  assign c = "ActiveFilters"
+  assign filters = filters
+  assign active_filter_count = active_filter_count
+  assign price_filter = false
+  assign has_coast_filter = false
+
+
+  for filter in filters
+    if filter.type == 'price_range'
+      if filter.min_value.value != nil or filter.max_value.value != nil
+        assign price_filter = filter
+      endif
+    endif
+
+    if filter.param_name == 'filter.p.m.custom.concierge_coast'
+      assign active_values_count = filter.active_values | size
+      if active_values_count > 0
+        assign has_coast_filter = true
+      endif
+    endif
+  endfor
+
+  assign hide_active_filters = true
+
+  if active_filter_count > 0 or price_filter
+    assign hide_active_filters = false
+  endif
+
+  if active_filter_count == 1 and has_coast_filter
+    assign hide_active_filters = true
+  endif
+%}
+
+<div class="{{c}} {% if hide_active_filters %} hide-active-filters {% endif %} js-activeFiltersWrap">
+  <div class="{{c}}__container js-activeFiltersContainer">
+    {% for filter in filters %}
+      {% for value in filter.active_values %}
+        {%
+          render 'active-filter',
+          value: value
+        %}
+      {% endfor %}
+    {% endfor %}
+
+    {% if price_filter %}
+      {%
+        render 'active-filter',
+        price_filter: price_filter,
+      %}
+    {% endif %}
+  </div>
+
+  {% render 'filter-clear' %}
+</div>

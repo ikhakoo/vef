@@ -1,0 +1,33 @@
+{% liquid
+  assign c = "NavigationMenu"
+  assign navigation = navigation
+  assign media = media | default: ""
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <ul class="{{c}}__nav-list">
+    {% for link in navigation %}
+      <li class="{{c}}__nav-item">
+        {% if media == "mobile" %}
+          {% render "navigation-menu-button", 
+            link: link,
+            level: "main",
+            js_assignment: "js-navMenuOpen",
+            media: media,
+            arrow: "right"
+          %}
+        {% else %}
+          {% render "navigation-menu-link", 
+            link: link,
+            level: "main",
+            js_assignment: "js-navigationMenuDesktopLink",
+            media: media
+          %}
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</div>

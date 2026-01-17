@@ -1,0 +1,423 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "KP",
+    "theme_version": "1.0.0",
+    "theme_author": "King & Partners",
+    "theme_documentation_url": "https://kingandpartners.com",
+    "theme_support_url": "https://kingandpartners.com"
+  },
+  {
+    "name": "Custom Functionality",
+    "settings": [
+      {
+        "type": "header",
+        "content": "A/B Testing Class Hider"
+      },
+      {
+        "type": "text",
+        "id": "ab_hide",
+        "label": "Class names to hide for A/B testing, separate with commas, for example: '.AB_test1, .AB_test2, .hide_pdp'"
+      }
+    ]
+  },
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "color",
+        "id": "header_fixed_background",
+        "label": "Header Fixed Background",
+        "default": "#f5f1ed"
+      },
+      {
+        "type": "select",
+        "id": "header_fixed_text",
+        "label": "Header Fixed Text Color",
+        "options": [
+          {
+            "value": "#fff",
+            "label": "White"
+          },
+          {
+            "value": "#000",
+            "label": "Black"
+          }
+        ],
+        "default": "#000"
+      }
+    ]
+  },
+  {
+    "name": "Promobar",
+    "settings": [
+      {
+        "type": "select",
+        "id": "promo_type",
+        "label": "Type",
+        "options": [
+          { "value": "text", "label": "Text" },
+          { "value": "carousel", "label": "Carousel" },
+          { "value": "countdown", "label": "Countdown Timer" },
+          { "value": "none", "label": "None" }
+        ],
+        "default": "text"
+      },
+      {
+        "type": "checkbox",
+        "id": "promo_top_of_page_placement",
+        "label": "Always show promobar at top of page?",
+        "default": false
+      },
+      {
+        "type": "richtext",
+        "id": "promo_title_1",
+        "label": "Promobar Text 1"
+      },
+      {
+        "type": "richtext",
+        "id": "promo_title_2",
+        "label": "Promobar Text 2"
+      },
+      {
+        "type": "richtext",
+        "id": "promo_title_3",
+        "label": "Promobar Text 3"
+      },
+      {
+        "type": "richtext",
+        "id": "promo_title_4",
+        "label": "Promobar Text 4"
+      },
+      {
+        "type": "text",
+        "id": "countdown_date_time",
+        "label": "Countdown Timer Date and Time (EST)",
+        "default": "2022-12-25T00:00:00",
+        "info": "E.g countdown to 1 second before Christmas formatted as: 2022-12-24T23:59:59"
+      },
+      {
+        "type": "richtext",
+        "id": "countdown_fallback_text",
+        "label": "Countdown Timer Fallback Text"
+      },
+      {
+        "type": "color",
+        "id": "promo_background",
+        "label": "Promobar Background Color",
+        "default": "#c4b0a9"
+      },
+      {
+        "type": "select",
+        "id": "promo_text_color",
+        "label": "Promobar Text Color",
+        "options": [
+          {
+            "value": "#fff",
+            "label": "White"
+          },
+          {
+            "value": "#000",
+            "label": "Black"
+          }
+        ],
+        "default": "#000"
+      }
+    ]
+  },
+  {
+    "name": "Products",
+    "settings": [
+      {
+        "type": "text",
+        "id": "product_image_swatch_options",
+        "label": "Product Image Swatch Options",
+        "default": "floral color,rose color,color,ombré,ombre,hue,vase,votive,occasion",
+        "info": "A comma separated list of product options that should pull in an image swatch (ex. Rose Color)"
+      },
+      {
+        "type": "text",
+        "id": "product_specific_image_swatch_options",
+        "label": "Product Specific Image Swatch Options",
+        "default": "scent",
+        "info": "A comma separated list of product options that have values that aren't unique (ex. Scent)"
+      },
+      {
+        "type": "text",
+        "id": "product_variant_values_to_hide",
+        "label": "Options that Should be Hidden for All Product IDs",
+        "info": "A comma separated list of product option values that should be hidden across all products"
+      }
+    ]
+  },
+  {
+    "name": "Quick Shop",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Card"
+      },
+      {
+        "type": "image_picker",
+        "id": "card_image",
+        "label": "Image"
+      },
+      {
+        "type": "text",
+        "id": "card_title",
+        "label": "Title",
+        "default": "VEF Logo"
+      },
+      {
+        "type": "text",
+        "id": "card_message_placeholder",
+        "label": "Message field placeholder",
+        "default": "Enter message to add card&#10;(125 characters max)"
+      },
+      {
+        "type": "text",
+        "id": "card_message_clear_btn",
+        "label": "Message clear button text",
+        "default": "Clear Message & Remove Card"
+      }
+    ]
+  },
+  {
+    "name": "Social Media Links",
+    "settings": [
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "Twitter Link"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook Link"
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest_link",
+        "label": "Pinterest Link"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram Link"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok_link",
+        "label": "Tiktok Link"
+      },
+      {
+        "type": "text",
+        "id": "social_tumblr_link",
+        "label": "Tumblr Link"
+      },
+      {
+        "type": "text",
+        "id": "social_snapchat_link",
+        "label": "Snapchat Link"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "Youtube Link"
+      },
+      {
+        "type": "text",
+        "id": "social_vimeo_link",
+        "label": "Vimeo Link"
+      }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  },
+  {
+    "name": "Account Login / Registration",
+    "settings": [
+      {
+        "type": "richtext",
+        "id": "registration_disclaimer",
+        "label": "Registration Disclaimer",
+        "default": "<p>By signing up, you agree to our Terms of Use and Privacy Policy</p>"
+      },
+      {
+        "type": "richtext",
+        "id": "login_disclaimer",
+        "label": "Login Disclaimer"
+      },
+      {
+        "type": "richtext",
+        "id": "reset_disclaimer",
+        "label": "Reset Password Disclaimer",
+        "default": "<p>By reseting, you agree to our Terms of Use and Privacy Policy</p>"
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "text",
+        "id": "mini_cart_title",
+        "label": "Mini cart title",
+        "default": "My Cart"
+      },
+      {
+        "type": "header",
+        "content": "Empty Cart State"
+      },
+      {
+        "type": "text",
+        "id": "empty_cart_message",
+        "label": "Empty cart message",
+        "default": "Your cart is empty"
+      },
+      {
+        "type": "text",
+        "id": "empty_cart_link_text",
+        "label": "Empty cart link text",
+        "default": "Let's Shop"
+      },
+      {
+        "type": "header",
+        "content": "Cart Upsell"
+      },
+      {
+        "type": "text",
+        "id": "upsell_title",
+        "label": "Upsell title",
+        "default": "Add a Lid Message"
+      },
+      {
+        "type": "text",
+        "id": "upsell_item_title",
+        "label": "Upsell item title",
+        "default": "Lid Message"
+      },
+      {
+        "type": "header",
+        "content": "Fulfil Configuration"
+      },
+      {
+        "type": "text",
+        "id": "warehouse_holidays",
+        "label": "Warehouse Holidays (MM/DD/YYYY)",
+        "default": "09/18/2022,09/17/2022,12/25/2022"
+      },
+      {
+        "type": "number",
+        "id": "weekday_cutoff",
+        "label": "General Cutoff for weekdays",
+        "default": 18
+      },
+      {
+        "type": "number",
+        "id": "saturday_cutoff",
+        "label": "General Cutoff for Saturdays",
+        "default": 13
+      },
+      {
+        "type": "number",
+        "id": "east_hand_delivery_cutoff",
+        "label": "East Cutoff for Hand Delivery",
+        "default": 14
+      },
+      {
+        "type": "number",
+        "id": "west_hand_delivery_cutoff",
+        "label": "West Cutoff for Hand Delivery",
+        "default": 14
+      },
+      {
+        "type": "text",
+        "id": "priority_shipping_rate",
+        "label": "Priority Shipping Rate Name",
+        "default": "Get It In Time"
+      },
+      {
+        "type": "header",
+        "content": "Calendar Configuration"
+      },
+      {
+        "type": "text",
+        "id": "calendar_shipping_rate",
+        "label": "Calendar Shipping Rate",
+        "default": "SHIPS AFTER MOTHER'S DAY - Standard Shipping"
+      },
+      {
+        "type": "checkbox",
+        "id": "calendar_enabled",
+        "label": "Enable Calendar?",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "disqualified_ids",
+        "label": "Disqualified IDs",
+        "info": "A cart qualifies for the calendar if it has at least one product not specified in this list."
+      },
+      {
+        "type": "text",
+        "id": "disabled_dates",
+        "label": "Disabled Dates for Calendar (MM\/DD\/YYYY)",
+        "placeholder": "ex. 12\/25\/2020"
+      },
+      {
+        "type": "checkbox",
+        "id": "sundays_enabled",
+        "label": "Enable Sundays?",
+        "default": false
+      },
+      {
+        "type": "number",
+        "id": "min_date",
+        "label": "Calendar Min (Days)",
+        "default": 2
+      },
+      {
+        "type": "number",
+        "id": "max_date",
+        "label": "Calendar Max (Weeks)",
+        "default": 52
+      }
+    ]
+  },
+  {
+    "name": "Attentive",
+    "settings": [
+      {
+        "type": "text",
+        "id": "attentive_id",
+        "label": "Attentive account reference"
+      }
+    ]
+  },
+  {
+    "name": "Algolia",
+    "settings": [
+      {
+        "type": "text",
+        "id": "algolia_app_id",
+        "label": "App ID",
+        "default": "RWYZG140DB"
+      },
+      {
+        "type": "text",
+        "id": "algolia_key",
+        "label": "Key",
+        "default": "eda28bcca3d7170f31fb36ae0a9052a6"
+      }
+    ]
+  }
+]

@@ -1,0 +1,25 @@
+{% liquid
+  assign c = "BlogArticleGrid"
+  assign articles = articles | sort_by: "published_at"
+%}
+
+<div
+  class="{{c}}"
+>
+  <div class="{{c}}__inner">
+    {% for article in articles %}
+      {% liquid
+        assign image = article.image | default: false
+        assign title = article.title | default: false
+        assign date = article.published_at | date: format: 'abbreviated_date' | default: false
+        assign url = article.url
+      %}
+      {% render 'blog-article-card',
+        image: image,
+        title: title,
+        date: date,
+        url: url
+      %}
+    {% endfor %}
+  </div>
+</div>

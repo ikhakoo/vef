@@ -1,0 +1,55 @@
+{% liquid
+  assign c = "EditorialCarouselSlide"
+  assign video_url = video_url | default: false
+  assign image = image | default: false
+  assign alignment = alignment | default: false
+  assign flex_align = flex_align | default: false
+  assign quote = quote | default: false
+  assign logo = logo | default: false
+  assign image_component_class = c | append: "__image-container"
+  assign image_class = c | append: "__image"
+  assign video_component_class = c | append: '__video-wrap'
+  assign video_class = c | append: '__video'
+%}
+
+<div
+  class="{{c}} swiper-slide"
+>
+  {% if video_url %}
+    {% assign poster = image | image_url: width: 600 %}
+    {% render 'video',
+      component_class: video_component_class,
+      class: video_class,
+      video: video_url,
+      poster: poster
+    %}
+  {% else %}
+    {% render 'image',
+      component_class: image_component_class,
+      class: image_class,
+      image: image,
+      sizes: "300, 768, 1024, 1200"
+    %}
+  {% endif %}
+
+  {% if quote %}
+    <div
+      class="{{c}}__text"
+      style="align-items:{{ flex_align }};text-align:{{ alignment }};"
+    >
+      <div class="{{c}}__text-inner">
+        <p class="{{c}}__quote quote">
+          {{ quote }}
+        </p>
+        {% if logo %}
+          {% assign logo_class = c | append: '__logo' %}
+          {% render 'image',
+            class: logo_class,
+            image: logo,
+            sizes: "300"
+          %}
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+</div>

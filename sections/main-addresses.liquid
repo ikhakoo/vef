@@ -1,0 +1,21 @@
+{% render 'account-page',
+  settings: section.settings
+%}
+{% schema %}
+{
+  "name": "Account Addresses",
+  "settings": [
+    {
+      "type": "text",
+      "id": "loyalty_text",
+      "label": "Text for loyalty tab",
+      "default": "Loyalty"
+    },
+    {
+      "type": "url",
+      "id": "loyalty_url",
+      "label": "Url for loyalty informational page"
+    }
+  ]
+}
+{% endschema %}

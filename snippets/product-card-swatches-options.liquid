@@ -1,0 +1,78 @@
+{% liquid
+  assign c = "ProductCardSwatches"
+  assign options = options
+  assign variants = variants
+  assign current_variant = current_variant
+  assign featured_option = featured_option | default: 'option2'
+  assign collection = collection | default: false
+  assign options_count = options.values | size
+  assign swatch_count = 1
+  assign mobile_stop_limit = mobile_stop_limit | default: 3
+  assign desktop_stop_limit = desktop_stop_limit | default: 7
+  assign hidden_options = settings.product_variant_values_to_hide | split: ','
+%}
+
+<div class="{{c}} js-productCardSwatches">
+  {%
+    render 'product-card-swatch',
+    variant: current_variant,
+    featured_option: featured_option,
+    is_active: true,
+  %}
+
+  {% for value in options.values %}
+    {% unless value == current_variant[featured_option] %}
+      {% if swatch_count == mobile_stop_limit %}
+        {% assign remaining_swatches = options_count | minus: swatch_count %}
+
+        <div class="{{c}}__remaining-count mobile-remaining-count body-s">
+          +{{ remaining_swatches }} more
+        </div>
+      {% endif %}
+
+      {% if swatch_count == desktop_stop_limit %}
+        {% assign remaining_swatches = options_count | minus: swatch_count %}
+
+        <div class="{{c}}__remaining-count desktop-remaining-count body-s">
+          +{{ remaining_swatches }} more
+        </div>
+        {% break %}
+      {% endif %}
+
+      {% liquid
+        assign swatch_count = swatch_count | plus: 1
+        assign is_desktop_swatch = false
+        assign swatch_variant = nil
+        assign hide_option = false
+
+        if swatch_count > mobile_stop_limit
+          assign is_desktop_swatch = true
+        endif
+
+        for variant in variants
+          if value == variant[featured_option]
+            assign swatch_variant = variant
+            break
+          endif
+        endfor
+
+        for option in hidden_options
+          if option == swatch_variant[featured_option]
+            assign hide_option = true
+          endif
+        endfor
+      %}
+
+      {% unless hide_option %}
+        {%
+          render 'product-card-swatch',
+          variant: swatch_variant,
+          featured_option: featured_option,
+          is_desktop_swatch: is_desktop_swatch,
+          collection: collection,
+        %}
+      {% endunless %}
+
+    {% endunless %}
+  {% endfor %}
+</div>

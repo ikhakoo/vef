@@ -1,0 +1,47 @@
+{% liquid
+  assign c = "PromobarCarousel"
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__container swiper js-promoSwiperContainer">
+    <div class="{{c}}__wrapper swiper-wrapper">
+      {% for i in (1..4) %}
+        {% liquid
+          assign promo_id = 'promo_title_' | append: i
+          assign promo = settings[promo_id] | default: false
+        %}
+
+        {% if promo %}
+          <div class="{{c}}__slide swiper-slide">
+            <div class="{{c}}__title caption settings-text-color">
+              {{ promo }}
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <button 
+    class="{{c}}__arrow {{c}}__arrow--prev js-promoSwiperPrev settings-text-color"
+    aria-label="View previous promotional message"
+  >
+    {%
+      render 'component-icon',
+      icon: 'chevron-icon'
+    %}
+  </button>
+
+  <button 
+    class="{{c}}__arrow {{c}}__arrow--next js-promoSwiperNext settings-text-color"
+    aria-label="View next promotional message"
+  >
+    {%
+      render 'component-icon',
+      icon: 'chevron-icon'
+    %}
+  </button>
+</div>

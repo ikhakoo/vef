@@ -1,0 +1,33 @@
+{% liquid
+  assign c = "CollectionHatboxProductGrid"
+  assign collection = collection
+  assign shape = shape | handleize
+
+  assign modifiers_class = c | append: '__product-card'
+%}
+
+<div class="{{c}}">
+  {% for product in collection.products %}
+    {% liquid
+      assign show_product = false
+      assign product_shape = product.metafields.custom.hatbox_shape | handleize
+
+      if shape == product_shape
+        assign show_product = true
+      endif
+    %}
+
+    {% if show_product %}
+      <div class="{{c}}__products">
+        {%  
+          render 'product-card',
+          product: product,
+          collection: collection,
+          no_color_filters_active: true,
+          quick_shop_enabled: true,
+          modifiers: modifiers_class,
+        %}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>

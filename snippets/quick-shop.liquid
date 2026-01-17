@@ -1,0 +1,53 @@
+{% liquid
+  assign c = "QuickShop"
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  aria-hidden="true"
+  aria-expanded="false"
+>
+  <button 
+    class="{{c}}__close-btn js-quickShopCloseBtn"
+    aria-label="Close product quick shop"
+  >
+    {%
+      render 'component-icon',
+      icon: 'close-icon',
+    %}
+  </button>
+
+  <div class="{{c}}__offset-overlay js-quickShopInfoToggle"></div>
+
+  <div class="{{c}}__body">
+    <div class="{{c}}__images-wrap js-quickShopProductImages"></div>
+
+    <div 
+      class="{{c}}__info-wrap js-quickShopInfoDrawer"
+      id="QuickShopInfoWrap"
+    >
+      <div class="{{c}}__info">
+        <button 
+          class="{{c}}__info-toggle js-quickShopInfoToggle"
+          aria-label="Show more"
+          aria-controls="QuickShopInfoWrap"
+        >
+          {%
+            render 'component-icon',
+            icon: 'plus-icon'
+          %}
+        </button>
+
+        <div class="{{c}}__info-content js-quickShopProductOptions"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="{{c}}__footer js-quickShopProductForm"></div>
+
+  <script
+    class="js-quickShopProductJson"
+    type="application/json"
+  ></script>
+</div>

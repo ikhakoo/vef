@@ -1,0 +1,93 @@
+{% liquid
+  assign c = "ProductCustomizerForm"
+  assign settings = settings
+  assign product = product
+  assign cards = cards
+  assign current_variant = current_variant
+
+  assign available_text = 'Add To Cart'
+  for tag in product.tags
+    if tag contains 'AltCTA:'
+      assign available_text = tag | remove: "AltCTA:" 
+    endif
+  endfor
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div
+    class="{{c}}-wrap js-formWrap LoadingShimmer"
+  >
+    {%- comment -%}Threekit form is injected here{%- endcomment -%}
+    <div id="tk-treble-form"></div>
+
+    <form
+      class="{{c}}__form js-productCustomizerForm js-product-afterpay ProductForm-controls"
+      action="/cart/add"
+      method="post"
+    >
+      {%
+        render 'product-customizer-card-form',
+        cards: cards
+      %}
+
+      <input
+        type="hidden"
+        name="quantity"
+        value="1"
+      >
+
+      <input
+        type="hidden"
+        name="Greeting Card Style"
+        class="js-cardStyleInput"
+        value=""
+      >
+
+      <input
+        type="hidden"
+        name="Greeting Card Message"
+        class="js-cardMessageInput"
+        value=""
+      >
+
+      {% render "product-checkout-attributes",
+        product: product,
+      %}
+
+      <div class="{{c}}__submit-wrap">
+        <button
+          class="
+            {{c}}__submit
+            js-productSubmitBtn
+            js-klaviyoAddToCart
+            cta
+            cta--black
+            {% unless current_variant.available %} not-available {% endunless %}
+          "
+          type="submit"
+        >
+          <span class="{{c}}__submit--available-text">
+            {{ available_text }}
+          </span>
+        </button>
+        <div class="js-productCustomizerInfo"></div>
+      </div>
+    </form>
+
+    {%
+      render 'product-builder-snippets',
+      location: 'below-form'
+    %}
+  </div>
+
+  <script
+    class="js-productAvailable"
+    type="application/json"
+  >
+    {{ product.available }}
+  </script>
+
+  </div>

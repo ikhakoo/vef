@@ -1,0 +1,62 @@
+{% liquid
+  assign c = "PageThreeColumn"
+  assign image = image | default: false
+  assign image_mobile = image_mobile | default: false
+  assign image_component_class = c | append: "__image-container"
+  assign image_class = c | append: "__image"
+%}
+
+<section
+  class="{{c}} js-inview-entry"
+>
+  <div class="{{c}}__container fallback-aspect">
+
+    {% render 'image',
+      component_class: image_component_class,
+      class: image_class,
+      image: image_mobile,
+      sizes: "350",
+      image_2: image,
+      sizes_2: "768, 1024, 1200"
+    %}
+
+    <div class="{{c}}__columns">
+      {% for i in (1..3) %}
+        {% capture image_hover %}image_hover_{{ i }}{% endcapture %}
+        {% capture image_hover_mobile %}image_hover_mobile_{{ i }}{% endcapture %}
+        {% capture header %}header_{{ i }}{% endcapture %}
+        {% capture url %}url_{{ i }}{% endcapture %}
+        {% liquid
+          assign hover_image_component_class = c | append: "__hover-image-container"
+          assign hover_image_class = c | append: "__hover-image"
+          assign image_hover = [image_hover] | default: false
+          assign image_hover_mobile = [image_hover_mobile] | default: false
+          assign header = [header] | default: false
+          assign url = [url] | default: false
+        %}
+
+        <div class="{{c}}__column">
+
+          <div class="{{c}}__hover-container">
+            {% render 'image',
+              component_class: hover_image_component_class,
+              class: hover_image_class,
+              image: image_hover_mobile,
+              sizes: "350",
+              image_2: image_hover,
+              sizes_2: "768, 1024, 1200"
+            %}
+          </div>
+
+          <div class="{{c}}__text-container">
+            <a class="{{c}}__link h3 Tr--fade-in-up Tr--delay--{{ forloop.index | times: 3 }}00" href="{{ url }}">
+              <span class="{{c}}__link-text">
+                {{ header }}
+              </span>
+            </a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,57 @@
+{% liquid
+  assign c = "PressTicker"
+  assign section = section
+
+  assign title = section.title | default: false
+  assign bg_color = section.bg_color | default: false
+  assign text_color = section.text_color | default: false
+  assign logos = 'nyt,forbes,bazaar,vogue,allure,marie-claire,cosmopolitan' | split: ','
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  {% if bg_color %} style="background-color: {{ bg_color }}" {% endif %}
+>
+  {% if title %}
+    <div 
+      class="{{c}}__title subheader"
+      {% if text_color %} style="color: {{ text_color }}" {% endif %}
+    >
+      {{ title }}
+    </div>
+  {% endif %}
+
+  <div 
+    class="{{c}}__container splide js-pressTickerContainer"
+    role="region"
+    aria-label="Featured press carousel"
+  >
+    <div class="{{c}}__track splide__track">
+      <div class="{{c}}__list splide__list">
+        {% for logo in logos %}
+          {% liquid
+            assign enable_logo_id = 'enable_' | append: logo
+            assign enable_logo = section[enable_logo_id] | default: false
+
+            unless enable_logo
+              continue
+            endunless
+          %}
+
+          <div 
+            class="{{c}}__slide splide__slide"
+            role="group"
+            aria-label="{{ logo }} logo"
+          >
+            {%
+              render 'press-ticker-icons',
+              icon: logo,
+              path_color: text_color,
+            %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,79 @@
+{% liquid
+  assign c = "AccountOrder"
+  assign order = order
+
+  assign contains_subscription = false
+  for line_item in order.line_items
+    if line_item.selling_plan_allocation != nil
+      assign contains_subscription = true
+    endif
+  endfor
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  id="order-info"
+>
+  <div class="{{c}}__container">
+
+    <div class="{{c}}__number-container">
+      <p class="{{c}}__number subheader">
+        Order {{ order.order_number }}
+        <span class="{{c}}__status">
+          - {{ order.fulfillment_status }}
+        </span>
+      </p>
+      <div class="{{c}}__controls">
+        {% if contains_subscription %}
+          <a href="/tools/recurring/login/" class="{{c}}__order-manage-subscription cta--link body-s">
+            Manage Subscription
+          </a>
+        {% endif %}
+        <button
+          class="{{c}}__order-cta {{c}}__order-cta-show body-s js-show-order-details-btn"
+          aria-controls="order-info"
+        >
+          View Order
+        </button>
+        <button
+          class="{{c}}__order-cta body-s {{c}}__order-cta-hide js-hide-order-details-btn"
+          aria-controls="order-info"
+        >
+          Hide Order
+        </button>
+      </div>
+    </div>
+    <div
+      class="{{c}}__base-info js-order-base-info"
+    >
+      <div class="{{c}}__info">
+        <span class="{{c}}__info-key subheader">
+          Date:
+        </span>
+        <span class="{{c}}__info-value body">
+          {{ order.created_at | date: format: 'date' }}
+        </span>
+      </div>
+      <div class="{{c}}__info">
+        <span class="{{c}}__info-key subheader">
+          Status:
+        </span>
+        <span class="{{c}}__info-value body">
+          {{ order.fulfillment_status }}
+        </span>
+      </div>
+      <div class="{{c}}__info">
+        <span class="{{c}}__info-key subheader">
+          Total:
+        </span>
+        <span class="{{c}}__info-value body">
+          {{ order.total_price | money }}
+        </span>
+      </div>
+    </div>
+    <div class="{{c}}__details js-order-detail-info">
+      {% render 'account-order-detail', order: order %}
+    </div>
+  </div>
+</div>

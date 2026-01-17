@@ -1,0 +1,116 @@
+{% liquid
+  assign c = "CartUpsell"
+  assign cart_item = cart_item
+  assign product = product
+  assign upsell_title = upsell_title
+  assign upsell_id = upsell_id
+  assign current_variant = product.selected_or_first_available_variant
+  assign image_component_class = c | append: '__image-wrap js-variantImageWrap'
+  assign image_class = c | append: '__image js-variantImage'
+  assign id = c | append: '-' | append: cart_item.id
+  assign num_variants = product.variants | size
+  assign only_variant = false
+
+  if num_variants == 1
+    assign only_variant = product.variants[0]
+  endif
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+
+  <div class="{{c}}__wrap">
+    {%
+      render 'image',
+      component_class: image_component_class,
+      class: image_class,
+      image: current_variant.image,
+      sizes: '0'
+    %}
+
+    <div class="{{c}}__info">
+      <div class="{{c}}__upsell-title body">
+        {{ product.title }}
+      </div>
+
+      <div class="{{c}}__select-drop js-optionSelectContainer">
+        {% if only_variant %}
+          <span class="{{c}}__variant-options body-s js-selectedValue">
+            {{ product.options[0] }}: {{ only_variant.option1 }}
+          </span>
+        {% endif %}
+
+        <button
+          class="{{c}}__toggle js-optionToggleBtn {% if only_variant %} hidden{% endif %}"
+          aria-label="Select lid title"
+          aria-controls="#{{ id }}"
+        >
+          <span class="{{c}}__variant-title body-s js-selectedValue">
+            {{ current_variant.title }}
+          </span>
+
+          {%
+            render 'component-icon',
+            icon: 'chevron-icon'
+          %}
+        </button>
+
+        <div
+          class="{{c}}__options"
+          id="{{ id }}"
+        >
+          {% if num_variants == 0 %}
+            {% assign variant = product.variants[0] %}
+            <button
+              class="{{c}}__option  {% if variant.id == current_variant.id %} active-option {% endif %}"
+              data-variant-id="{{ variant.id }}"
+              data-variant-title="{{ variant.title }}"
+              data-variant-price="{{ variant.price | money_without_trailing_zeros }}"
+              data-variant-image="{{ variant.image | image_url: width: 200 }}"
+              aria-label="Select {{ variant.title }} lid message"
+            >
+              <span class="body-s">
+                {{ variant.title }}
+              </span>
+            </button>
+          {% else %}
+            {% for variant in product.variants %}
+              {% if variant.available %}
+                <button
+                  class="{{c}}__option js-optionBtn {% if variant.id == current_variant.id %} active-option {% endif %}"
+                  data-variant-id="{{ variant.id }}"
+                  data-variant-title="{{ variant.title }}"
+                  data-variant-price="{{ variant.price | money_without_trailing_zeros }}"
+                  data-variant-image="{{ variant.image | image_url: width: 200 }}"
+                  aria-label="Select {{ variant.title }} lid message"
+                >
+                  <span class="body-s">
+                    {{ variant.title }}
+                  </span>
+                </button>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="{{c}}__price body-s js-upsellPrice" data-variant-id="{{ current_variant.id }}">
+        {{ current_variant.price | money_without_trailing_zeros }}
+      </div>
+    </div>
+
+    <button
+      class="{{c}}__add-btn btn-copy js-addUpsellBtn"
+      data-variant-id="{{ current_variant.id }}"
+      data-item-key="{{ cart_item.key }}"
+      data-item-title="{{ cart_item.title }}"
+      data-item-sku="{{ cart_item.sku }}"
+      data-upsell-id="{{ upsell_id }}"
+      aria-label="Add lid to cart"
+    >
+      Add
+    </button>
+  </div>
+</div>

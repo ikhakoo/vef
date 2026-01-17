@@ -1,0 +1,60 @@
+{%
+  render 'faq-module-sections',
+  section: section.settings,
+  blocks: section.blocks,
+%}
+
+{% schema %}
+{
+  "name": "FAQs",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video (optonal)"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "checkbox",
+      "id": "left_align_image",
+      "label": "Left align image?",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "name": "FAQ",
+      "type": "faq",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "question",
+          "label": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQs"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["page"]
+  }
+}
+{% endschema %}

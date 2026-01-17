@@ -1,0 +1,73 @@
+{% liquid
+  assign c = "NavigationMobile"
+  assign blocks = blocks
+  assign settings = settings
+  assign navigation = navigation
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__top">
+    <div class="{{c}}__menu-toggles">
+      <button
+        class="{{ c }}__close-menu-btn js-mobileNavClose"
+        aria-label="Close Mobile Nav"
+      >
+        {% render "icon", icon: "close", component: c %}
+      </button>
+      <button
+        class="{{ c }}__open-menu-btn js-mobileNavOpen"
+        aria-label="Show Mobile Menu"
+      >
+        {% render "icon", icon: "burger", component: c %}
+      </button>
+    </div>
+    <div class="{{c}}__logo">
+      <a href="/" aria-label="Home Logo" class="{{c}}__logo-link">
+        {% render "icon", icon: "logo", component: c %}
+      </a>
+    </div>
+
+    <button
+      class="
+        {{c}}__cart-btn
+        js-toggleMiniCart
+        js-emptyCheckContainer
+        {% unless cart.item_count > 0 %} is-empty {% endunless %}
+      "
+      aria-label="Open cart drawer"
+    >
+      <span class="{{c}}__cart-btn--text caption">
+        Cart
+      </span>
+
+      <span class="{{c}}__cart-btn--count caption js-cartItemCount">
+        {{ cart.item_count }}
+      </span>
+    </button>
+  </div>
+
+  <div
+    class="{{c}}__sidebar js-sidebar"
+    aria-hidden="true"
+    aria-expanded="false"
+  >
+
+    {% render 'navigation-menu',
+      navigation: navigation,
+      media: "mobile"
+    %}
+
+    {% render 'navigation-submenu',
+      navigation: navigation,
+      blocks: blocks,
+      media: "mobile"
+    %}
+
+    {% render 'navigation-footer',
+      settings: settings
+    %}
+  </div>
+</div>

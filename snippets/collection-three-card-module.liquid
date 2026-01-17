@@ -1,0 +1,36 @@
+{% liquid
+  assign c = "CollectionThreeCardModule"
+  assign field = field
+  assign show_three_card_module = false
+  assign card_images = ''
+
+  for i in (1..3)
+    assign card_image_key = 'card_' | append: i | append: '_image'
+    assign card_image = field[card_image_key][0] | default: false
+
+    if card_image
+      unless card_images == ''
+        assign card_images = card_images | append: ','
+      endunless
+
+     assign card_images = card_images | append: card_image[0].src
+    endif
+  endfor
+
+  assign card_images = card_images | split: ','
+  assign card_images_size = card_images | size
+
+  if card_images_size == 3
+    assign show_three_card_module = true
+  endif
+%}
+
+{% if show_three_card_module %}
+  <div class="{{c}}">
+    {%
+      render 'landing-three-card-module',
+      fields: field,
+      index: 0
+    %}
+  </div>
+{% endif %}

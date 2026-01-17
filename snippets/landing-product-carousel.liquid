@@ -1,0 +1,61 @@
+{% liquid
+  assign c = "LandingProductCarousel"
+  assign fields = fields
+  assign index = index
+  assign collection_ref = fields.collection[index] | default: false
+  assign collection = collections[collection_ref] | default: false
+  assign collection_size = collection.products | size
+  assign header = fields.header[index] | default: false
+  assign subheader = fields.subheader[index] | default: false
+  assign quick_shop_enabled = fields.quick_add_enable[index] | default: false
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__container swiper js-productCarousel">
+    <div class="{{c}}__header-container">
+      <div class="{{c}}__text-container">
+        {% if header %}
+          <div class="{{c}}__header h4">
+            {{ header }}
+          </div>
+        {% endif %}
+        {% if subheader %}
+          <div class="{{c}}__subheader subheader">
+            {{ subheader }}
+          </div>
+        {% endif %}
+      </div>
+      {% if collection_size > 0 %}
+        <div class="{{c}}__carousel-nav">
+          <button
+            class="{{c}}__arrow prev js-productCarouselPrev"
+            aria-label="Previous image"
+          >
+            {% render "icon", icon: "arrow-left", component: c %}
+          </button>
+
+          <button
+            class="{{c}}__arrow next js-productCarouselNext"
+            aria-label="Next image"
+          >
+            {% render "icon", icon: "arrow-right", component: c %}
+          </button>
+        </div>
+      {% endif %}
+    </div>
+    <div class="{{c}}__wrapper swiper-wrapper">
+      {% for product in collection.products %}
+        <div class="{{c}}__slide swiper-slide">
+          {% render 'product-card',
+            product: product,
+            no_color_filters_active: true,
+            quick_shop_enabled: quick_shop_enabled
+          %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

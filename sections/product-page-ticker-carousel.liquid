@@ -1,0 +1,47 @@
+{%
+  render 'product-ticker-carousel',
+  blocks: section.blocks,
+%}
+
+{% schema %}
+{
+  "name": "Ticker Carousel",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Universal Floral Ticker Carousel",
+      "info": "See Accentuate to customize per homeware product"
+    }
+  ],
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Used as poster if using video"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ticker Carousel"
+    }
+  ],
+  "enabled_on": {
+    "templates": [
+      "product"
+    ]
+  }
+}
+{% endschema %}

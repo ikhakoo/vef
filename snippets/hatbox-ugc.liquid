@@ -1,0 +1,65 @@
+{% liquid
+  assign c = "HatboxUgc"
+  assign section = section
+
+  assign hatbox_shape = product.metafields.custom.hatbox_shape | default: false
+  assign show_module = false
+
+  if hatbox_shape or template.suffix == 'size-guide' 
+    assign show_module = true
+  endif
+%}
+
+{% if show_module %}
+  <div
+    class="{{c}}"
+    data-component="{{c}}"
+    data-content-page="{{ section.hatbox_ugc_content_page }}"
+    {% if hatbox_shape %}
+      data-hatbox-product-shape="{{ hatbox_shape | handleize }}"
+    {% endif %}
+  >
+    <div class="{{c}}__title h4 js-hatboxUgcTitle"></div>
+  
+    <div class="{{c}}__container swiper js-hatboxSwiperContainer">
+      <div class="{{c}}__skeleton-container">
+        <div class="{{c}}__skeleton-item"></div>
+        <div class="{{c}}__skeleton-item"></div>
+        <div class="{{c}}__skeleton-item"></div>
+        <div class="{{c}}__skeleton-item"></div>
+        <div class="{{c}}__skeleton-item"></div>
+      </div>
+  
+      <div class="{{c}}__wrapper swiper-wrapper js-hatboxSwiperWrapper"></div>
+  
+      <button 
+        class="{{c}}__arrow {{c}}__arrow--prev js-hatboxSwiperPrev"
+        aria-label="Navigate to previous slide"
+      >
+        {%
+          render 'component-icon',
+          icon: 'pagination-arrow',
+        %}
+      </button>
+  
+      <button 
+        class="{{c}}__arrow {{c}}__arrow--next js-hatboxSwiperNext"
+        aria-label="Navigate to next slide"
+      >
+        {%
+          render 'component-icon',
+          icon: 'pagination-arrow',
+        %}
+      </button>
+    </div>
+  </div>
+
+  {% if product and section.hide_editorial_ticker %}
+    <style>
+      .ProductTickerCarousel,
+      .ProductHeadline {
+        display: none;
+      }
+    </style>
+  {% endif %}
+{% endif %}

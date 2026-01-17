@@ -1,0 +1,34 @@
+{% liquid
+  assign c = "NavigationMenuButton"
+  assign link = link
+  assign link_handle = link.title | handleize
+  assign level = level | default: false
+  assign media = media | default: false
+  assign arrow = arrow | default: false
+  assign js_assignment = js_assignment | default: ""
+%}
+
+{% capture item_attributes %}
+  class="{{c}} {% if level %}{{c}}--{{ level }}{% endif %} btn-copy {{ js_assignment }}"
+  {% if level == "main" %}
+    tabindex="0"
+    data-sublinks="{{ link_handle }}"
+    aria-haspopup="dialog"
+    aria-expanded="false"
+    aria-controls="{{ link_handle }}-{{ media }}-tab"
+    aria-label="Shop {{ link.title }}"
+  {% elsif level == "child" %}
+  {% elsif level == "grandchild" %}
+  {% endif %}
+{% endcapture %}
+
+<button 
+  {{ item_attributes }}
+>
+  {{ link.title }}
+
+  {% if arrow %}
+    {% assign arrow_name = "caret-" | append: arrow %}
+    {% render "icon", icon: arrow_name, component: c %}
+  {% endif %}
+</button>

@@ -1,0 +1,44 @@
+{% liquid
+  assign c = "ArticleSuggestedProducts"
+  assign metafields = metafields.suggested_products
+  assign header = metafields.header | default: false
+  assign subheader = metafields.subheader | default: false
+  assign products = metafields.product
+  assign products_size = metafields.product | size
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__text">
+    {% if header %}
+      <div class="{{c}}__header h4">{{ header }}</div>
+    {% endif %}
+    {% if subheader %}
+      <div class="{{c}}__subheader subheader">{{ subheader }}</div>
+    {% endif %}
+  </div>
+  <div class="{{c}}__outer-container">
+    <div class="{{c}}__container swiper {% if products_size > 1 %}js-productCarousel{% endif %}">
+      <div class="{{c}}__wrapper swiper-wrapper">
+        {% for productHandle in products %}
+          {% assign product = all_products[productHandle] %}
+          <div class="{{c}}__product swiper-slide">
+            {% render 'product-card',
+              product: product
+            %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% if products_size > 1 %}
+      <div class="{{c}}__arrow {{c}}__arrow--left js-productCarouselPrev">
+        {% render 'icon', icon: 'arrow-left' %}
+      </div>
+      <div class="{{c}}__arrow {{c}}__arrow--right js-productCarouselNext">
+        {% render 'icon', icon: 'arrow-right' %}
+      </div>
+    {% endif %}
+  </div>
+</div>

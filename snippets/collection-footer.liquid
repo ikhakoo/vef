@@ -1,0 +1,83 @@
+{% liquid
+  assign c = "CollectionFooter"
+  assign field = field
+  assign video = field.video[0]
+  assign image = field.image[0]
+  assign enable_view_more = field.enable_view_more | default: false
+  assign collapsible_image = field.collapsible_image[0]
+  assign collapsible_text = field.collapsible_text.html
+  assign video_component_class = c | append: '__video-wrap'
+  assign video_class = c | append: '__video'
+  assign image_component_class = c | append: '__image-wrap'
+  assign image_class = c | append: '__image'
+  assign collapsible_image_component_class = c | append: '__image-wrap ' | append: c | append: '__image-wrap--collapsible js-collapsibleImage'
+  assign collapsible_image_class = c | append: '__image ' | append: c | append: '__image--collapsible'
+%}
+
+<div 
+  class="{{c}} {% if enable_view_more %} {{c}}--collapsible {% endif %}"
+  {% if enable_view_more %}
+    data-component="{{c}}"
+  {% endif %}
+>
+  {% if video %}
+    {%
+      render 'video'
+      component_class: video_component_class,
+      class: video_class,
+      video: video.src,
+      poster: image.src,
+    %}  
+  {% else %}
+    {%
+      render 'image'
+      component_class: image_component_class,
+      class: image_class,
+      image: image,
+      sizes: '325,425,600,768,1024'
+    %}
+  {% endif %}
+
+  {% if enable_view_more %}
+    {%
+      render 'image'
+      component_class: collapsible_image_component_class,
+      class: collapsible_image_class,
+      image: collapsible_image,
+      sizes: '325,425,600,768,1024'
+    %}
+  {% endif %}
+
+  <div class="{{c}}__content">
+    {% if field.title %}
+      <h2 class="{{c}}__title subheader">
+        {{ field.title }}
+      </h2>
+    {% endif %}
+
+    {% if enable_view_more %}
+      <div 
+        id="collapsible-text"
+        class="{{c}}__text {{c}}__text--collapsible body js-collapsibleText"
+      >
+        {{  collapsible_text }}
+      </div>
+
+      <button 
+        class="{{c}}__toggle-view js-collectionFooterToggleView"
+        aria-expanded="false"
+        aria-controls="collapsible-text"
+      >
+        <span class="body">
+          View more
+        </span>
+      </button>
+
+    {% elsif field.text %}
+      <p class="{{c}}__text body">
+        {{ field.text }}
+      </p>
+
+    {% endif %}
+  </div>
+</div>

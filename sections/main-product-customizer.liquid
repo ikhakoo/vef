@@ -1,0 +1,53 @@
+{%
+  render 'product-customizer',
+  settings: section.settings,
+  blocks: section.blocks
+%}
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Collection Feature"
+    },
+    {
+      "type": "collection",
+      "id": "default_collection",
+      "label": "Default collection",
+      "info": "If the user does not click through a collection to a product this collection will be used for the PDP media with copy section"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "card_image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "card_title",
+          "label": "Title"
+        }
+      ]
+    },
+    {
+      "type": "slogan",
+      "name": "Slogan",
+      "settings": [
+        {
+          "type": "text",
+          "id": "slogan_selector",
+          "label": "Tag selector type",
+          "info": "Tag products slogan:SELECTOR_TYPE_HERE to display this slogan"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

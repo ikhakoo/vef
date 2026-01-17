@@ -1,0 +1,64 @@
+{% liquid
+  assign c = "CollectionHatboxPane"
+  assign section = section
+  assign blocks = blocks
+  assign collection = collection
+
+  assign image = section.image
+  assign video = section.video | default: false
+  assign image_component_class = c | append: '__image-wrap'
+  assign image_class = c | append: '__image'
+  assign video_component_class = c | append: '__video-wrap'
+  assign video_class = c | append: '__video'
+  assign control_modifier_class = c | append: '__video-control'
+
+  assign text = section.text | default: false
+%}
+
+<div class="{{c}}">
+  {% if video %}
+    {% liquid
+      assign video_src = video.sources | where: 'mime_type', 'video/mp4' | first
+      assign poster = video.preview_image | image_url: width: 1024
+    %}
+    {%
+      render 'video',
+      component_class: video_component_class,
+      class: video_class,
+      video: video_src.url,
+      poster: poster,
+      control_modifier_class: control_modifier_class,
+    %}
+
+  {% else %}
+    {% 
+      render 'image',
+      component_class: image_component_class,
+      class: image_class,
+      image: image,
+      sizes: '300,420,567,660,768',
+    %}
+
+  {% endif %}
+
+  <div class="{{c}}__sticky-wrap">
+    <h1 class="{{c}}__title h3">
+      {{ collection.title | remove: '[hidden]' }}
+    </h1>
+
+    {% if text %}
+      <div class="{{c}}__text body">
+        {{ text }}
+      </div>
+    {% endif %}
+
+    <div class="{{c}}__observer js-hatboxNavObserver"></div>
+
+    <div class="{{c}}__nav-spacer js-hatboxNavSpacer"></div>
+
+    {%
+      render 'collection-hatbox-nav',
+      blocks: blocks,
+    %}
+  </div>
+</div>

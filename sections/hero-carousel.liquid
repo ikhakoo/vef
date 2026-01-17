@@ -1,0 +1,217 @@
+{% render 'hero-carousel',
+  blocks: section.blocks
+%}
+
+{% schema %}
+{
+  "name": "Hero Carousel",
+  "settings": [
+
+  ],
+  "blocks": [
+    {
+      "type": "carousel-block",
+      "name": "Carousel Block Contents",
+      "settings": [
+        {
+          "type": "select",
+          "id": "color",
+          "label": "Carousel Block Text Color",
+          "options": [
+            {
+              "value": "white",
+              "label": "White"
+            },
+            {
+              "value": "black",
+              "label": "Black"
+            }
+          ],
+          "default": "white"
+        },
+        {
+          "type": "select",
+          "id": "alignment",
+          "label": "Carousel Block Text Alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "text",
+          "id": "header",
+          "label": "Carousel Block Title"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Carousel Block Caption"
+        },
+        {
+          "type": "textarea",
+          "id": "subheader",
+          "label": "Carousel Block Subheader"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Carousel Block Link"
+        },
+        {
+          "type": "text",
+          "id": "url_text",
+          "label": "Carousel Block Link Text"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Carousel Block Image",
+          "info": "Image required for video poster"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Carousel Block Image Mobile"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Hero Video (overrides image)"
+        },
+        {
+          "type": "video",
+          "id": "video_mobile",
+          "label": "Hero Video Mobile (overrides image)"
+        }
+      ]
+    },
+    {
+      "type": "split-carousel-block",
+      "name": "Split Carousel Slide",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Section 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Image",
+          "info": "Image required for video poster"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile_1",
+          "label": "Mobile Image"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video (overrides image)"
+        },
+        {
+          "type": "video",
+          "id": "video_mobile",
+          "label": "Mobile Video (overrides image)"
+        },
+        {
+          "type": "text",
+          "id": "title_1",
+          "label": "Title"
+        },
+        {
+          "type": "url",
+          "id": "cta_1",
+          "label": "CTA Link"
+        },
+        {
+          "type": "text",
+          "id": "cta_text_1",
+          "label": "CTA Text"
+        },
+        {
+          "type": "select",
+          "id": "color_1",
+          "label": "Text Color",
+          "options": [
+            {
+              "value": "white",
+              "label": "White"
+            },
+            {
+              "value": "black",
+              "label": "Black"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Section 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile_2",
+          "label": "Mobile Image"
+        },
+        {
+          "type": "text",
+          "id": "title_2",
+          "label": "Title"
+        },
+        {
+          "type": "url",
+          "id": "cta_2",
+          "label": "CTA Link"
+        },
+        {
+          "type": "text",
+          "id": "cta_text_2",
+          "label": "CTA Text"
+        },
+        {
+          "type": "select",
+          "id": "color_2",
+          "label": "Text Color",
+          "options": [
+            {
+              "value": "white",
+              "label": "White"
+            },
+            {
+              "value": "black",
+              "label": "Black"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero",
+      "category": "Homepage"
+    }
+  ],
+  "templates": [
+    "index"
+  ]
+}
+{% endschema %}

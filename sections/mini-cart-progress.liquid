@@ -1,0 +1,68 @@
+{% 
+  render 'mini-cart-progress',
+  settings: section.settings,
+  blocks: section.blocks
+%}
+
+{% schema %}
+{
+  "name": "Mini Cart Progres Bar",
+  "settings": [
+    {
+      "type": "color",
+      "id": "progress_color",
+      "label": "Bar color",
+      "default": "#d6b280"
+    },
+    {
+      "type": "number",
+      "id": "min_spend",
+      "label": "Minimum spend",
+      "info": "Minimum spend for the progress bar to appear."
+    },
+    {
+      "type": "number",
+      "id": "max_spend",
+      "label": "Maximum spend",
+      "info": "Maximum spend before the progress bar is disabled. Set to '-1' to enable for all carts."
+    },
+    {
+      "type": "text",
+      "id": "progress_complete",
+      "label": "Progress complete message",
+      "default": "Congrats! You've got free shipping!"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "milestone",
+      "name": "Milestone",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "number",
+          "id": "max_spend",
+          "label": "Max Spend"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Reward Label",
+          "info": "The milestone label under the progress bar."
+        },
+        {
+          "type": "text",
+          "id": "reward_text",
+          "label": "Reward Prompt"
+        },
+        {
+          "type": "product",
+          "id": "gift",
+          "label": "Gift Product",
+          "info": "If this milestone includes a GWP."
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

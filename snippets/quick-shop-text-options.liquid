@@ -1,0 +1,32 @@
+{% liquid
+  assign c = 'QuickShopProductOptions'
+  assign product = product
+  assign option_name = option_name
+  assign option = option
+  assign available_variants = available_variants
+%}
+
+<div 
+  class="{{c}}__text-options-wrap js-quickShopOptionValuesContainer"
+  data-option="{{ option_name }}"
+>
+  {% for value in option.values %}
+    {%
+      render 'quick-shop-text-option',
+      option: option,
+      value: value,
+      available_variants: available_variants,
+      show_only_available: true,
+    %}
+  {% endfor %}
+
+  {% for value in option.values %}
+    {%
+      render 'quick-shop-text-option',
+      option: option,
+      value: value,
+      available_variants: available_variants,
+      show_only_unavailable: true,
+    %}
+  {% endfor %}
+</div>

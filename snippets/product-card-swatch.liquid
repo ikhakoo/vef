@@ -1,0 +1,72 @@
+{% liquid
+  assign c = "ProductCardSwatch"
+  assign variant = variant
+  assign featured_option = featured_option | default: 'option2'
+  assign is_active = is_active | default: false
+  assign is_desktop_swatch = is_desktop_swatch | default: false
+  assign collection = collection | default: false
+  assign color = variant[featured_option]
+  assign image = variant.featured_image
+  assign sizes = '325,425,600' | split: ',' | reverse
+  assign image_sources = ''
+
+  for size in sizes
+    assign render_size = size | plus: 200
+    assign media = '(min-width: ' | append: size | append: 'px)'
+    assign image_srcset = image.src | image_url: width: render_size
+    assign image_source = media | append: '*' | append: image_srcset
+
+    unless image_sources == ''
+      assign image_sources = image_sources | append: '|'
+    endunless
+
+    assign image_sources = image_sources | append: image_source
+  endfor
+
+  assign url = variant.url
+  if collection
+    assign url = variant.url | within: collection
+  endif
+%}
+
+<button
+  class="
+    {{c}} js-productCardSwatch
+
+    {% if is_active %}
+      is-selected
+    {% endif %}
+
+    {% if is_desktop_swatch %}
+      desktop-swatch
+    {% endif %}
+
+    {% unless variant.available %}
+      sold-out
+    {% endunless %}
+  "
+  title="{{ color }}"
+  data-color="{{ color }}"
+  data-url="{{ url }}"
+  data-id="{{ variant.id }}"
+  data-sku="{{ variant.sku }}"
+  data-image-src="{{ image.src | image_url: width: image.width }}"
+  data-image-srcsets="{{ image_sources }}"
+  data-price="{{ variant.price | money_without_trailing_zeros }}"
+  data-compare-at="{{ variant.compare_at_price | money_without_trailing_zeros }}"
+  {% unless variant.available %}
+    data-sold-out="1"
+  {% endunless %}
+  aria-label="View {{ color }} product image"
+>
+  {%
+    render 'swatch',
+    color: color,
+    modifier: 'product-card'
+  %}
+
+  {%
+    render 'component-icon',
+    icon: 'sold-out-cross',
+  %}
+</button>

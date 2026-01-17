@@ -1,0 +1,36 @@
+{% liquid
+  assign c = "PressArticleCard"
+  assign date = date | default: false
+  assign header = header | default: false
+  assign image = image | default: false
+  assign url = url | default: false
+  assign image_component_klass = c | append: "__image-container"
+  assign image_klass = c | append: "__image"
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__container js-container">
+    
+    {% if image != blank %}
+      {% render 'image',
+        component_class: image_component_klass,
+        class: image_klass,
+        image: image,
+        sizes: '300, 768, 1024, 1440'
+      %}
+    {% else %}
+      <div class="{{c}}__fill-container">
+        <div class="{{c}}__fill"></div>
+      </div>
+    {% endif %}
+    <div class="{{c}}__date subheader">
+      {{ date }}
+    </div>
+    <a href="{{ url }}" class="{{c}}__header body js-link">
+      {{ header | truncatewords: 8 }}
+    </a>
+  </div>
+</div>

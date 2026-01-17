@@ -1,0 +1,20 @@
+{% render 'four04',
+  settings: section.settings
+%}
+{% schema %}
+{
+  "name": "404",
+  "settings": [
+    {
+      "type": "text",
+      "id": "header",
+      "label": "Header"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Additional Information"
+    }
+  ]
+}
+{% endschema %}

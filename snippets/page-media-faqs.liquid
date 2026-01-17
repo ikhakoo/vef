@@ -1,0 +1,61 @@
+{% liquid
+  assign c = "PageMediaFaqs"
+  assign section_index = index | default: false
+  assign nav_ref = nav_ref | handleize | default: false
+  assign video_url = video_url | default: false
+  assign video_url_mobile = video_url_mobile | default: false
+  assign video_component_class = c | append: '__video-wrap'
+  assign video_class = c | append: '__video'
+  assign image = image | default: false
+  assign image_component_class = c | append: '__image-wrap'
+  assign image_class = c | append: '__image'
+  assign header = header | default: false
+  assign drawers = drawers | default: false
+  assign drawers_arr = drawers | split: "*"
+%}
+
+<div
+  class="{{c}} js-section-target"
+  data-component="{{c}}"
+  data-section-target="location--{{ nav_ref }}"
+  id="location--{{ nav_ref }}"
+>
+  <div class="{{c}}__container">
+
+    <div class="{{c}}__media-container {{c}}__wrapper">
+      {% if video_url_mobile != blank and video_url != blank %}
+        {% render 'video',
+          component_class: video_component_class,
+          class: video_class,
+          video: video_url,
+          mobile_video: video_url_mobile,
+          poster: image.src
+        %}
+      {% else %}
+        {% render 'image',
+          component_class: image_component_class
+          class: image_class,
+          image: image,
+          sizes: '300,768, 1024, 1440'
+        %}
+      {% endif %}
+    </div>
+
+    <div class="{{c}}__text-container {{c}}__wrapper">
+      <h2 class="{{c}}__header h4">
+        {{ header }}
+      </h2>
+      {% for drawer in drawers_arr %}
+        {% assign header_body_arr = drawer | split: "::" %}
+
+        {% unless header_body_arr == blank %}
+          {% render 'faq-drawer',
+            header: header_body_arr[0],
+            body: header_body_arr[1],
+            index: section_index | append: ":" | append: forloop.index
+          %}
+        {% endunless %}
+      {% endfor %}
+    </div>
+  </div>
+</div>

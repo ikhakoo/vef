@@ -1,0 +1,231 @@
+{% comment %}
+  Renders all related SEO and favicon tags in the head.
+
+  Usage:
+  {%- render 'head-seo' -%}
+{% endcomment %}
+
+<link rel="canonical" href="{{- canonical_url -}}">
+
+<title>
+  {{ page_title }}
+  {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+  {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+  {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+</title>
+
+{%- if page_description -%}
+<meta name="description" content="{{- page_description | escape -}}">
+{% endif -%}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": {{ shop.name | json }},
+  "alternateName": ["VeF"],
+  "url": {{ canonical_url | append: page.url | json }},
+  "logo": "https://cdn.shopify.com/s/files/1/0859/1856/files/shop_logo.png?v=1692824966",
+  "description": {{ page_description | escape | json }},
+  "foundingDate": "2015",
+  "founders": [
+    {
+      "@type": "Person",
+      "name": "Seema Bansal"
+    },
+    {
+      "@type": "Person",
+      "name": "Sunny Chadha"
+    }
+  ],
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "185 Madison Ave, Suite 901",
+    "addressLocality": "New York",
+    "addressRegion": "NY",
+    "postalCode": "10016",
+    "addressCountry": "US"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+1-800-808-9830",
+    "email": "info@venusetfleur.com",
+    "contactType": "Customer Service",
+    "availableLanguage": ["English"]
+  },
+  "sameAs": [
+    "https://www.instagram.com/venusetfleur/",
+    "https://www.tiktok.com/@venusetfleur",
+    "https://www.pinterest.com/venusetfleur/",
+    "https://www.youtube.com/@Venus-et-Fleur",
+    "https://www.facebook.com/VenusetFleur/",
+    "https://x.com/VenusETFleur"
+  ],
+  "hasMerchantReturnPolicy": {
+    "@type": "MerchantReturnPolicy",
+    "inStoreReturnsOffered": false,
+    "returnPolicyCategory": "https://schema.org/NoReturnsAccepted",
+    "applicableCountry": ["US"]
+  }
+}
+</script>
+
+{% if template.name == 'collection' %}
+
+  {% assign schema_length = 20 %}
+  {% if collection.products_count < schema_length %}
+    {% assign schema_length = collection.products_count %}
+  {% endif %}
+
+  {% capture itemListElement %}
+    {%- for item in collection.products limit: schema_length -%}
+      {"@type":"ListItem","position":{{ forloop.index }},"url":"{{ shop.url }}{{ item.url }}","name":{{ product.title | json }},"image":"https:{{ item | image_url }}"}
+    {%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  {% endcapture %}
+  
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","url":"{{ shop.url }}{{ collection.url }}","numberOfItems":{{ schema_length }},"itemListElement":[{{ itemListElement }}]}</script>
+{% endif %}
+
+{% if template.name == 'product' %}
+  {%- capture varies_by -%}
+    {%- for option in product.options_with_values -%}
+      {% assign hasColor = false %}
+      {%- if option.name == "Floral Color" or option.name == "Color" -%}
+        "https://schema.org/color"
+        {%- assign hasColor = option.selected_value -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+  {%- capture availability -%}
+    {%- if product.available -%}
+      "https://schema.org/InStock"
+    {%- else -%}
+      "https://schema.org/OutOfStock"
+    {%- endif -%}
+  {%- endcapture -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@graph": [
+    {
+      "@type": "ProductGroup",
+      "name": {{ product.title | json }},
+      "description": {{ product.description | strip_html | json }},
+      "url": "{{ shop.url }}{{ product.url }}",
+      "brand": {
+        "@type": "Brand",
+        "name": "Venus et Fleur"
+      },
+      "audience": {
+        "@type": "PeopleAudience",
+        "suggestedGender": "unisex",
+        "suggestedAge": {
+          "@type": "QuantitativeValue",
+          "minValue": 18,
+          "maxValue": 75,
+          "unitCode": "ANN"
+        }
+      },
+      "productGroupID": "{{ product.id }}",
+      "variesBy": [
+        {{ varies_by }}
+      ],
+      "hasVariant": [
+        {% for variant in product.variants %}
+          {
+            "@type": "Product",
+            "sku": "{{ variant.sku }}",
+            "image": "https:{{ variant | image_url }}",
+            "name": {{ variant.title | json }},
+            "description": {{ product.description | strip_html | json }},
+            "color": "{% if hasColor %}{{ variant.option2 }}{% endif %}",
+            "size": "{{ size }}",
+            "offers": {
+              "@type": "Offer",
+              "url": "{{ shop.url }}{{ variant.url }}",
+              "priceCurrency": "USD",
+              "price": "{{ variant.price |  divided_by: 100 }}",
+              "itemCondition": "https://schema.org/NewCondition",
+              "availability": {{ availability }},
+              "shippingDetails": {"@type": "OfferShippingDetails","shippingRate": {"@type": "MonetaryAmount","value": 19,"currency": "USD"},"shippingDestination": {"@type": "DefinedRegion","addressCountry": "US"},"deliveryTime": {"@type": "ShippingDeliveryTime","handlingTime": {"@type": "QuantitativeValue","minValue": 1,"maxValue": 3,"unitCode": "DAY"},"transitTime": {"@type": "QuantitativeValue","minValue": 1,"maxValue": 6,"unitCode": "DAY"}}},
+              "hasMerchantReturnPolicy": {"@type": "MerchantReturnPolicy","applicableCountry": "US","returnPolicyCategory": "https://schema.org/NoReturnsAccepted"}
+            }
+          }{%- unless forloop.last -%},{%- endunless -%}
+        {% endfor %}
+      ]
+    }
+  ]
+}
+</script>
+{% endif %}
+
+{%- if request.page_type == 'index' -%}
+{% assign potential_action_target = shop.url | append: routes.search_url | append: "?q={search_term_string}" %}
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "name": {{- shop.name | json -}},
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {{- potential_action_target | json -}},
+    "query-input": "required name=search_term_string"
+  },
+  "url": {{- shop.url | append: page.url | json -}}
+}
+</script>
+{%- endif -%}
+
+{%- if request.page_type == 'article' -%}
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "articleBody": {{ article.content | strip_html | json }},
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": {{ shop.url | append: page.url | json }}
+  },
+  "headline": {{ article.title | json }},
+  {% if article.excerpt != blank %}
+    "description": {{ article.excerpt | strip_html | json }},
+  {% endif %}
+  {% if article.image %}
+    {% assign image_size = article.image.width | append: 'x' %}
+    "image": [
+      {{ article | image_url: image_size | prepend: "https:" | json }}
+    ],
+  {% endif %}
+  "datePublished": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
+  "dateCreated": {{ article.created_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
+  "author": {
+    "@type": "Person",
+    "name": {{ article.author | json }}
+  },
+  "publisher": {
+    "@type": "Organization",
+    {% if settings.share_image %}
+      {% assign image_size = settings.share_image.width | append: 'x' %}
+      "logo": {
+        "@type": "ImageObject",
+        "height": {{ settings.share_image.height | json }},
+        "url": {{ settings.share_image | image_url: image_size | prepend: "https:" | json }},
+        "width": {{ settings.share_image.width | json }}
+      },
+    {% endif %}
+    "name": {{ shop.name | json }}
+  }
+}
+</script>
+{%- endif -%}
+
+{% comment %} Favicons {% endcomment %}
+{%- if settings.favicon != blank -%}
+<link rel="shortcut icon" href="{{ settings.favicon | image_url: width: 16, height: 16 }}" sizes="16x16">
+<link rel="shortcut icon" href="{{ settings.favicon | image_url: width: 32, height: 32 }}" sizes="32x32">
+<link rel="shortcut icon" href="{{ settings.favicon | image_url: width: 48, height: 48 }}" sizes="48x48">
+<link rel="shortcut icon" href="{{ settings.favicon | image_url: width: 96, height: 96 }}" sizes="96x96">
+<link rel="apple-touch-icon" href="{{ settings.favicon | image_url: width: 180, height: 180 }}" sizes="180x180">
+<link rel="apple-touch-icon" href="{{ settings.favicon | image_url: width: 192, height: 192 }}" sizes="192x192">
+{%- endif -%}

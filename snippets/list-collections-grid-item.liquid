@@ -1,0 +1,31 @@
+{% liquid
+  assign c = "ListCollectionsGridItem"
+  assign image = image | default: false
+  assign copy = copy | default: false
+  assign title = title | default: false
+  assign url = url | default: false
+  assign image_component_class = c | append: '__image-wrap'
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__image-container">
+    {% render 'image',
+      component_class: image_component_class,
+      image: image,
+      sizes: '350, 768, 1024'
+    %}
+    {% if copy %}
+      <div class="{{c}}__copy body">
+        {{ copy }}
+      </div>
+    {% endif %}
+  </div>
+  {% if title %}
+    <a class="{{c}}__title subheader js-link" href="{{ url }}">
+      {{ title }}
+    </a>
+  {% endif %}
+</div>

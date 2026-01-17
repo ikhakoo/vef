@@ -1,0 +1,26 @@
+{% liquid
+  assign c = "CollectionDeliverySelectionForm"
+  assign section = section
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__container">
+    <div class="{{c}}__zipcode-search">
+      {%
+        render 'zipcode-search',
+        input_title: section.zipcode_input_title,
+        not_found_message: section.zipcode_not_found_message,
+      %}
+    </div>
+  
+    <div class="{{c}}__date-select">
+      {%
+        render 'collection-delivery-selection-date',
+        section: section,
+      %}
+    </div>
+  </div>
+</div>

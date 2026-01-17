@@ -1,0 +1,16 @@
+{% liquid
+  assign c = "ProductRecommendations"
+%}
+
+<div class="js-productRecommendationsData">
+  {% for product in recommendations.products %}
+    {% unless product.metafields.custom.hide_from_recommendations == 1 %}
+      <div class="{{c}}__slide swiper-slide">
+        {%
+          render 'product-card',
+          product: product,
+        %}
+      </div>
+    {% endunless %}
+  {% endfor %}
+</div>

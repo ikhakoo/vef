@@ -1,0 +1,20 @@
+{% liquid
+  assign c = "TextHero"
+  assign header = header | default: false
+  assign subheader = subheader | default: false
+  assign background_color = background_color | default: false
+%}
+
+<div
+  class="{{c}}"
+  style="background-color: {{ background_color }};"
+>
+  <div class="{{c}}__container">
+    <h1 class="{{c}}__header h3">
+      {{ header }}
+    </h1>
+    <h2 class="{{c}}__subheader body">
+      {{ subheader }}
+    </h2>
+  </div>
+</div>

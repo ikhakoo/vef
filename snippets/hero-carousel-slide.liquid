@@ -1,0 +1,86 @@
+{% liquid
+  assign c = "HeroCarousel"
+  assign block = block
+  assign use_h1_tag = use_h1_tag | default: false
+
+  assign image_component_class = c | append: "__image-container"
+  assign image_class = c | append: "__image"
+  assign video_component_class = c | append: '__video-wrap'
+  assign video_class = c | append: '__video'
+
+  assign modifiers = ''
+  if block.color != blank
+    assign modifiers = modifiers | append: " HeroCarousel__slide--" | append: block.color
+  endif
+
+  if block.alignment != blank
+    assign modifiers = modifiers | append: " HeroCarousel__slide--" | append: block.alignment
+  endif
+%}
+
+<div 
+  class="{{c}}__slide {{ modifiers }} swiper-slide"
+  data-color="{{ block.color }}"
+>
+  {% if block.video %}
+    {% liquid
+      assign video_src = block.video.sources | where: 'mime_type', 'video/mp4'
+      assign video_mobile_src = block.video_mobile.sources | where: 'mime_type', 'video/mp4'
+      assign poster = block.image | image_url: width: 1000
+    %}
+    {%
+      render 'video',
+      component_class: video_component_class,
+      class: video_class,
+      video: video_src[0].url,
+      mobile_video: video_mobile_src[0].url,
+      poster: poster,
+    %}
+
+  {% else %}
+    {%
+      render 'image',
+      component_class: image_component_class,
+      class: image_class,
+      image: block.mobile_image,
+      sizes: '300,420,567,660',
+      image_2: block.image,
+      sizes_2: '768,1024,1280,1440,1600,1800,2160',
+    %}
+  {% endif %}
+
+  <div class="{{c}}__text-container">
+    {% if block.header != blank %}
+      {% if use_h1_tag %}
+        <h1 class="{{c}}__header h2">
+          {{ block.header }}
+        </h1>
+      {% else %}
+        <div class="{{c}}__header h2">
+          {{ block.header }}
+        </div>
+      {% endif %}
+    {% endif %}
+
+    {% if block.caption != blank %}
+      <div class="{{c}}__caption subheader">
+        {{ block.caption }}
+      </div>
+    {% endif %}
+
+    {% if block.subheader != blank %}
+      <div class="{{c}}__subheader body">
+        {{ block.subheader }}
+      </div>
+    {% endif %}
+
+    {% if block.url != blank %}
+      <a 
+        class="{{c}}__btn cta cta--{{ block.color }}"
+        href="{{ block.url }}" 
+      >
+        {{ block.url_text }}
+      </a>
+    {% endif %}
+  </div>
+</div>

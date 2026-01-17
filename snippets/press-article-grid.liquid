@@ -1,0 +1,27 @@
+{% liquid
+  assign c = "PressArticleGrid"
+  assign articles = articles | default: false
+%}
+
+<div
+  class="{{c}}"
+>
+  <div class="{{c}}__container">
+    {% for article in articles %}
+      {% liquid
+        assign fields = article.metafields.press
+        assign image = fields.logo[0] | default: false
+        assign header = article.title | default: false
+        assign url = article.handle
+        assign date = article.published_at | date: "%b, %Y" | default: false
+      %}
+
+      {% render 'press-article-card',
+        image: image,
+        header: header,
+        date: date,
+        url: url
+      %}
+    {% endfor %}
+  </div>
+</div>

@@ -1,0 +1,33 @@
+{% render 'account-page',
+  settings: section.settings
+%}
+{% schema %}
+{
+  "name": "Account",
+  "settings": [
+    {
+      "type": "text",
+      "id": "no_orders",
+      "label": "Message will display when there are no orders present in your account",
+      "default": "You have no orders yet."
+    },
+    {
+      "type": "text",
+      "id": "change_password_message",
+      "label": "Message to inform customer regarding updating their password",
+      "default": "We will send you an email to reset your password."
+    },
+    {
+      "type": "text",
+      "id": "loyalty_text",
+      "label": "Text for loyalty tab",
+      "default": "Loyalty"
+    },
+    {
+      "type": "url",
+      "id": "loyalty_url",
+      "label": "Url for loyalty informational page"
+    }
+  ]
+}
+{% endschema %}

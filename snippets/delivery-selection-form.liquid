@@ -1,0 +1,65 @@
+{% liquid
+  assign c = "DeliverySelectionForm"
+  assign section = section
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  data-collection="{{ section.collection }}"
+>
+  <div class="{{c}}__zipcode-search">
+    {%
+      render 'zipcode-search',
+      input_title: section.zipcode_input_title,
+      not_found_message: section.zipcode_not_found_message
+    %}
+  </div>
+
+  <div class="{{c}}__date-select">
+    {% 
+      render 'delivery-selection-date',
+      section: section,
+    %}
+  </div>
+
+  <div class="{{c}}__footer-wrap">
+    <div class="{{c}}__nav-btns-wrap">
+      <button 
+        class="{{c}}__nav-btn {{c}}__nav-btn--prev js-deliverySelectionPrev"
+        aria-label="Return to enter zip code"
+      > 
+        <div class="{{c}}__icon">
+          {%
+            render 'component-icon',
+            icon: 'pagination-arrow'
+          %}
+        </div>
+
+        <span class="btn-copy">
+          Previous
+        </span>
+      </button>
+
+      <button 
+        class="{{c}}__nav-btn {{c}}__nav-btn--next js-deliverySelectionNext"
+        aria-label="View available products"
+      > 
+        <span class="btn-copy">
+          Next
+        </span>
+
+        <div class="{{c}}__icon">
+          {%
+            render 'component-icon',
+            icon: 'pagination-arrow'
+          %}
+        </div>
+      </button>
+    </div>
+
+    <div class="{{c}}__text body">
+      {{ section.text }}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+{% liquid
+  assign c = "EmptyCartRecommendations"
+  assign settings = settings
+  assign upsell_collection = settings.display_collection
+  assign collection_size = upsell_collection.products | size
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__container swiper js-emptyCartRecommendations">
+    <div class="{{c}}__header-container">
+      <div class="{{c}}__text-container">
+        <div class="{{c}}__header h4">
+          <div class="{{c}}_block-header js-blockTitle">
+            {{ settings.header }}
+          </div>
+        </div>
+      </div>
+      {% if collection_size > 0 %}
+        <div class="{{c}}__carousel-nav">
+          <button
+            class="{{c}}__arrow prev js-emptyCartRecommendationsPrev"
+            aria-label="Previous image"
+          >
+            {% render "icon", icon: "arrow-left", component: c %}
+          </button>
+
+          <button
+            class="{{c}}__arrow next js-emptyCartRecommendationsNext"
+            aria-label="Next image"
+          >
+            {% render "icon", icon: "arrow-right", component: c %}
+          </button>
+        </div>
+      {% endif %}
+    </div>
+    <div class="{{c}}__wrapper swiper-wrapper">
+      {% for product in upsell_collection.products %}
+        {% if product.available %}          
+          <div class="{{c}}__slide swiper-slide js-slide" data-product-id="{{ product.id }}">
+            {% render 'product-quick-add-card',
+            product: product,
+            no_color_filters_active: true
+            %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>

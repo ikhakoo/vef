@@ -1,0 +1,18 @@
+{% liquid
+  assign image = image
+  assign size = size
+  assign srcset_attr = srcset_attr
+  assign use_original_accentuate = use_original_accentuate
+  assign render_size = size | plus: 200
+  assign image_srcset = image.src | image_url: width: render_size
+
+  if image.cloudinary_src != blank
+    assign image_srcset = image.cloudinary_src
+
+    unless use_original_accentuate
+      assign image_srcset = image_srcset | append: 'w_' | append: render_size
+    endunless
+  endif
+%}
+
+<source media="(min-width: {{ size }}px)" {{ srcset_attr }}="{{ image_srcset }}">

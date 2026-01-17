@@ -1,0 +1,50 @@
+{% liquid
+  assign c = "PriceFilter"
+  assign filter = filter
+  assign min_value = 0
+  assign max_value = filter.range_max
+
+  if filter.min_value.value
+    assign min_value = filter.min_value.value
+  endif
+
+  if filter.max_value.value
+    assign max_value = filter.max_value.value
+  endif
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  data-min-param="{{ filter.min_value.param_name }}"
+  data-max-param="{{ filter.max_value.param_name }}"
+  data-start="{{ min_value | money_without_currency | split: '.' | first | replace: ',', '' }}"
+  data-end="{{ max_value | money_without_currency | split: '.' | first | replace: ',', '' }}"
+  data-max="{{ filter.range_max | money_without_currency | split: '.' | first | replace: ',', '' }}"
+  data-currency-symbol="{{ cart.currency.symbol }}"
+>
+  <div class="{{c}}__slider js-priceSlider"
+  ></div>
+
+  <div class="{{c}}__values">
+    <div class="{{c}}__price-wrap {{c}}__price-wrap--min">
+      <div class="{{c}}__label body-s">
+        Min Price:
+      </div>
+
+      <div class="{{c}}__price body-s js-minValue">
+        {{ min_value | money_without_trailing_zeros }}
+      </div>
+    </div>
+
+    <div class="{{c}}__price-wrap {{c}}__price-wrap--max">
+      <div class="{{c}}__label body-s">
+        Max Price:
+      </div>
+
+      <div class="{{c}}__price body-s js-maxValue">
+        {{ max_value | money_without_trailing_zeros }}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+{% liquid
+  assign c = "CollectionDeliverySelectionDate"
+  assign section = section
+%}
+
+<div class="{{c}}">
+  <label class="{{c}}__subheader subheader">
+    Delivery Date
+  </label>
+
+  <div class="{{c}}__date-btns">
+    <button 
+      class="{{c}}__date-btn js-deliverySelectionBtn"
+      data-value="same_day"
+      aria-label="Select same-day delivery"
+    >
+      <span class="{{c}}__btn-text body-s">
+        Today<span class="{{c}}__btn-date">, {{ 'now' | date: "%B %e, %Y" }}</span>
+      </span>
+
+      <span class="{{c}}__btn-text {{c}}__btn-text--disabled body-s">
+        Today <br>Not Available
+      </span>
+    </button>
+
+    <button 
+      class="{{c}}__date-btn js-deliverySelectionBtn"
+      data-value="next_day"
+      aria-label="Select next-day delivery"
+    >
+      <span class="{{c}}__btn-text body-s">
+        {% liquid
+          assign today = 'now' | date: '%s'
+          assign single_day = 86400
+          assign tomorrow = today | plus: single_day
+        %}
+        Tomorrow<span class="{{c}}__btn-date">, {{ tomorrow | date: "%B %e, %Y" }}</span>
+      </span>
+    </button>
+  </div>
+</div>

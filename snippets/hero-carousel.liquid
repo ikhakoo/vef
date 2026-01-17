@@ -1,0 +1,38 @@
+{% liquid
+  assign c = "HeroCarousel"
+  assign blocks = blocks | default: false
+  assign media_size = blocks | size
+%}
+
+<section
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__container swiper js-heroCarousel">
+    <div class="{{c}}__wrapper swiper-wrapper">
+      {% for block in blocks %}
+        {% if block.type == 'split-carousel-block' %}
+          {%
+            render 'hero-carousel-split-slide',
+            block: block.settings,
+          %}  
+
+        {% else %}
+          {%
+            render 'hero-carousel-slide',
+            block: block.settings,
+            use_h1_tag: forloop.first,
+          %}
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% if media_size > 1 %}
+      <div class="{{c}}__pagination js-heroCarouselPagination"></div>
+    {% endif %}
+  </div>
+
+  {% unless settings.promo_type == 'none' or settings.promo_top_of_page_placement == true %}
+    {% render 'promobar' %}
+  {% endunless %}
+</section>

@@ -1,0 +1,18 @@
+{% liquid
+  assign c = "ProductCardRating"
+  assign field = field
+  assign average_rating = field | strip_html | split: 'Rated ' | last | split: ' ' | first
+%}
+
+{% if average_rating %}
+  <div class="{{c}}">
+    {%
+      render 'component-icon',
+      icon: 'star'
+    %}
+
+    <div class="{{c}}__rating caption">
+      {{ average_rating }}
+    </div>
+  </div>
+{% endif %}

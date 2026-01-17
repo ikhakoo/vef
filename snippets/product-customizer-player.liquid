@@ -1,0 +1,13 @@
+{% liquid
+  assign c = "ProductCustomizerPlayer"
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__wrap js-customizerWrap LoadingShimmer {{ product.handle }}">
+    {%- comment -%}Threekit player is injected here{%- endcomment -%}
+    <div id="tk-treble-root"></div>
+  </div>
+</div>

@@ -1,0 +1,83 @@
+{% liquid
+  assign c = "LandingThreeCardModule"
+  assign sectionIndex = index
+  assign fields = fields
+  assign nav_ref = nav_ref | handleize | default: false
+  assign background_image = fields.background_image[sectionIndex][0] | default: false
+  assign background_image_mobile = fields.background_image_mobile[sectionIndex][0] | default: background_image
+  assign background_color = fields.background_color[sectionIndex] | default: false
+  assign header = fields.header[sectionIndex] | default: false
+  assign subheader = fields.subheader[sectionIndex] | default: false
+  assign custom_style = ''
+  if background_color and background_image == false
+    assign custom_style = 'style="' | append: "background-color:" | append: background_color | append: ';"'
+  endif
+  assign background_image_component_class = c | append: '__background-image-wrap'
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  data-section-target="location--{{ nav_ref }}"
+  id="location--{{ nav_ref }}"
+>
+  <div class="{{c}}__background" {{ custom_style }}>
+    {% if background_image %}
+      {% render 'image',
+        component_class: background_image_component_class,
+        image: background_image_mobile,
+        sizes: '350',
+        image_2: background_image,
+        sizes_2: '768, 1024, 1440'
+      %}
+  {% endif %}
+  </div>
+  <div class="{{c}}__inner">
+    {% if header %}
+      <div class="{{c}}__header h3">{{ header }}</div>
+    {% endif %}
+    {% if subheader %}
+      <div class="{{c}}__subheader subheader">{{ subheader }}</div>
+    {% endif %}
+    <div class="{{c}}__cards-container swiper js-carousel">
+      <div class="{{c}}__controls-wrap">
+        <button 
+          class="{{c}}__arrow {{c}}__arrow--left js-carouselPrev"
+          aria-label="Navigate to previous slide"
+        >
+          {% render 'icon', icon: 'arrow-left' %}
+        </button>
+        <button 
+          class="{{c}}__arrow {{c}}__arrow--right js-carouselNext"
+          aria-label="Navigate to next slide"
+        >
+          {% render 'icon', icon: 'arrow-right' %}
+        </button>
+      </div>
+
+      <div class="{{c}}__cards-wrapper swiper-wrapper">
+        {% for index in (1..3) %}
+          {% liquid
+            assign field_prefix = 'card_' | append: index | append: '_'
+            assign image_field = field_prefix | append: 'image'
+            assign caption_field = field_prefix | append: 'caption'
+            assign title_field = field_prefix | append: 'title'
+            assign link_field = field_prefix | append: 'link'
+            assign card_image = fields[image_field][sectionIndex][0] | default: false
+            assign card_caption = fields[caption_field][sectionIndex].markdown | default: false
+            assign card_title = fields[title_field][sectionIndex] | default: false
+            assign card_link = fields[link_field][sectionIndex]
+          %}
+          <div class="{{c}}__card-container swiper-slide">
+            {% render 'landing-three-card-module-card',
+              image: card_image,
+              caption: card_caption,
+              title: card_title,
+              link: card_link
+            %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>

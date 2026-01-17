@@ -1,0 +1,49 @@
+{% liquid
+  assign c = 'QuickShopProductOptions'
+  assign product = product
+  assign option = option
+  assign related_products = related_products
+%}
+
+<div class="{{c}}__image-options-wrap">
+  {%
+    render 'quick-shop-product-option',
+    option: option,
+    value: product.url,
+    label: option.selected_value,
+    is_related_product: true,
+    product_images: product.images,
+    is_available: product.available,
+    is_selected: true,
+  %}
+
+  {% for related_product in related_products %}
+    {% if related_product.available and related_product.url != product.url %}
+      {%
+        render 'quick-shop-product-option',
+        option: option,
+        value: related_product.url,
+        label: related_product.selected_or_first_available_variant.option1,
+        is_related_product: true,
+        product_images: related_product.images,
+        is_available: related_product.available,
+        is_selected: false,
+      %}
+    {% endif %}
+  {% endfor %}
+
+  {% for related_product in related_products %}
+    {% unless related_product.available or related_product.url == product.url %}
+      {%
+        render 'quick-shop-product-option',
+        option: option,
+        value: related_product.url,
+        label: related_product.selected_or_first_available_variant.option1,
+        is_related_product: true,
+        product_images: related_product.images,
+        is_available: related_product.available,
+        is_selected: false,
+      %}
+    {% endunless %}
+  {% endfor %}
+</div>

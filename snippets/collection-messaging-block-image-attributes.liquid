@@ -1,0 +1,21 @@
+{% liquid
+  assign image = image | default: false
+  assign svg_height = svg_height
+  assign offset = offset | times: 1.0
+  assign image_height = image.height | times: 1.0
+  assign height_diff = image_height | minus: svg_height
+  assign quotient = height_diff | divided_by: image_height
+  assign percentage_off = quotient | times: 100
+  assign offset_percentage_off = percentage_off | divided_by: offset
+%}
+
+clip-path="url(#frame-shape)"
+height="{{ svg_height }}"
+
+{% if image %}
+  xlink:href="{{ image.src }}"
+{% endif %}
+
+{% if offset_percentage_off > 0 %}
+  x="-{{ offset_percentage_off }}%"
+{% endif %}

@@ -1,0 +1,31 @@
+{% liquid
+  assign c = "CollectionPromobar"
+  assign collection = collection
+  assign fields = fields
+  assign title = fields.title
+  assign subtext = fields.subtext
+  assign background_color = fields.background_color
+  assign text_color = fields.text_color
+
+  case text_color
+    when 'Black'
+      assign text_color = '#000'
+    when 'White'
+      assign text_color = '#fff'
+  endcase
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  style="color: {{ text_color }}; background-color: {{ background_color }};"
+  
+>
+  {% if title %}
+    <div class="{{c}}__title subheader">{{ title }}</div>
+  {% endif %}
+
+  {% if subtext %}
+    <div class="{{c}}__subtext body">{{ subtext }}</div>
+  {% endif %}
+</div>

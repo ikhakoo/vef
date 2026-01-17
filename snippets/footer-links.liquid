@@ -1,0 +1,28 @@
+{% liquid
+  assign c = "FooterLinks"
+%}
+
+<div
+  class="{{c}}"
+>
+  <ul class="{{c}}__list">
+    {% for link in linklists.footer-v2.links %}
+      <li class="{{c}}__item">
+        <h4 class="{{c}}__title link">
+          {{ link.title }}
+        </h4>
+        {% if link.links.size > 0 %}
+          <ul class="{{c}}__child-list">
+            {% for child_link in link.links %}
+              <li class="{{c}}__child-item">
+                <a href="{{ child_link.url }}" class="{{c}}__link body-s">
+                  {{ child_link.title }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</div>

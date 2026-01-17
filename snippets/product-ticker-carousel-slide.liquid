@@ -1,0 +1,75 @@
+{% liquid
+  assign c = 'ProductTickerCarousel'
+  assign asset = asset
+  assign is_homeware = is_homeware | default: false
+  assign field = field | default: false
+
+  assign video_component_class = c | append: '__video-wrap'
+  assign video_class = c | append: '__video'
+  assign control_modifier_class = c | append: '__video-control'
+
+  assign image = asset.settings.image
+  assign video = asset.settings.video | default: false
+  assign asset_width = image.width
+  assign width_class = c | append: '__slide--'
+
+  if is_homeware
+    assign image = asset
+    assign asset_width = image.width
+
+    if asset.media_type == 'video'
+      assign video = asset.src
+      assign asset_width = field.video_poster[0].width
+    endif
+  endif
+
+  if asset_width >= 900
+    assign width_class = width_class | append: 'landscape'
+  elsif asset_width >= 650
+    assign width_class = width_class | append: 'square'
+  elsif asset_width >= 450
+    assign width_class = width_class | append: 'portrait'
+  endif
+%}
+
+<div class="{{c}}__slide splide__slide {{ width_class }}">
+  {% if video %}
+    {% liquid
+      assign video_src = video.sources | where: 'mime_type', 'video/mp4'
+      assign video_src = video_src[0].url
+      assign poster = image | image_url: width: 1000
+
+      if is_homeware
+        assign video_src = video
+        assign poster = field.video_poster[0].src
+      endif
+    %}
+
+    {%
+      render 'video',
+      component_class: video_component_class,
+      class: video_class,
+      video: video_src,
+      poster: poster,
+      control_modifier_class: control_modifier_class,
+    %}
+
+  {% else %}
+    {% liquid
+      assign img_src = image.src | image_url: width: 1024
+
+      if is_homeware
+        assign img_src = image.cloudinary_src
+      endif
+    %}
+
+    <div class="{{c}}__image-wrap">
+      <img 
+        class="{{c}}__image"
+        data-splide-lazy="{{ img_src }}"
+        alt="{{ image.alt }}" 
+      >
+    </div>
+
+  {% endif %}
+</div>

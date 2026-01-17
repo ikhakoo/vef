@@ -1,0 +1,88 @@
+{% liquid
+  assign c = "BoutiquesPage"
+  assign sections = shop.metafields.acf_settings.page_layouts | where: "id", page.id | first | map: "sections" | where: "visible"
+  assign fields = page.metafields.flexible
+  assign nav_component_class = c | append: "__navigation"
+  assign nav_component_container = c | append: "__navigation-container"
+  assign first_location = true
+%}
+
+<div
+  class="{{c}}"
+>
+  {% for section in sections %}
+
+    {% case section.name %}
+
+      {% when 'media_text_hero' %} 
+        {% assign index = section.index %}
+          {% render 'media-text-hero',
+            index: index,
+            color: fields.media_text_hero_color,
+            image: fields.media_text_hero_image[0],
+            image_mobile: fields.media_text_hero_image_mobile[0],
+            header: fields.media_text_header,
+            subheader: fields.media_text_subheader,
+            title_under_hero: fields.title_under_hero
+          %}
+      {% endcase %}
+  {% endfor %}
+
+  {% render 'page-secondary-navigation',
+    list: fields.secondary_navigation_list.markdown,
+    component_class: nav_component_class,
+    component_container: nav_component_container
+  %}
+
+
+
+  <div class="{{c}}__container">
+
+    {% comment %} Modules {% endcomment %}
+    {% for section in sections %}
+
+      {% case section.name %}
+
+        {% when 'boutiques_location' %}
+          {% unless first_location %}
+            </div>
+          {% endunless %}
+          {% assign fields = page.metafields.flexible %}
+          {% assign first_location = false %}
+
+          <div class="{{c}}__location-container">
+            {% render 'boutiques-header',
+              header: fields.boutiques_location_header[section.index],
+              component_class:
+            %}
+
+        {% when 'boutique' %}
+          {% assign fields = page.metafields.flexible %}
+          {% render 'boutique-card',
+            image: fields.boutique_image[section.index][0],
+            body: fields.boutique_body[section.index].html
+          %}
+
+      {% endcase %}
+    {% endfor %}
+    </div>
+  </div>
+
+  {% for section in sections %}
+
+    {% case section.name %}
+
+      {% when 'one_column' %} 
+        {% assign index = section.index %}
+          {% render 'page-one-column',
+            nav_ref: fields.one_column_nav_ref[0],
+            image: fields.one_col_bkgd_img[0][0],
+            image_mobile: fields.one_col_bkgd_img_mobile[0][0],
+            background_color: fields.one_col_bkgd_color[0],
+            color: fields.one_col_color[0],
+            header: fields.one_col_header[0],
+            body: fields.one_col_body[0].html
+          %}
+      {% endcase %}
+  {% endfor %}
+</div>

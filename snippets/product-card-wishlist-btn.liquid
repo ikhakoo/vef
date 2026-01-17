@@ -1,0 +1,19 @@
+{% liquid
+  assign c = "ProductCardWishlistBtn"
+  assign product = product | default: false
+  assign current_variant = current_variant | default: false
+%}
+
+<div
+  class="{{c}}"
+>
+  <!-- Swym Wishlist Plus EPI Button-->
+  <button
+    data-with-epi="true"
+    class="js-wishlist-btn swym-button swym-add-to-wishlist-view-product product_{{ product.id }}"
+    data-swaction="addToWishlist" data-product-id="{{ product.id | json }}"
+    data-variant-id="{{ current_variant.id }}"
+    data-product-url="{{ shop.url }}{{ product.url }}">
+  </button>
+  <!-- Swym Wishlist Plus EPI Button-->
+</div>

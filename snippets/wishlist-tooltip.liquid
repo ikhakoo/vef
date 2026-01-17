@@ -1,0 +1,21 @@
+{% liquid
+  assign c = "WishlistTooltip"
+  assign settings = settings
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  {% if settings.wishlist_tooltip_title %}
+    <div class="{{c}}__title caption">
+      {{ settings.wishlist_tooltip_title }}
+    </div>
+  {% endif %}
+
+  {% if settings.wishlist_tooltip_text %}
+    <div class="{{c}}__text body">
+      {{ settings.wishlist_tooltip_text }}
+    </div>
+  {% endif %}
+</div>

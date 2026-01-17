@@ -1,0 +1,112 @@
+{%
+  render 'brand-statement',
+  section: section.settings,
+%}
+
+{% schema %}
+{
+  "name": "Brand Statement",
+  "settings": [
+    {
+      "type": "video",
+      "id": "bg_video",
+      "label": "Background Video"
+    },
+    {
+      "type": "video",
+      "id": "bg_video_mobile",
+      "label": "Mobile Background Video"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image_mobile",
+      "label": "Mobile Background Image"
+    },
+    {
+      "type": "select",
+      "id": "text_color",
+      "label": "Text color",
+      "options": [
+        {
+          "value": "text-light",
+          "label": "White"
+        },
+        {
+          "value": "text-dark",
+          "label": "Black"
+        }
+      ],
+      "default": "text-light"
+    },
+    {
+      "type": "text",
+      "id": "subheader",
+      "label": "Subheader",
+      "default": "About Us"
+    },
+    {
+      "type": "header",
+      "content": "Headlines"
+    },
+    {
+      "type": "text",
+      "id": "headline_1",
+      "label": "Headline 1",
+      "default": "The Pioneers of Eternity Flowers"
+    },
+    {
+      "type": "text",
+      "id": "headline_2",
+      "label": "Headline 2",
+      "default": "Luxury That Lasts All Year"
+    },
+    {
+      "type": "text",
+      "id": "headline_3",
+      "label": "Headline 3",
+      "default": "Crafted for Moments, Kept Forever"
+    },
+    {
+      "type": "text",
+      "id": "headline_4",
+      "label": "Headline 4",
+      "default": "Bespoke Elegance, Timeless Charm"
+    },
+    {
+      "type": "range",
+      "id": "interval_timing",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "unit": "sec",
+      "label": "Active headline interval timing",
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Optional CTA"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "URL"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Text",
+      "default": "Learn More"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Statement"
+    }
+  ]
+}
+{% endschema %}

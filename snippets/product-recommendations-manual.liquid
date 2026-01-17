@@ -1,0 +1,51 @@
+{% liquid
+  assign c = "ProductRecommendations"
+  assign section = section
+  assign related_products = product.metafields.custom.manual_product_recommendations.value
+%}
+
+<div
+  class="{{c}} {{c}}--manual-recommendations"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__header">
+    <div class="{{c}}__title h3">
+      {{ section.title }}
+    </div>
+
+    <div class="{{c}}__slider-controls">
+      <button 
+        class="{{c}}__arrow {{c}}__arrow--prev js-prevSlideBtn"
+        aria-label="Previous slide"
+      >
+        {%
+          render 'component-icon',
+          icon: 'pagination-arrow'
+        %}
+      </button>
+
+      <button 
+        class="{{c}}__arrow {{c}}__arrow--next js-nextSlideBtn"
+        aria-label="Next slide"
+      >
+        {%
+          render 'component-icon',
+          icon: 'pagination-arrow'
+        %}
+      </button>
+    </div>
+  </div>
+
+  <div class="{{c}}__container swiper js-swiperContainer">
+    <div class="{{c}}__wrapper swiper-wrapper js-swiperWrapper">
+      {% for related_product in related_products %}
+        <div class="{{c}}__slide swiper-slide">
+          {%
+            render 'product-card',
+            product: related_product,
+          %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

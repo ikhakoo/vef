@@ -1,0 +1,19 @@
+{% liquid
+  assign c = "DeliverySelectionLoadScreen"
+  assign section = section
+%}
+
+<div
+  class="{{c}} js-deliverySelectionLoadScreen"
+  data-component="{{c}}"
+  data-duration="{{ section.loading_duration }}"
+  style="background: {{ section.loading_bg_gradient }}"
+>
+  <div class="{{c}}__title h3">
+    {{ section.loading_title }}
+  </div>
+
+  <div class="{{c}}__text body">
+    {{ section.loading_text }}
+  </div>
+</div>

@@ -1,0 +1,44 @@
+{% liquid
+  assign c = "SubmenuImageBlocks"
+  assign block = block
+  assign image_component_klass = c | append: "__image-container"
+  assign image_klass = c | append: "__image"
+  assign settings = block.settings
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__container">
+
+    {% for i in (1..4) %}
+      {% liquid 
+        assign block_ref = "image_" | append: i
+        assign image = settings[block_ref]
+        assign title_ref = block_ref | append: "_text"
+        assign title = settings[title_ref]
+        assign url_ref = block_ref | append: "_url"
+        assign url = settings[url_ref]
+      %}
+      
+      <div class="{{c}}__block js-container">
+
+        {% render 'image',
+          component_class: image_component_klass,
+          class: image_klass,
+          image: image,
+          sizes: '300, 768, 1024, 1440'
+        %}
+
+        {% unless title == blank %}
+          <a href="{{ url }}" class="{{c}}__link h5 js-link">
+            {{ title }}
+          </a>
+        {% endunless %}
+      </div>
+  
+    {% endfor %}
+  </div>
+
+</div>

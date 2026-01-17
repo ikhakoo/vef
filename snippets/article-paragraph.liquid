@@ -1,0 +1,18 @@
+{% liquid
+  assign c = "ArticleParagraph"
+  assign index = index
+  assign metafields = metafields.paragraph
+  assign header = metafields.header[index] | default: false
+  assign copy = metafields.copy[index].markdown | newline_to_br | default: false
+%}
+
+<div class="{{c}}">
+  {% if header %}
+    <div class="{{c}}__header h4">{{ header }}</div>
+  {% endif %}
+  {% if copy %}
+    <div class="{{c}}__copy body">
+      {{ copy }}
+    </div>
+  {% endif %}
+</div>

@@ -1,0 +1,213 @@
+{% liquid
+  assign c = "CartPageForm"
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  {%
+    render 'cart-shipping-estimator'
+  %}
+
+  <div class="{{c}}__delivery-selet">
+    {%- comment -%}DI - 11.30.22 - Removing ShipZip logic, reverting to Intuitive Shipping{%- endcomment -%} 
+    {%- comment -%}<div id="csShippingAppCode"></div>{%- endcomment -%}
+  </div>
+
+  <form 
+    class="{{c}}__form js-cartForm"
+    method="post"
+    action="/checkout"
+  >
+
+    {%- comment -%}DI - 11.30.22 - Removing ShipZip logic, reverting to Intuitive Shipping{%- endcomment -%} 
+    {%- comment -%}
+    <input
+      type="hidden"
+      class="js-deliveryDate" 
+      name="attributes[delivery_date]" 
+      value="{{ cart.attributes["delivery_date"] }}"
+    >
+
+    <input
+      type="hidden"
+      class="js-shipDate" 
+      name="attributes[ship_date]" 
+      value="{{ cart.attributes["ship_date"] }}"
+    >
+
+    <input
+      type="hidden"
+      class="js-isHandDelivery" 
+      name="attributes[is_hand_delivery]" 
+      value="{{ cart.attributes["is_hand_delivery"] }}"
+    >
+
+    <input
+      type="hidden"
+      class="js-transitTime"
+      name="attributes[transit_time]" 
+      value="{{ cart.attributes["transit_time"] }}"
+    >
+
+    <button 
+      class="{{c}}__submit cta cta--black js-cartSubmit"
+      disabled="disabled"
+      name="checkout"
+      type="submit"
+    >
+      checkout
+    </button>
+    {%- endcomment -%}
+
+    <button 
+      class="{{c}}__submit cta cta--black js-cartSubmit"
+      name="checkout"
+      type="submit"
+    >
+      checkout
+    </button>
+  </form>
+</div>
+
+<script 
+  class="js-warehouseHolidays"
+  type="application/json"
+  >
+  {{ settings.warehouse_holidays }}
+</script>
+
+
+<style>
+  #datepickers-container .datepicker {
+    width: 325px;
+    font-family: "Favorit Std-Book";
+    text-transform: uppercase;
+    font-size: 8px;
+  }
+
+  #datepickers-container .datepicker--cells {
+    border: solid #ddd;
+    border-width: 0 0 1px 1px;
+  }
+  
+  #datepickers-container .datepicker--content {
+    padding: 4px 15px 15px 15px !important;
+  }
+  
+  #datepickers-container .datepicker--day-name {
+    color: #353535 !important;
+  }
+  
+  #datepickers-container .datepicker--cell {
+    border: solid #ddd;
+    border-width: 1px 1px 0 0;
+    border-radius: 0px !important;
+    height: 40px !important;
+    font-size: 8px;
+    flex-direction: column;
+  }
+  
+  #datepickers-container .datepicker--cell.-current- {
+    color: #e4b77d !important;
+  }
+  
+  #datepickers-container .datepicker--cell.-selected- {
+    background: #e4b77d !important;
+    color: #353535 !important;
+  }
+
+
+  #datepickers-container .datepicker--cells.datepicker--cells-days > div:nth-child(7n + 7) {
+  
+  }
+  
+  #datepickers-container .datepicker:first-of-type .datepicker--cells.datepicker--cells-days > div:nth-child(7n + 7)::after {
+    content: "+$10";
+    font-size: 8px;
+    color: #999;
+    padding: 2px 0;
+  }
+  
+  #datepickers-container .datepicker:first-of-type .datepicker--cells.datepicker--cells-days > div.-disabled-:nth-child(7n + 7)::after {
+    content: "";
+  }
+  
+  @media (min-width: 768px) {
+    #datepickers-container .datepicker {
+      width: 300px;
+    }
+  }
+
+
+
+  /* 
+  #datepickers-container {
+  .datepicker {
+    width: 325px;
+  }
+
+  .datepicker--cells {
+    border: solid #ddd;
+    border-width: 0 0 1px 1px;
+  }
+  
+  .datepicker--content {
+    padding: 4px 15px 15px 15px !important;
+  }
+  
+  .datepicker--nav-title {
+    font-family: 'sofia-pro';
+  }
+  
+  .datepicker--days-names {
+    font-family: 'sofia-pro';
+  }
+  
+  .datepicker--day-name {
+    color: #353535 !important;
+  }
+  
+  .datepicker--cell {
+    border: solid #ddd;
+    border-width: 1px 1px 0 0;
+    border-radius: 0px !important;
+    height: 40px !important;
+    font-size: 11px;
+    font-family: 'sofia-pro';
+    flex-direction: column;
+  }
+  
+  .datepicker--cell.-current- {
+    color: #e4b77d !important;
+  }
+  
+  .datepicker--cell.-selected- {
+    background: #e4b77d !important;
+    color: #353535 !important;
+  }
+
+
+  .datepicker--cells.datepicker--cells-days > div:nth-child(7n + 7) {
+  
+  }
+  
+  .datepicker:first-of-type .datepicker--cells.datepicker--cells-days > div:nth-child(7n + 7)::after {
+    content: "+$10";
+    font-size: 8px;
+    color: #999;
+  }
+  
+  .datepicker:first-of-type .datepicker--cells.datepicker--cells-days > div.-disabled-:nth-child(7n + 7)::after {
+    content: "";
+  }
+  
+  @media (min-width: 768px) {
+    .datepicker {
+      width: 300px;
+    }
+  }
+}
+*/
+</style>

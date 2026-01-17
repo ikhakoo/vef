@@ -1,0 +1,270 @@
+{% liquid
+  assign sections = shop.metafields.acf_settings.page_layouts | where: "id", page.id | first | map: "sections" | where: "visible"
+  assign fields = page.metafields.flexible
+%}
+
+{% for section in sections %}
+  {% case section.name %}
+    {% when 'media_text_hero' %} 
+      {% assign index = section.index %}
+      {% render 'media-text-hero',
+        index: index,
+        color: fields.media_text_hero_color,
+        image: fields.media_text_hero_image[0],
+        image_mobile: fields.media_text_hero_image_mobile[0],
+        header: fields.media_text_header,
+        subheader: fields.media_text_subheader,
+        title_under_hero: fields.title_under_hero
+      %}
+      
+  {% endcase %}
+{% endfor %}
+
+<div class="okendo-drp-container" id="oke-drp-collection">
+  <div class="okeReviews-collection-widget">
+      <div id="orc-collection-control">
+          <div id="orc-collection-controls-label" class="orc-collectionControlsLabel">Select a product range
+          </div>
+          <div class="orc-collectionControls" role="radiogroup" aria-labelledby="orc-collection-controls-label">
+              <div class="orc-collectionControls-item"><input id="orc-reviews-control-0"
+                      class="orc-collectionControls-item-input js-orc-collectionRadio" type="radio" value=""
+                      name="orc-reviews-collection-control"/> <label
+                      for="orc-reviews-control-0" class="orc-collectionControls-item-label"> <span
+                          class="orc-collectionControls-item-label-heading">
+                          All Reviews </span>
+                  </label>
+              </div>
+              <div class="orc-collectionControls-item"><input id="orc-reviews-control-1"
+                      class="orc-collectionControls-item-input js-orc-collectionRadio" type="radio" value="0fab506f-8155-4517-b907-99bef26d674e"
+                      name="orc-reviews-collection-control"/>
+                  <label for="orc-reviews-control-1" class="orc-collectionControls-item-label"> <span
+                          class="orc-collectionControls-item-label-heading">
+                          Classic Boxes </span> 
+                  </label>
+              </div>
+              <div class="orc-collectionControls-item"><input id="orc-reviews-control-2"
+                      class="orc-collectionControls-item-input js-orc-collectionRadio" type="radio" value="206a684a-6924-42dd-8b6d-368880973e9b"
+                      name="orc-reviews-collection-control"/> <label
+                      for="orc-reviews-control-2" class="orc-collectionControls-item-label"> <span
+                          class="orc-collectionControls-item-label-heading">
+                          Porcelain Collection </span>
+                  </label>
+              </div>
+              <div class="orc-collectionControls-item"><input id="orc-reviews-control-3"
+                      class="orc-collectionControls-item-input js-orc-collectionRadio" type="radio" value="930eaa81-67e5-4b5c-ae00-2614519bef45"
+                      name="orc-reviews-collection-control"/> <label
+                      for="orc-reviews-control-3" class="orc-collectionControls-item-label"> <span
+                          class="orc-collectionControls-item-label-heading">
+                          Long Stem Collection </span>
+                  </label>
+              </div>
+              <div class="orc-collectionControls-item"><input id="orc-reviews-control-4"
+                      class="orc-collectionControls-item-input js-orc-collectionRadio" type="radio" value="bc37b545-2586-452c-9767-66b771dceee7"
+                      name="orc-reviews-collection-control"/>
+                  <label for="orc-reviews-control-4" class="orc-collectionControls-item-label"> <span
+                          class="orc-collectionControls-item-label-heading">
+                          Stone Collection </span>
+                  </label>
+              </div>
+              <div class="orc-collectionControls-item"><input id="orc-reviews-control-5"
+                      class="orc-collectionControls-item-input js-orc-collectionRadio" type="radio" value="e9843a57-82b1-4ef0-97a5-011cdd167fec"
+                      name="orc-reviews-collection-control"/>
+                  <label for="orc-reviews-control-5" class="orc-collectionControls-item-label">
+                      <span class="orc-collectionControls-item-label-heading">
+                          Acrylic Collection </span>
+                  </label>
+              </div>
+              <div class="orc-collectionControls-item"><input id="orc-reviews-control-6"
+                      class="orc-collectionControls-item-input js-orc-collectionRadio" type="radio" value="6e17e564-b12e-4d53-af4e-f7641468cba0"
+                      name="orc-reviews-collection-control"/> <label
+                      for="orc-reviews-control-6" class="orc-collectionControls-item-label"> <span
+                          class="orc-collectionControls-item-label-heading">
+                          Gift Sets </span>
+                  </label>
+              </div>
+          </div>
+      </div>
+  
+      <div class="drp-container okendo-reviews-page-holder" id="orc-widget-snippet" data-oke-reviews-aggregate-position="above" data-oke-reviews-widget="" data-oke-reviews-collection-id=""></div>
+  </div>
+    <script>
+        // <![CDATA[
+        (function () {
+            function okeWidgetControlInit() {
+                var snippetEl = document.querySelector('#orc-widget-snippet');
+                var controlEl = document.querySelector('#orc-collection-control');
+                var collectionRadioElements = Array.prototype.slice.call(document.querySelectorAll('.js-orc-collectionRadio'));
+                controlEl.style.display = 'block';
+
+              const urlParams = new URLSearchParams(window.location.search);
+              const groupId = urlParams.get("okeGroupId");
+                
+              collectionRadioElements.forEach(function (radioElement) {
+                    radioElement.addEventListener('change', function () {
+                        console.log('set change... ' , radioElement.value)
+                        snippetEl.okeReviews.setCollection(radioElement.value);
+                    });
+
+                    if (groupId && radioElement.value === groupId) {
+                      radioElement.checked = true;
+                    }
+                });
+            }
+
+            window.okeReviewsWidgetOnInit = okeWidgetControlInit;
+        })();
+    // ]]>
+    </script>
+</div>
+
+{% for section in sections %}
+  {% case section.name %}
+
+    {% when 'landing__editorial_carousel' %}
+      {% render 'landing-editorial-carousel',
+        fields: page.metafields.editorial_carousel,
+        index: section.index
+      %}
+      
+  {% endcase %}
+{% endfor %}
+
+{% style %}
+.okeReviews-collection-widget {
+    padding: 55px 0 100px;
+}
+
+body .orc-collectionControls-item-label.btn{
+    border:none!important;box-shadow:none!important
+}
+
+.orc-collectionControls-item {
+    color: #0b4470;
+}
+
+.orc-collectionControls .orc-collectionControls-item-label {
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.orc-collectionControls-item-label.btn {
+    width: auto;
+    background-color: #0b4470;
+    font-style: normal;
+    font-weight: 700;
+    white-space: normal;
+    text-transform: none;
+    font-family: TextaAlt-Bold,sans-serif;
+    letter-spacing: .08em;
+    transition: all .3s ease;
+    font-size: 18px;
+    margin-bottom: 0;
+    cursor: pointer;
+    border-radius: 4px;
+    text-align: center;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: none!important;
+    box-shadow: none!important;
+}
+
+.orc-collectionControls-item-label.btn:hover {
+    background-color: #126eb6;
+}
+
+.okeReviews.okeReviews--theme .okeReviews-showMore:hover {
+    background-color: #126eb6;
+}
+
+.orc-collectionControls-item-label.btn .orc-collectionControls-item-label-heading{
+    color:#fff
+}
+
+.orc-collectionControlsLabel {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.orc-collectionControls {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -9px;
+    align-items: stretch;
+}
+
+.orc-collectionControls .orc-collectionControls-item-label {
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.orc-collectionControls-item-input:checked + .orc-collectionControls-item-label {
+    border: 1px solid #4a5973;
+    box-shadow: 0 0 0 1px #4a5973;
+}
+
+.orc-collectionControls-item {
+    flex: 1 1 25%;
+    padding: 9px;
+    box-sizing: border-box;
+}
+
+.orc-collectionControls-item-input {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+/* Overwrite CSS */
+#oke-drp-collection .orc-collectionControls-item-label-heading {
+    display: block;
+    font-size: 18px;
+    font-weight: normal;
+    padding-top: 0;
+    line-height: initial;
+}
+
+#oke-drp-collection .orc-collectionControls-item-input:checked+.orc-collectionControls-item-label .orc-collectionControls-item-label-heading {
+    border: 0;
+}
+
+@media only screen and (min-width: 1060px) {
+    .oke-disabled {
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+  
+@media only screen and (max-width: 1060px) {
+    .orc-collectionControls-item {
+        flex: 1 1 50%;
+    }
+}
+@media only screen and (max-width: 480px) {
+    .orc-collectionControls-item {
+        flex: 1 1 100%;
+    }
+}
+{% endstyle %}

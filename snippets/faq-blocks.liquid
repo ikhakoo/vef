@@ -1,0 +1,34 @@
+{% liquid
+  assign c = "FaqBlocks"
+  assign sections = shop.metafields.acf_settings.page_layouts | where: "id", page.id | first | map: "sections" | where: "visible"
+%}
+
+<section
+  class="{{c}}" 
+  data-component="{{c}}"
+>
+  {% comment %} Modules {% endcomment %}
+  {% for section in sections %}
+
+    {% case section.name %}
+
+      {% when 'faq_block_header' %}
+        {% assign metafields = page.metafields.faq_section %}
+        {% render 'faq-block-header',
+          header: metafields.block_header[section.index],
+          id: metafields.block_nav_ref[section.index],
+        %}
+
+      {% when 'faq_drawer' %}
+        {% assign metafields = page.metafields.faq_section %}
+        {% render 'faq-drawer',
+          header: metafields.drawer_header[section.index],
+          body: metafields.drawer_body[section.index],
+          index: section.index
+        %}
+
+    {% endcase %}
+
+  {% endfor %}
+  {% comment %} End Modules {% endcomment %}
+</section>

@@ -1,0 +1,41 @@
+{% liquid
+  assign c = "CountdownTimer"
+  assign countdown_date_time = countdown_date_time | default: false
+%}
+
+<div
+  class="{{c}} hide"
+  data-component="{{c}}"
+>
+
+  <script type="application/json" class="js-timer-data">
+    {
+      "dateTime": "{{ countdown_date_time }}"
+    }
+  </script>
+  
+  <div class="{{c}}__wrapper">
+
+    <div class="{{c}}__container" js-container>
+      <div class="{{c}}__days js-timer-days"></div>
+      <span>Days</span>
+    </div>
+
+    <div class="{{c}}__container" js-container>
+      <div class="{{c}}__days js-timer-hours"></div>
+      <span>Hrs</span>
+    </div>
+
+    <div class="{{c}}__container" js-container>
+      <div class="{{c}}__days js-timer-minutes"></div>
+      <span>Min</span>
+    </div>
+
+    <div class="{{c}}__container" js-container>
+      <div class="{{c}}__days js-timer-seconds"></div>
+      <span>Sec</span>
+    </div>
+
+  </div>
+
+</div>

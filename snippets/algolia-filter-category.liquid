@@ -1,0 +1,56 @@
+{% liquid
+  assign c = "AlgoliaFilterCategory"
+  assign type = type | default: false
+  assign label = label | default: false
+  assign id = label | handleize
+  assign camel = id | camelize
+  assign is_price_filter = false
+  assign custom_order = false
+
+  if type == 'price_range'
+    assign is_price_filter = true
+  endif
+
+  if id == 'floral-color'
+    assign custom_order = shop.metafields.globals.color_filter_order
+  endif
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <button
+    class="{{c}}__toggle js-categoryToggle"
+    aria-label="Show {{ label }} filter options"
+    aria-controls="#{{ id }}"
+  >
+    <span class="subheader">
+      {{ label }}:
+    </span>
+    {%
+      render 'component-icon',
+      icon: 'chevron-icon'
+    %}
+  </button>
+  <div
+    id="{{ id }}"
+    data-camel="{{ camel }}"
+    class="{{c}}__content js-categoryContent {% if is_price_filter %} price-filter {% endif %}"
+    aria-hidden="true"
+    aria-expanded="false"
+  >
+    <div class="{{c}}__content-wrap">
+      {% if is_price_filter %}
+        {% render 'algolia-range-slider' %}
+      {% else %}
+        <div
+          class="js-algoliaRefinements{{ camel }}"
+          {% if custom_order %}
+            data-custom-order="{{ custom_order }}"
+          {% endif %}
+        ></div>
+      {% endif %}
+    </div>
+  </div>
+</div>

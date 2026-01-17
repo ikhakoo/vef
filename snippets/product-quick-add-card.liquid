@@ -1,0 +1,159 @@
+{% liquid
+  assign c = "ProductQuickAddCard"
+  assign product = product
+  assign collection = collection | default: false
+  assign no_color_filters_active = no_color_filters_active | default: false
+  assign options_count = product.options | size
+  assign available_variants = product.variants | where: "available"
+  assign hidden_options = settings.product_variant_values_to_hide | split: ","
+
+  assign featured_option = 'option2'
+  if product.tags contains 'product-swatches-option-3'
+    assign featured_option = 'option3'
+  elsif product.tags contains 'product-swatches-option-1'
+    assign featured_option = 'option1'  
+  endif
+  
+  assign current_variant = product.selected_or_first_available_variant
+  assign selected_variant_id = product.metafields.featured_variant.variant_id | default: false 
+  if selected_variant_id
+    assign selected_variant_id = selected_variant_id | plus: 0
+  endif
+  assign selected_variant_color = product.metafields.featured_variant.variant_color | default: false
+ 
+  if selected_variant_id
+    for variant in product.variants
+      if variant.id == selected_variant_id
+        assign current_variant = variant
+        break
+      endif
+    endfor
+  endif
+
+  unless selected_variant_id
+    if selected_variant_color and no_color_filters_active
+      for variant in product.variants
+        assign color_title = variant[featured_option] | downcase
+        assign selected_variant_color = selected_variant_color | downcase
+        assign show_variant = true
+
+        for option in hidden_options
+          if option == variant[featured_option]
+            assign show_variant = false
+          endif
+        endfor
+
+        if color_title == selected_variant_color and show_variant
+          assign current_variant = variant
+          break
+        endif
+      endfor
+    endif
+  endunless
+
+  assign color_options = false
+  assign color_option_names = 'hue'
+  for option in product.options_with_values
+    assign cased_option_name = option.name | downcase
+    if cased_option_name contains 'color' or color_option_names contains cased_option_name
+      assign color_options = option
+      break
+    endif
+  endfor
+
+  assign featured_image = product.featured_image
+  if current_variant.featured_image
+    assign featured_image = current_variant.featured_image
+  endif
+
+  assign url = current_variant.url
+  if collection
+    assign url = current_variant.url | within: collection
+  endif
+
+  assign text_alignment_class = ''
+  if color_options == false
+    assign text_alignment_class = c | append: "--no-color-options"
+  endif
+%}
+
+<article
+class="{{c}} {{ text_alignment_class }} js-slideCard"
+data-component="{{c}}"
+data-variant-id="{{ current_variant.id }}"
+>
+  <a
+    class="{{c}}__image-link js-productCardLink"
+    href="{{ url }}"
+  >
+    {%
+      render 'product-card-rating',
+      field: product.metafields.okendo.ProductListingSnippet
+    %}
+
+    {%
+      render 'product-card-images',
+      featured_image: featured_image,
+      image_class: c | append: 'Images'
+      images: product.images
+    %}
+  </a>
+
+  <div class="{{c}}__details">
+    <a
+      class="{{c}}__text-link js-productCardLink"
+      href="{{ url }}"
+    >
+
+      <div class="{{c}}__info">
+        <div class="{{c}}__title body-s">
+          {{ product.title }}
+        </div>
+
+        {% if color_options %}
+        <div class="{{c}}__selected-color caption hide js-productCardColor">
+          {{ current_variant[featured_option] }}
+        </div>
+      {% endif %}
+      </div>
+      <div class="{{c}}__price js-priceContainer body-s" data-product-id="{{ product.id }}">
+        {{ product.price | money_without_trailing_zeros }}
+      </div>
+    </a>
+
+    {% if color_options %}
+      {% if options_count > 2 %}
+        {%
+          render 'product-card-swatches-options',
+          options: color_options,
+          variants: product.variants,
+          current_variant: current_variant,
+          featured_option: featured_option,
+          collection: collection,
+          mobile_stop_limit: 6,
+          desktop_stop_limit: 6,
+        %}
+      {% else %}
+        {%
+          render 'product-card-swatches',
+          variants: available_variants,
+          current_variant: current_variant
+          featured_option: featured_option,
+          collection: collection,
+          mobile_stop_limit: 6,
+          desktop_stop_limit: 6,
+        %}
+      {% endif %}
+    {% endif %}
+
+    <button 
+      class="{{c}}__submit cta js-quickAdd"
+      name="quick-add"
+      type="button"
+      {% unless current_variant.available %}disabled{% endunless %}
+    >
+      <span class="active">Quick Add</span>
+      <span class="oos">Sold Out</span>
+    </button>
+  </div>
+</article>

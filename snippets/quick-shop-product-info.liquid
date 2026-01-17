@@ -1,0 +1,50 @@
+{% liquid
+  assign c = "QuickShopProductInfo"
+  assign product = product
+  assign current_variant = current_variant
+
+  assign rose_type = false
+  for tag in product.tags
+    if tag contains ':'
+      assign key = tag | split: ':' | first | downcase
+      assign value = tag | split: ':' | last
+
+      if key == 'rose type'
+        assign rose_type = value
+      endif
+    endif
+  endfor
+%}
+
+<div class="{{c}}">
+  <div class="{{c}}__title h5">
+    {{ product.title }}
+  </div>
+
+  <div class="{{c}}__info-container">
+    <div class="{{c}}__price-container">
+      <div class="{{c}}__price body js-quickShopInfoPrice" data-product-id="{{ product.id }}">
+        {{ current_variant.price | money_without_trailing_zeros }}
+      </div>
+
+      <div class="{{c}}__price-compare body js-quickShopInfoPriceCompare" data-product-id="{{ product.id }}">
+        {{ current_variant.compare_at_price | money_without_trailing_zeros }}
+      </div>
+
+      <div class="{{c}}__seperator"></div>
+
+      {% if rose_type %}
+        <div class="{{c}}__rose-type body">
+          {{ rose_type }}
+        </div>
+      {% endif %}
+    </div>
+
+    <a 
+      class="{{c}}__product-link body-s js-quickShopProductLink"
+      href="{{ current_variant.url }}" 
+    >
+      View Full Details
+    </a>
+  </div>
+</div>

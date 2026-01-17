@@ -1,0 +1,51 @@
+{% liquid
+  assign c = "DeliverySelectionDate"
+  assign section = section
+%}
+
+<div class="{{c}}">
+  <div class="{{c}}__subheader subheader">
+    {{ section.select_date_text }}
+  </div>
+
+  <div class="{{c}}__selections">
+    <div class="{{c}}__selection">
+      <input 
+        class="{{c}}__radio js-deliverySelectionRadio"
+        type="radio"
+        name="delivery_selection"
+        value="same_day"
+        id="same_day"
+      >
+
+      <label 
+        for="same_day" 
+        class="{{c}}__label body"
+      >
+        Today, {{ 'now' | date: "%B %e, %Y" }}
+      </label>
+    </div>
+
+    <div class="{{c}}__selection">
+      <input 
+        class="{{c}}__radio js-deliverySelectionRadio"
+        type="radio"
+        name="delivery_selection"
+        value="next_day"
+        id="next_day"
+      >
+
+      <label 
+        for="next_day" 
+        class="{{c}}__label body"
+      >
+        {% liquid
+          assign today = 'now' | date: '%s'
+          assign single_day = 86400
+          assign tomorrow = today | plus: single_day
+        %}
+        Tomorrow, {{ tomorrow | date: "%B %e, %Y" }}
+      </label>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+{% liquid
+  assign c = "HatboxProductOption"
+  assign title = title
+  assign shape = shape
+  assign is_active = is_active | default: false
+%}
+
+<button
+  class="{{c}} {% if is_active %}active-option{% endif %} js-hatboxProductOption"
+  data-size="{{ title }}"
+  data-shape="{{ shape }}"
+  data-component="{{c}}"
+  aria-label="Select {{ title }} hatbox size"
+>
+  <div class="{{c}}__swatch-wrap">
+    <div class="{{c}}__material-image">
+      <div class="{{c}}__image-wrap">
+        <img 
+          class="{{c}}__image js-hatboxProductOptionSwatchImage"
+          alt="{{ title }} Hatbox" 
+          width="86"
+          height="86"
+        >
+      </div>
+    </div>
+
+    <div class="{{c}}__title body-s">
+      {{ title }}
+    </div>
+  </div>
+</button>

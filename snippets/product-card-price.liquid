@@ -1,0 +1,43 @@
+{% liquid
+  assign c = "ProductCardPrice"
+  assign product = product
+  assign current_variant = current_variant
+  assign show_quick_shop = show_quick_shop | default: false
+%}
+
+<div 
+  class="
+    {{c}} js-priceContainer 
+
+    {% if product.available == false %}
+      product-sold-out
+    {% elsif current_variant.available == false %} 
+      sold-out 
+    {% endif %}
+
+    {% if show_quick_shop %} 
+      quick-shop-enabled
+    {% endif %}
+  "
+>
+  {% if product.available == false %}  
+    <div class="{{c}}__text {{c}}__text--product-sold-out caption">
+      Sold Out- Notify Me
+    </div>
+  {% elsif product.price_varies %}
+    <div class="{{c}}__text caption">
+      Starting at {{ product.price_min | money_without_trailing_zeros }}
+    </div>
+  {% else %}
+    <div class="{{c}}__text caption" data-product-id="{{ product.id }}">
+      {{ product.price | money_without_trailing_zeros }}
+    </div>
+    <div class="{{c}}__price-compare caption" data-product-id="{{ product.id }}">
+      {{ product.compare_at_price | money_without_trailing_zeros }}
+    </div>
+  {% endif %}
+
+  <div class="{{c}}__text {{c}}__text--sold-out caption">
+    Sold out
+  </div>
+</div>

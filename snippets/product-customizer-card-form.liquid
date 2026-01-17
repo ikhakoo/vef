@@ -1,0 +1,44 @@
+{% liquid
+  assign c = "ProductCustomizerCardForm"
+  assign cards = cards
+  assign blocks_count = cards | size
+
+  if blocks_count == 1
+    assign single_block = 'single-block'
+  endif
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__cards-wrap">
+    <div class="{{c}}__cards {% if blocks_count > 2 %}three-grid{% endif %} {{ single_block }}">
+      {% for card in cards %}
+        <div class="{{c}}__card">
+          {%
+            render 'product-card-button',
+            block: card,
+            single_block: single_block,
+          %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="{{c}}__message-wrap">
+    <textarea
+      class="{{c}}__textarea body js-cardMessageTextarea"
+      placeholder="(125 characters max) Leave empty for a blank greeting card"
+      aria-label="Enter your gift card message"
+      rows="4"
+      maxlength="125"
+    ></textarea>
+
+    <div class="{{c}}__remove-card-wrapper">
+      <button class="js-quickAdd" type="button">
+        Finish Customization & Skip Greeting
+      </button>
+    </div>
+  </div>
+</div>

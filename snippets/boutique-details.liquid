@@ -1,0 +1,138 @@
+{% liquid
+  assign c = "BoutiqueDetails"
+  assign sections = shop.metafields.acf_settings.page_layouts | where: "id", page.id | first | map: "sections" | where: "visible"
+  assign fields = page.metafields.flexible
+  assign nav_component_class = c | append: "__navigation"
+  assign nav_component_container = c | append: "__navigation-container"
+%}
+
+<div 
+  class="{{c}}"
+  data-component="{{c}}"
+>
+
+  {% for section in sections %}
+
+    {% case section.name %}
+
+      {% when 'media_text_hero' %} 
+        {% assign index = section.index %}
+          {% render 'media-text-hero',
+            index: index,
+            color: fields.media_text_hero_color,
+            image: fields.media_text_hero_image[0],
+            image_mobile: fields.media_text_hero_image_mobile[0],
+            header: fields.media_text_header,
+            subheader: fields.media_text_subheader,
+            title_under_hero: fields.title_under_hero
+          %}
+      {% endcase %}
+  {% endfor %}
+
+  {% render 'page-secondary-navigation',
+    list: fields.secondary_navigation_list.markdown,
+    component_class: nav_component_class,
+    component_container: nav_component_container
+  %}
+
+  {% comment %} Modules {% endcomment %}
+  {% for section in sections %}
+
+    {% case section.name %}
+
+      {% when 'one_column' %}
+        {% assign fields = page.metafields.flexible %}
+        {% render 'page-one-column',
+          nav_ref: fields.one_column_nav_ref[section.index],
+          image: fields.one_col_bkgd_img[section.index][0],
+          image_mobile: fields.one_col_bkgd_img_mobile[section.index][0],
+          background_color: fields.one_col_bkgd_color[section.index],
+          color: fields.one_col_color[section.index],
+          header: fields.one_col_header[section.index],
+          body: fields.one_col_body[section.index].html
+        %}
+
+      {% when 'list_collections__grid_item' %}
+        {% liquid
+          assign image = page.metafields.list_collection.image[section.index][0]
+          assign title = page.metafields.list_collection.title[section.index]
+          assign copy = page.metafields.list_collection.hover_copy[section.index].markdown
+          assign url = page.metafields.list_collection.url[section.index]
+        %}        
+        {% render 'list-collections-grid-item',
+          image: image,
+          title: title,
+          copy: copy,
+          url: url
+        %}
+    
+      {% when 'two_column' %}
+        {% assign fields = page.metafields.flexible %}
+        {% render 'page-two-column',
+          nav_ref: fields.two_column_nav_ref[section.index],
+          text_first: fields.two_column_text_first[section.index],
+          top_margin: fields.two_column_top_margin[section.index],
+          bottom_margin: fields.two_column_bottom_margin[section.index],
+          header: fields.two_column_header[section.index],
+          body: fields.two_column_body[section.index].html,
+          cta_text: fields.two_column_cta_text[section.index],
+          cta_link: fields.two_column_cta_link[section.index],
+          image: fields.two_column_image[section.index][0],
+          video_url: fields.two_column_video[section.index][0].src,
+          video_url_mobile: fields.two_column_video_mobile[section.index][0].src,
+          index: section.index
+          enable_shoppable: fields.enable_shoppable_module[section.index],
+          shoppable_id: fields.shoppable_id[section.index],
+          shoppable_cta: fields.shoppable_cta[section.index],
+        %}
+
+        {% 
+          render 'page-shoppable-content',
+          cta: fields.shoppable_cta[section.index],
+          id: fields.shoppable_id[section.index],
+        %}
+
+      {% when 'media_text_carousel' %}
+        {% render 'landing-media-text-carousel',
+          fields: page.metafields.media_text_carousel,
+          index: section.index
+        %}
+
+      {% when 'three_card_module' %}
+        {% assign fields = page.metafields.three_card_module %}
+        {% render 'landing-three-card-module',
+          fields: fields,
+          index: section.index,
+          nav_ref: fields.three_card_nav_ref[section.index]
+        %}
+
+      {% when 'landing_page__two_column' %}
+        {% render 'landing-two-column',
+          fields: page.metafields.landing_two_column,
+          index: section.index
+        %}        
+      
+      {% when 'three_column' %}
+        {% assign fields = page.metafields.flexible %}
+        {% render 'page-three-column',
+          image: fields.three_col_img[section.index][0],
+          image_mobile: fields.three_col_img_mobile[section.index][0],
+          header_1: fields.three_col_header_1[section.index],
+          url_1: fields.three_col_url_1[section.index],
+          image_hover_1: fields.three_col_img_hover_1[section.index][0],
+          image_hover_mobile_1: fields.three_col_img_hover_mobile_1[section.index][0],
+          header_2: fields.three_col_header_2[section.index],
+          url_2: fields.three_col_url_2[section.index],
+          image_hover_2: fields.three_col_img_hover_2[section.index][0],
+          image_hover_mobile_2: fields.three_col_img_hover_mobile_2[section.index][0],
+          header_3: fields.three_col_header_3[section.index],
+          url_3: fields.three_col_url_3[section.index],
+          image_hover_3: fields.three_col_img_hover_3[section.index][0],
+          image_hover_mobile_3: fields.three_col_img_hover_mobile_3[section.index][0],
+        %}
+
+    {% endcase %}
+  {% endfor %}
+
+
+</div>

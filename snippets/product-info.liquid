@@ -1,0 +1,101 @@
+{% liquid
+  assign c = "ProductInfo"
+  assign settings = settings
+  assign product = product
+  assign blocks = blocks
+  assign current_variant = current_variant
+  assign related_products = related_products | default: false
+  assign product_collection = product_collection | default: false
+  assign is_gift_card = is_gift_card | default: false
+  assign retail_exclusive = retail_exclusive | default: false
+
+  assign rose_type = false
+  for tag in product.tags
+    if tag contains ':'
+      assign key = tag | split: ':' | first | downcase
+      assign value = tag | split: ':' | last
+
+      if key == 'rose type'
+        assign rose_type = value
+      endif
+    endif
+  endfor
+%}
+
+<div
+  class="
+    {{c}} 
+    js-product-info-wrap
+    {% unless current_variant.available %} not-available {% endunless %}
+  "
+  data-component="{{c}}"
+>
+  <div class="{{c}}__wrap">
+    <h1 class="{{c}}__title h3">
+      {{ product.title }}
+    </h1>
+
+    <div class="{{c}}__content">
+      {% if is_gift_card %}
+        <div class="{{c}}__price {{c}}__price--range">
+          Starting at {{ product.price_min | money_without_trailing_zeros }}
+        </div>
+
+      {% else %}
+        <div class="{{c}}__price body js-price" data-product-id="{{ product.id }}">
+          {{ current_variant.price | money_without_trailing_zeros }}
+        </div>
+        {% if current_variant.compare_at_price %}
+          <div class="{{c}}__price-compare body js-priceCompare" data-product-id="{{ product.id }}">
+            {{ current_variant.compare_at_price | money_without_trailing_zeros }}
+          </div>
+        {% endif %}
+
+      {% endif %}
+
+      <div class="{{c}}__seperator"></div>
+
+      {% if rose_type %}
+        <div class="{{c}}__rose-type body">
+          {{ rose_type }}
+        </div>
+      {% endif %}
+
+      <a
+        class="{{c}}__description-anchor body js-descriptionAnchor"
+        href="#ProductDescription"
+      >
+        Learn More
+      </a>
+
+      <div 
+        class="{{c}}__review-badge"
+        data-oke-reviews-product-listing-rating
+      >
+        {{ product.metafields.okendo.ProductListingSnippet }}
+      </div>
+    </div>
+
+    {% if retail_exclusive %}    
+      <div class="{{c}}__retail-exclusive-banner">
+        <div class="{{c}}__banner-container">
+          <div class="{{c}}__banner-content caption">
+            Available Exclusively In-Store
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {%
+      render 'product-form',
+      settings: settings,
+      product: product,
+      blocks: blocks,
+      current_variant: current_variant,
+      related_products: related_products,
+      product_collection: product_collection,
+      is_gift_card: is_gift_card,
+      retail_exclusive: retail_exclusive,
+    %}
+  </div>
+</div>

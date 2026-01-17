@@ -1,0 +1,48 @@
+{% liquid
+  assign c = "PageOneColumn"
+  assign nav_ref = nav_ref | handleize | default: false
+  assign header = header | default: false
+  assign body = body | default: false
+  assign image = image | default: false
+  assign image_mobile = image_mobile | default: false
+  assign background_color = background_color | default: false
+  assign color = color | default: false
+  assign image_component_class = c | append: "__image-container"
+  assign image_class = c | append: "__image"
+%}
+
+<div
+  class="{{c}} js-section-target"
+  data-section-target="location--{{ nav_ref }}"
+  style="background-color: {{ background_color }}"
+  id="location--{{ nav_ref }}"
+>
+  <div class="{{c}}__container">
+
+    {% unless image == false %}
+      {% render 'image',
+        component_class: image_component_class,
+        class: image_class,
+        image: image_mobile,
+        sizes: "350",
+        image_2: image,
+        sizes_2: "768, 1024, 1200"
+      %}
+    {% endunless %}
+
+    <div class="{{c}}__text-container">
+
+      <h2
+        class="{{c}}__header h3"
+        style="color: {{ color }}"
+      >
+        {{ header }}
+      </h2>
+
+      <div class="{{c}}__body body">
+        {{ body }}
+      </div>
+    </div>
+  </div>
+
+</div>

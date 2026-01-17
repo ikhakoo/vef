@@ -1,0 +1,53 @@
+{% liquid
+  assign c = "ProductFormNotifyMe"
+  assign settings = settings
+  assign current_variant = current_variant
+  assign klaviyo_public_api_key = settings.notify_me_api_key
+  assign notify_me_request_endpoint = settings.notify_me_request_endpoint
+  assign legal_disclaimer = settings.notify_me_disclaimer
+  assign success_message = settings.notify_me_success_msg
+%}
+
+<form
+  class="{{c}} js-notify-me"
+  data-component="{{c}}"
+  {% if current_variant.available %}
+    hidden
+  {% endif %}
+  method="POST"
+>
+  <div class="{{c}}__inner">
+    <div class="{{c}}__field NotifyMeForm__field">
+      <input
+        id="{{c}}__customer-email"
+        class="{{c}}__input NotifyMeForm__input js-notify-me-email"
+        type="email"
+        name="email"
+        aria-label="Email"
+        placeholder="Email Address"
+        required
+      >
+      <label
+        for="{{c}}__customer-email"
+        class="{{c}}__label NotifyMeForm__label caption"
+      >
+        Email Address
+      </label>
+      <input
+        class="js-notify-me-variant-id"
+        type="hidden"
+        name="variant"
+        value="{{ current_variant.id }}"
+      >
+      <input
+        type="hidden"
+        name="platform"
+        value="shopify"
+      >
+      <button class="{{c}}__submit" type="submit" aria-label="Submit notify me when in stock email">{% render 'icon', icon: 'arrow-right' %}</button>
+    </div>
+    <div class="{{c}}__disclaimer body-s js-notify-me-disclaimer">{{ legal_disclaimer }}</div>
+  </div>
+  <div class="{{c}}__message body js-notify-me-success">{{ success_message }}</div>
+  <div class="{{c}}__message body js-notify-me-error">There was an error procession your request.</div>
+</form>

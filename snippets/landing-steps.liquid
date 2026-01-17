@@ -1,0 +1,52 @@
+{% liquid
+  assign c = "LandingSteps"
+  assign fields = fields
+  assign index = index
+  assign steps_array = fields.list[index].markdown | split: "*" | default: false
+  assign header = fields.header[index] | default: false
+  assign cta_text = fields.cta_text[index] | default: false
+  assign cta_link = fields.cta_link[index] | default: false
+  assign step_count = 1
+  assign total_steps = steps_array | size
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__container swiper js-carousel">
+    {% if header %}
+      <h2 class="{{c}}__header h4">
+        {{ header }}
+      </h2>
+    {% endif %}
+    <ul class="{{c}}__list-container swiper-wrapper">
+      {% for item in steps_array %}
+        {% unless item == blank %}
+          <li class="{{c}}__item swiper-slide">
+            <div class="{{c}}__index-container h4">
+              <span class="{{c}}__index">
+                {{ step_count }}
+              </span>
+            </div>
+            <div class="{{c}}__item-header subheader">
+              Step {{ step_count }}
+            </div>
+            <div class="{{c}}__item-body body">
+              {{ item }}
+            </div>
+          </li>
+          {% assign step_count = step_count | plus: 1 %}
+        {% endunless %}
+      {% endfor %}
+    </ul>
+    {% if total_steps > 1 %}
+      <div class="{{c}}__pagination js-carouselPagination"></div>
+    {% endif %}
+    {% if cta_text %}
+      <a href="{{ cta_link }}" class="{{c}}__cta cta cta--black">
+        {{ cta_text }}
+      </a>
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,24 @@
+{% liquid
+  assign c = "Navigation"
+  assign navigation = navigation
+  assign settings = settings
+  assign blocks = blocks
+%}
+
+<div
+  class="{{c}} js-navigation"
+>
+
+  {% render 'navigation-desktop',
+    navigation: navigation,
+    settings: settings,
+    blocks: blocks
+  %}
+
+  {% render 'navigation-mobile',
+    navigation: navigation,
+    settings: settings,
+    blocks: blocks
+  %}
+
+</div>

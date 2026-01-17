@@ -1,0 +1,129 @@
+{% liquid
+  assign c = "TestimonialsModule"
+  assign section = section
+  assign blocks = blocks
+
+  assign image_component_class = c | append: '__image-wrap'
+  assign image_class = c | append: '__image'
+  assign product_image_component_class = c | append: '__product-image-wrap'
+  assign product_image_class = c | append: '__product-image'
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  role="region"
+  aria-label="Testimonials Carousel"
+>
+  <div class="{{c}}__title subheader">
+    {{ section.title }}
+  </div>
+
+  <div class="{{c}}__container swiper js-testimonialSliderContainer">
+    <div class="{{c}}__wrapper swiper-wrapper">
+      {% for block in blocks %}
+        {% liquid
+          assign image = block.settings.image | default: false
+          assign name = block.settings.name | default: false
+          assign handle = block.settings.handle | default: false
+          assign text = block.settings.text | default: false
+          assign show_stars = block.settings.show_stars | default: false
+          assign product = all_products[block.settings.product] | default: false
+          assign product_description = block.settings.product_description | default: false
+        %}
+
+        <div class="{{c}}__slide swiper-slide">
+          {% if image %}
+            {%
+              render 'image',
+              component_class: image_component_class,
+              class: image_class,
+              image: image,
+              sizes: '350',
+            %}
+          {% endif %}
+
+          <div class="{{c}}__content-wrap">
+            {% if name %}
+              <div class="{{c}}__name h5">
+                {{ name }}
+              </div>
+            {% endif %}
+  
+            {% if handle %}
+              <div class="{{c}}__handle subheader">
+                {{ handle }}
+              </div>
+            {% endif %}
+  
+            {% if text %}
+              <div class="{{c}}__text body">
+                {{ text }}
+              </div>
+            {% endif %}
+  
+            {% if show_stars %}
+              {%
+                render 'component-icon',
+                icon: 'five-review-stars',
+              %}
+            {% endif %}
+          </div>
+
+          {% if product %}
+            <a 
+              class="{{c}}__product"
+              href="{{ product.url }}" 
+            > 
+              {%
+                render 'image',
+                component_class: product_image_component_class,
+                class: product_image_class,
+                image: product.featured_image,
+                sizes: '350',
+              %}
+
+              <div class="{{c}}__product-info">
+                <div class="{{c}}__product-title h5">
+                  {{ product.title }}
+                </div>
+
+                {% if product_description %}
+                  <div class="{{c}}__product-desc body">
+                    {{ product_description }}
+                  </div>
+                {% endif %}
+
+                <div class="{{c}}__product-price body" data-variant-id="{{ product.selected_or_first_available_variant.id }}">
+                  {{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}
+                </div>
+              </div>
+            </a>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="{{c}}__nav-btns-wrap">
+      <button 
+        class="{{c}}__arrow {{c}}__arrow--prev js-testimonialSliderPrevBtn"
+        aria-label="Navigate to previous slide"
+      >
+        {%
+          render 'component-icon',
+          icon: 'pagination-arrow',
+        %}
+      </button>
+
+      <button 
+        class="{{c}}__arrow {{c}}__arrow--next js-testimonialSliderNextBtn"
+        aria-label="Navigate to next slide"
+      >
+        {%
+          render 'component-icon',
+          icon: 'pagination-arrow',
+        %}
+      </button>
+    </div>
+  </div>
+</div>

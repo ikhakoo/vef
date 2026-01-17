@@ -1,0 +1,38 @@
+{% liquid
+  assign c = "ProductActionCallouts"
+  assign settings = settings
+  assign enable_wishlist_section = settings.action_callout_show_wishlist
+%}
+
+<div
+  class="{{c}} {% if enable_wishlist_section %} wishlist-enabled {% endif %}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__container">
+    <div class="{{c}}__title-wrap">
+      <div class="{{c}}__title subheader">
+        {{ settings.action_callout_title }}
+      </div>
+    </div>
+  
+    <div class="{{c}}__info-wrap">
+      {% if enable_wishlist_section %}
+          <div class="{{c}}__info-col">
+            <div class="{{c}}__info-text body">
+              {{ settings.action_callout_wishlist }}
+            </div>
+  
+            <button class="{{c}}__cta btn-copy js-create-wishlist-btn">
+              Create Wishlist
+            </button>
+          </div>  
+      {% endif %}
+  
+      <div class="{{c}}__info-col">
+        <div class="{{c}}__info-text body">
+          {{ settings.action_callout_personal }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

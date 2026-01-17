@@ -1,0 +1,37 @@
+{% liquid
+  assign c = "Article2ColumnImageCopy"
+  assign index = index
+  assign metafields = metafields.image_copy_columns
+  assign alignment = metafields.alignment[index] | downcase | default: 'left'
+  assign image = metafields.image[index][0] | default: false
+  assign caption = metafields.image_caption[index].html | default: false
+  assign header = metafields.header[index] | default: false
+  assign copy = metafields.copy[index].markdown | newline_to_br | default: false
+  assign image_component_class = c | append: '__image-wrap'
+%}
+
+<div class="{{c}}">
+  <div class="{{c}}__inner {{c}}__inner--image-{{ alignment }}">
+    <div class="{{c}}__image-container">
+      {% if image %}
+        {% render 'image'
+          component_class: image_component_class,
+          image: image,
+          sizes: '350, 768, 1024, 1440'
+        %}
+      {% endif %}
+      {% if caption %}
+        <div class="{{c}}__caption body-s">{{ caption }}</div>
+      {% endif %}
+    </div>
+    <div class="{{c}}__text">
+      {% if header %}
+        <div class="{{c}}__header h4">{{ header }}</div>
+      {% endif %}
+
+      {% if copy %}
+        <div class="{{c}}__copy body">{{ copy }}</div>
+      {% endif %}
+    </div>
+  </div>
+</div>

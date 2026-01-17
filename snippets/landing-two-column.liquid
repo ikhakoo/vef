@@ -1,0 +1,106 @@
+{% liquid
+  assign c = "LandingTwoColumn"
+  assign fields = fields
+  assign index = index
+  assign image_component_class = c | append: "__image-container"
+  assign image_class = c | append: "__image"
+  assign video_component_class = c | append: '__video-wrap'
+  assign video_class = c | append: '__video'
+
+  assign left_order = fields.left_order[index] | default: "image-first"
+  assign left_image = fields.left_image[index][0] | default: false
+  assign left_video_url = fields.left_video_url[index] | default: false
+  assign left_header = fields.left_header[index] | default: false
+  assign left_subheader = fields.left_subheader[index] | default: false
+  assign left_cta_text = fields.left_cta_text[index] | default: false
+  assign left_cta_link = fields.left_cta_link[index] | default: false
+  assign right_order = fields.right_order[index] | default: "text-first"
+  assign right_image = fields.right_image[index][0] | default: false
+  assign right_video_url = fields.right_video_url[index] | default: false
+  assign right_header = fields.right_header[index] | default: false
+  assign right_subheader = fields.right_subheader[index] | default: false
+  assign right_cta_text = fields.right_cta_text[index] | default: false
+  assign right_cta_link = fields.right_cta_link[index] | default: false
+
+  assign left_order_modifier = c | append: "__column--" | append: left_order
+  assign right_order_modifier = c | append: "__column--" | append: right_order
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <div class="{{c}}__container">
+    <div class="{{c}}__column {{ left_order_modifier }} js-container">
+      {% if left_video_url %}
+        {% assign poster = left_image | image_url: width: 1000 %}
+        {% render 'video',
+          component_class: video_component_class,
+          class: video_class,
+          video: left_video_url,
+          poster: poster
+        %}
+      {% else %}
+        {% render 'image',
+          component_class: image_component_class,
+          class: image_class,
+          image: left_image,
+          sizes: "300, 768, 1024, 1200"
+        %}
+      {% endif %}
+      <div class="{{c}}__text-container">
+        {% if left_header %}
+          <h3 class="{{c}}__header h3">
+            {{ left_header }}
+          </h3>
+        {% endif %}
+        {% if left_subheader %}
+          <div class="{{c}}__subheader subheader">
+            {{ left_subheader }}
+          </div>
+        {% endif %}
+        {% if left_cta_link and left_cta_text %}
+          <a href="{{ left_cta_link }}" class="{{c}}__btn cta--black js-link">
+            {{ left_cta_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="{{c}}__column {{c}}__column--right {{ right_order_modifier }} js-container">
+      {% if right_video_url %}
+        {% assign poster = right_image | image_url: width: 1000 %}
+        {% render 'video',
+          component_class: video_component_class,
+          class: video_class,
+          video: right_video_url,
+          poster: poster
+        %}
+      {% else %}
+        {% render 'image',
+          component_class: image_component_class,
+          class: image_class,
+          image: right_image,
+          sizes: "300, 768, 1024, 1200"
+        %}
+      {% endif %}
+      <div class="{{c}}__text-container">
+        {% if right_header %}
+          <h3 class="{{c}}__header h3">
+            {{ right_header }}
+          </h3>
+        {% endif %}
+        {% if right_subheader %}
+          <div class="{{c}}__subheader subheader">
+            {{ right_subheader }}
+          </div>
+        {% endif %}
+        {% if right_cta_link and right_cta_text %}
+          <a href="{{ right_cta_link }}" class="{{c}}__btn cta--black js-link">
+            {{ right_cta_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

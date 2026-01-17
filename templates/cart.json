@@ -1,0 +1,32 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-cart",
+      "settings": {
+        "cart_footer_product_handle": "",
+        "cart_footer_variant_id": "",
+        "cart_footer_background_color": "#f3f3f3",
+        "cart_footer_text_color": "#000000",
+        "cart_footer_use_href": false,
+        "show_price_over_image": false
+      }
+    },
+    "167080549907a3b6c5": {
+      "type": "apps",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "167080549907a3b6c5"
+  ]
+}

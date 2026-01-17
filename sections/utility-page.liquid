@@ -1,0 +1,17 @@
+{%
+  render 'utility-page',
+  settings: section.settings
+%}
+
+{% schema %}
+{
+  "name": "Utility Page",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "utility_nav",
+      "label": "Utility Navigation"
+    }
+  ]
+}
+{% endschema %}

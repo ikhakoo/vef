@@ -1,0 +1,83 @@
+{%
+  render 'collection-cards',
+  section: section.settings,
+  blocks: section.blocks,
+%}
+
+{% schema %}
+{
+  "name": "Collection Cards",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Browse By Collection"
+    },
+    {
+      "type": "color_background",
+      "id": "bg_gradient",
+      "label": "Background Gradient",
+      "default": "linear-gradient(270deg, #E4B36F 0%, #D2B692 48.87%, #AC9890 97.92%)",
+      "info": "See CMS guide on gradient instructions"
+    },
+    {
+      "type": "color_background",
+      "id": "bg_gradient_mobile",
+      "label": "Background Gradient Mobile",
+      "default": "linear-gradient(45deg, #E4B36F 0%, #D2B692 48.87%, #AC9890 97.92%)",
+      "info": "See CMS guide on gradient instructions"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        {
+          "type": "video",
+          "id": "bg_video",
+          "label": "Background Video"
+        },
+        {
+          "type": "image_picker",
+          "id": "bg_image",
+          "label": "Background Image"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "URL"
+        },
+        {
+          "type": "select",
+          "id": "text_color",
+          "label": "Text Color",
+          "options": [
+            {
+              "value": "text-light",
+              "label": "White"
+            },
+            {
+              "value": "text-dark",
+              "label": "Black"
+            }
+          ],
+          "default": "text-light"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Collection Cards"
+    }
+  ]
+}
+{% endschema %}

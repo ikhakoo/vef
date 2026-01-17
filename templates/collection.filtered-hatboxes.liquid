@@ -1,0 +1,32 @@
+{% layout none %}
+
+<script
+  class="js-filteredHatboxProductsJson"
+  type="application/json"
+>
+  {
+    "products": [
+      {% paginate collection.products by 50 %}
+        {% for product in collection.products %}
+          {
+            "id": {{ product.id | json }},
+            "handle": {{ product.handle | json }},
+            "material": {{ product.selected_or_first_available_variant.options | first | json }},
+            "size": {{ product.metafields.custom.hatbox_size | json }},
+            "variants": [
+              {% for variant in product.variants %}
+                {
+                  "id": {{ variant.id | json }},
+                  {%  if variant.featured_image %}
+                    "featured_image": {{ variant.featured_image | image_url: width: 100 | json }},
+                  {% endif %}
+                  "rose_color": {{ variant.options | last | json }}
+                }{% unless forloop.last %},{% endunless %}
+              {% endfor %}
+            ]
+          }{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      {% endpaginate %}
+    ]
+  }
+</script>

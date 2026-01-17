@@ -1,0 +1,67 @@
+{% liquid
+  assign c = "ZipcodeSearch"
+  assign input_title = input_title
+  assign not_found_message = not_found_message
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+>
+  <label 
+    class="{{c}}__label subheader"
+    for="zipcode_input"
+    id="zipcode_label"
+  >
+    {{ input_title }}
+  </label>
+
+  <div class="{{c}}__zipcode-autocomplete-wrap js-zipcodeFormContainer">
+    <div class="{{c}}__zipcode-input-wrap">
+      <input 
+        class="{{c}}__input body js-zipcodeSearchInput"
+        type="text"
+        id="zipcode_input"
+        aria-autocomplete="list"
+        aria-controls="zipcode_results"
+        aria-haspopup="listbox"
+        aria-expanded="false"
+        aria-describedby="zipcode_form_instructions"
+        autocomplete="off"
+        placeholder="Enter zip code"
+        required
+      >
+
+      <button 
+        class="{{c}}__submit js-zipcodeSubmit"
+        aria-label="Confirm selected zip code"
+      >
+        {%
+          render 'component-icon',
+          icon: 'zipcode-submit'
+        %}
+      </button>
+    </div>
+
+    <div 
+      class="{{c}}__instructions"
+      id="zipcode_form_instructions"
+    >
+      Begin typing to search zip codes, use arrow keys to navigate, Enter to select
+    </div>
+
+    <div 
+      class="{{c}}__results-count body js-zipCodeResultsCount"
+      data-empty-message="{{ not_found_message }}"
+      aria-live="assertive"
+    ></div>
+
+    <ul 
+      class="{{c}}__zipcode-results js-zipCodeHitsContainer"
+      id="zipcode_results"
+      role="listbox"
+      aria-labelledby="zipcode_label"
+    >
+    </ul>
+  </div>
+</div>

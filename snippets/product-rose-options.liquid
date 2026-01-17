@@ -1,0 +1,83 @@
+{% liquid
+  assign c = "ProductRoseOptions"
+  assign option = option
+  assign available_variants = available_variants
+%}
+
+<div
+  class="{{c}}"
+  data-component="{{c}}"
+  aria-hidden="true"
+  aria-expanded="false"
+>
+  <div class="{{c}}__header-wrap">
+    <div class="{{c}}__header">
+      <button
+        class="{{c}}__close-btn js-roseOptionsDrawerToggle"
+        aria-label="Close floral color options drawer"
+      >
+        {%
+          render 'component-icon',
+          icon: 'close-icon'
+        %}
+      </button>
+
+      <div class="{{c}}__title subheader">
+        {% render 'product-option-name',
+          option_name: option.name
+        %}:
+      </div>
+
+      <div
+        class="{{c}}__selected-value subheader js-selectedOptionValue"
+        data-option-position="{{ option.position }}"
+      >
+        {{ option.selected_value }}
+      </div>
+    </div>
+
+    <div class="{{c}}__view-btns">
+      <button
+        class="{{c}}__view-btn active-view body-s js-viewToggleBtn"
+        data-view="grid"
+        aria-label="Enable grid rose options view"
+      >
+        Grid
+      </button>
+
+      <button
+        class="{{c}}__view-btn  body-s js-viewToggleBtn"
+        data-view="list"
+        aria-label="Enable grid rose options view"
+      >
+        List
+      </button>
+    </div>
+  </div>
+
+  <div class="{{c}}__values-container">
+    <div class="{{c}}__values js-valuesWrap">
+
+      {% for value in option.values %}
+        {%
+          render 'product-rose-option',
+          option: option,
+          value: value,
+          available_variants: available_variants,
+          show_only_available: true,
+        %}
+      {% endfor %}
+
+      {% for value in option.values %}
+        {%
+          render 'product-rose-option',
+          option: option,
+          value: value,
+          available_variants: available_variants,
+          show_only_unavailable: true,
+        %}
+      {% endfor %}
+      
+    </div>
+  </div>
+</div>

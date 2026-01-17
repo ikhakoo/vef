@@ -1,0 +1,44 @@
+{%
+  render 'product-slogan',
+  tags: product.tags,
+  blocks: section.blocks,
+%}
+
+{% schema %}
+{
+  "name": "Product Slogan",
+  "settings": [
+
+  ],
+  "blocks": [
+    {
+      "type": "slogan",
+      "name": "Slogan",
+      "settings": [
+        {
+          "type": "text",
+          "id": "slogan_selector",
+          "label": "Tag selector type",
+          "info": "Tag products slogan:SELECTOR_TYPE_HERE to display this slogan"
+        },
+        {
+          "type": "textarea",
+          "id": "slogan",
+          "label": "Slogan",
+          "info": "Keep below 60 characters"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Slogan"
+    }
+  ],
+  "enabled_on": {
+    "templates": [
+      "product"
+    ]
+  }
+}
+{% endschema %}
