@@ -128,7 +128,7 @@
           drawers: fields.media_faq_drawers[section.index].markdown,
           index: section.index
         %}
-        
+
       {% when 'page_faqs' %}
         {% assign fields = page.metafields.flexible %}
         {% render 'page-faqs',
@@ -141,7 +141,8 @@
           index: section.index
         %}
         
-      {% endcase %}
-    {% endfor %}
-  </div>
+    {% endcase %}
+  {% endfor %}
+</div>
+
   

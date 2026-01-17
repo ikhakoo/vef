@@ -42,11 +42,11 @@
         </div>
 
       {% else %}
-        <div class="{{c}}__price body js-price" data-product-id="{{ product.id }}">
+        <div class="{{c}}__price body js-price">
           {{ current_variant.price | money_without_trailing_zeros }}
         </div>
         {% if current_variant.compare_at_price %}
-          <div class="{{c}}__price-compare body js-priceCompare" data-product-id="{{ product.id }}">
+          <div class="{{c}}__price-compare body js-priceCompare">
             {{ current_variant.compare_at_price | money_without_trailing_zeros }}
           </div>
         {% endif %}
@@ -68,7 +68,7 @@
         Learn More
       </a>
 
-      <div 
+      <div
         class="{{c}}__review-badge"
         data-oke-reviews-product-listing-rating
       >

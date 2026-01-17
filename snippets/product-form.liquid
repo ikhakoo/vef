@@ -1,5 +1,5 @@
 {% liquid
-  assign c = 'ProductForm'
+  assign c = "ProductForm"
   assign settings = settings
   assign product = product
   assign blocks = blocks
@@ -16,7 +16,7 @@
   assign action_callout_shop_pay_text = settings.action_callout_shop_pay_text | default: false
   if product.tags contains 'shop-pay-test'
     assign enable_shop_pay = true
-  endif
+  endif 
   assign enable_zipcode_checker = product.metafields.custom.product_zipcode_checker | default: false
 
   if enable_zipcode_checker contains 'Enable checker & disable ATC'
@@ -37,7 +37,7 @@
     endif
   endfor
 
-  assign has_subscriptions = product.selling_plan_groups | where: 'app_id', '5859381' | size
+  assign has_subscriptions = product.selling_plan_groups | size
   if has_subscriptions == 0
     assign has_subscriptions = false
   endif
@@ -55,14 +55,14 @@
   assign available_text = 'Add To Cart'
   for tag in product.tags
     if tag contains 'AltCTA:'
-      assign available_text = tag | remove: 'AltCTA:'
+      assign available_text = tag | remove: "AltCTA:" 
     endif
   endfor
 
   assign unavailable_text = 'Out of Stock - Notify Me'
   for tag in product.tags
     if tag contains 'NotifyMeText:'
-      assign unavailable_text = tag | remove: 'NotifyMeText:'
+      assign unavailable_text = tag | remove: "NotifyMeText:"
     endif
   endfor
 
@@ -80,10 +80,12 @@
   data-component="{{c}}"
   data-product-id="{{ product.id }}"
 >
+
   <div id="DeliveryBannerFlag" data-delivery-banner="{{ product.metafields.custom.delivery_banner }}"></div>
 
   {% if is_hatbox_product %}
-    {% render 'hatbox-product-options',
+    {%
+      render 'hatbox-product-options',
       hatbox_shape: hatbox_shape,
       hatbox_size: hatbox_size,
       material: hatbox_material
@@ -97,49 +99,67 @@
         assign values_count = option.values | size
       %}
 
-      {% if related_products and values_count == 1 and forloop.index == 1 %}
-        {% render 'related-product-options',
+      {%
+        if related_products and
+        values_count == 1 and
+        forloop.index == 1
+      %}
+        {%
+          render 'related-product-options',
           option: option,
           related_products: related_products,
           current_product: product,
-          product_collection: product_collection
+          product_collection: product_collection,
         %}
 
-      {% elsif product_image_swatch_options contains option_name
-        or product_specific_image_swatch_options contains option_name
+      {%
+        elsif product_image_swatch_options contains option_name or
+        product_specific_image_swatch_options contains option_name
       %}
-        {% render 'product-image-options',
+        {%
+          render 'product-image-options',
           option: option,
           product_handle: product.handle,
           product_specific_image_swatch_options: product_specific_image_swatch_options,
           available_variants: available_variants,
-          is_homeware: is_homeware
+          is_homeware: is_homeware,
         %}
 
         {% if option_name == 'floral color' %}
-          {% render 'product-rose-options',
+          {%
+            render 'product-rose-options',
             settings: settings,
             option: option,
-            available_variants: available_variants
+            available_variants: available_variants,
           %}
         {% else %}
-          {% render 'product-options-drawer',
+          {%
+            render 'product-options-drawer',
             option: option,
             product_handle: product.handle,
             product_specific_image_swatch_options: product_specific_image_swatch_options,
             available_variants: available_variants,
-            is_homeware: is_homeware
+            is_homeware: is_homeware,
           %}
         {% endif %}
 
       {% else %}
         {% unless is_locks_box %}
           {% if is_gift_card %}
-            {% render 'product-option-select', variants: product.variants, current_variant: current_variant %}
+            {%
+              render 'product-option-select',
+              variants: product.variants,
+              current_variant: current_variant,
+            %}
           {% else %}
-            {% render 'product-text-options', option: option, available_variants: available_variants %}
+            {%
+              render 'product-text-options',
+              option: option,
+              available_variants: available_variants,
+            %}
           {% endif %}
         {% endunless %}
+
       {% endif %}
     {% endfor %}
   {% endunless %}
@@ -156,20 +176,29 @@
     {% endif %}
   {% endfor %}
 
-  {% render 'product-builder-snippets', location: 'above-add-to-cart' %}
+  {%
+    render 'product-builder-snippets',
+    location: 'above-add-to-cart'
+  %}
 
   {% if has_subscriptions and product.available %}
-    {% render 'product-subscription-widget', settings: settings %}
+    {% 
+      render 'product-subscription-widget',
+      settings: settings,
+    %}
   {% endif %}
 
   {% if enable_zipcode_checker %}
-    {% render 'product-delivery-checker', checker_type: enable_zipcode_checker %}
+    {%
+      render 'product-delivery-checker',
+      checker_type: enable_zipcode_checker
+    %}
   {% endif %}
 
   <form
     class="
-      {{c}}__form
-      js-productForm
+      {{c}}__form 
+      js-productForm 
       {% if enable_shop_pay and additional_checkout_buttons %} {{c}}__form--alt-pay-enabled {% endif %}
       {% if retail_exclusive %} {{c}}__form--is-retail-exclusive {% endif %}
     "
@@ -214,7 +243,9 @@
       value=""
     >
 
-    {% render 'product-checkout-attributes', product: product %}
+    {% render "product-checkout-attributes",
+      product: product,
+    %}
 
     {% unless retail_exclusive %}
       <div class="{{c}}__form-actions {% unless enable_shop_pay %}full-width{% endunless %}">
@@ -227,9 +258,7 @@
             {% if disableATC %}delivery-disabled{% endif %}
             {% unless current_variant.available %} not-available {% endunless %}
           "
-          {% unless current_variant.available %}
-            disabled
-          {% endunless %}
+          {% unless current_variant.available %} disabled {% endunless %}
           type="submit"
         >
           <span class="{{c}}__submit--available-text">
@@ -242,11 +271,12 @@
         </button>
 
         {% if enable_shop_pay and additional_checkout_buttons %}
+
           <style>
             shopify-accelerated-checkout {
               --shopify-accelerated-checkout-skeleton-background-color: {{ action_callout_shop_pay_bg }};
             }
-
+            
             shopify-accelerated-checkout-cart {
               --shopify-accelerated-checkout-skeleton-background-color: {{ action_callout_shop_pay_bg }};
             }
@@ -257,12 +287,13 @@
           {% endform %}
 
           <div class="{{c}}__additional-checkout-buttons" id="accelerated-checkout">
-            {{ content_for_additional_checkout_buttons }}
+              {{ content_for_additional_checkout_buttons }}
           </div>
+
         {% endif %}
       </div>
     {% endunless %}
-  </form>
+  </form> 
 
   {% if retail_exclusive %}
     <div
@@ -272,29 +303,32 @@
         class="
           {{c}}__retail-exclusive--cta
           cta
-          cta--black
-        "
-        href="/pages/flower-store-boutique"
+          cta--black"
+          href="/pages/flower-store-boutique"
       >
-        <span class="{{c}}__retail-exclusive-text"> Visit a Boutique </span>
+        <span class="{{c}}__retail-exclusive-text">
+          Visit a Boutique
+        </span>
       </a>
+
     </div>
   {% endif %}
 
   {% unless product_disable_shipping_callout %}
     {% if settings.shipping_message_enable %}
-      {% render 'product-shipping-callout', settings: settings %}
+      {%
+        render 'product-shipping-callout',
+        settings: settings,
+      %}
     {% endif %}
   {% endunless %}
 
-  {% comment %}
-    {% unless product_disable_action_callouts %}
-      {%
-        render 'product-action-callouts',
-        settings: settings,
-      %}
-    {% endunless %}
-  {% endcomment %}
+  {% comment %} {% unless product_disable_action_callouts %}
+    {%
+      render 'product-action-callouts',
+      settings: settings,
+    %}
+  {% endunless %} {% endcomment %}
 
   {% for block in blocks %}
     {% if block.type == '@app' and block.id contains 'boutique_inventory_widget' %}
@@ -302,9 +336,16 @@
     {% endif %}
   {% endfor %}
 
-  {% render 'product-form-notify-me', settings: settings, current_variant: current_variant %}
+  {% render 'product-form-notify-me'
+    settings: settings
+    current_variant: current_variant
+  %}
 
-  {% render 'product-builder-snippets', location: 'below-add-to-cart' %}
+  {%
+    render 'product-builder-snippets',
+    location: 'below-add-to-cart'
+  %}
+  
 </div>
 
 <style>
@@ -313,7 +354,7 @@
     color: {{ action_callout_shop_pay_text }};
   }
 
-
+  
   .ProductForm__accelerated-checkout:hover {
     filter: brightness(90%);
   }

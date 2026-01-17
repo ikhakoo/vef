@@ -1,5 +1,5 @@
 {% liquid
-  assign c = 'AccountInfo'
+  assign c = "AccountInfo"
   assign settings = settings | default: false
   assign change_password_message = settings.change_password_message | default: false
 %}
@@ -8,7 +8,9 @@
   class="{{c}} js-section"
   data-section="information"
 >
-  <div class="{{c}}__title subheader">Account Information</div>
+  <div class="{{c}}__title subheader">
+    Account Information
+  </div>
   <div class="{{c}}__divider"></div>
   <div class="{{c}}__info">
     <span class="{{c}}__info-key subheader">name: </span>
@@ -20,16 +22,18 @@
   </div>
   {% if customer.tags contains 'has_subscription' %}
     <div class="{{c}}__manage-subscriptions">
-      {% comment %} <a class="{{c}}__cta cta" href="/tools/recurring/login/">Manage Subscriptions</a> {% endcomment %}
-      {% render 'stayai-account-btn', class: c %}
+      <a class="{{c}}__cta cta" href="/tools/recurring/login/">Manage Subscriptions</a>
     </div>
   {% endif %}
   <div class="{{c}}__password-container">
-    <div class="{{c}}__title subheader">Change Password</div>
+    <div class="{{c}}__title subheader">
+      Change Password
+    </div>
     <div class="{{c}}__divider"></div>
     <div class="{{c}}__change-password body">
       {{ change_password_message }}
-      {% form 'recover_customer_password',
+      {%
+        form 'recover_customer_password',
         class: 'AccountInfo__recover-form AccountForm',
         return_to: '/account/login?reset_password=true'
       %}

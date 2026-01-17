@@ -7,7 +7,8 @@
   assign image_component_class = c | append: "__image-wrap"
 %}
 
-<div class="{{c}}"
+<div
+  class="{{c}}"
   data-component="{{c}}"
 >
   <div class="{{c}}__image-container">
@@ -22,7 +23,5 @@
       </div>
     {% endif %}
   </div>
-  {% if title != blank%}
   <a class="{{c}}__title subheader js-link" href="{{ link }}">{{ title }}</a>
-  {% endif %}
 </div>

@@ -7,10 +7,10 @@
   {% if paginate.pages > 1 %}
     <div class="{{c}}__wrap">
       {% if paginate.previous.is_link %}
-        <a class="{{c}}__btn-link prev-link"
+        <a 
+          class="{{c}}__btn-link prev-link"
           href="{{ paginate.previous.url }}"
-          aria-label="Navigate to previous page"
-         
+          aria-title="Navigate to previous page"
         >
           {%
             render 'component-icon',
@@ -26,7 +26,8 @@
           </span>
   
         {% elsif part.is_link %}
-          <a class="{{c}}__link link" 
+          <a
+            class="{{c}}__link link" 
             href="{{ part.url }}"
           >
             {{ part.title }}
@@ -41,10 +42,10 @@
       {% endfor %}
   
       {% if paginate.next.is_link %}
-        <a class="{{c}}__btn-link next-link"
+        <a 
+          class="{{c}}__btn-link next-link"
           href="{{ paginate.next.url }}"
-          aria-label="Navigate to next page" 
-         
+          aria-title="Navigate to next page"
         >
           {%
             render 'component-icon',

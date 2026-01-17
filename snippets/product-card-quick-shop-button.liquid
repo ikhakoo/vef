@@ -21,10 +21,10 @@
     %}
   </div>
 
-  <span class="caption js-quickShopPrice" data-variant-id="{{ current_variant.id }}">
+  <span class="caption js-quickShopPrice">
     {{ current_variant.price | money_without_trailing_zeros }}    
   </span>
-  <span class="{{c}}__compare-at caption js-compareAtPrice" data-variant-id="{{ current_variant.id }}">
+  <span class="{{c}}__compare-at caption js-compareAtPrice">
     {{ current_variant.compare_at_price | money_without_trailing_zeros }}
   </span>
 </button>

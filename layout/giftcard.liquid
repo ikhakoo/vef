@@ -18,8 +18,7 @@
     -%}
 
     {{ content_for_header }}
-  {{ 'patrol-accessibility.css' | asset_url | stylesheet_tag }}
-</head>
+  </head>
   <body class="layout-giftcard template-{{- template.name -}}{%- if template.suffix -%}-{{- template.suffix -}}{%- endif -%}">
     <a role="button" href="#main-content">
       Skip to content

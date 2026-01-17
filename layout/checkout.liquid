@@ -12,8 +12,7 @@
     {% render 'head-settings' %}
     {% render 'checkout-scripts' %}
     {% render 'asset-tags', layout: 'checkout' %}
-  {{ 'patrol-accessibility.css' | asset_url | stylesheet_tag }}
-</head>
+  </head>
   <body>
     {{ skip_to_content_link }}
 
@@ -68,7 +67,6 @@
       </div>
     </div>
 
-    <div data-rebuy-id="54590"></div>
     {% # theme-check-disable %}
     <!-- 1. Link Vue Javascript -->
     <script  src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script> 

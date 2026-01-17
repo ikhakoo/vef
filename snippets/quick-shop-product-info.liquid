@@ -23,11 +23,11 @@
 
   <div class="{{c}}__info-container">
     <div class="{{c}}__price-container">
-      <div class="{{c}}__price body js-quickShopInfoPrice" data-product-id="{{ product.id }}">
+      <div class="{{c}}__price body js-quickShopInfoPrice">
         {{ current_variant.price | money_without_trailing_zeros }}
       </div>
 
-      <div class="{{c}}__price-compare body js-quickShopInfoPriceCompare" data-product-id="{{ product.id }}">
+      <div class="{{c}}__price-compare body js-quickShopInfoPriceCompare">
         {{ current_variant.compare_at_price | money_without_trailing_zeros }}
       </div>
 

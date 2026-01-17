@@ -17,7 +17,8 @@
   endfor
 %}
 
-<div class="{{c}}"
+<div
+  class="{{c}}"
   data-component="{{c}}"
 >
   <div class="{{c}}__cover js-imageCover"></div>
@@ -29,9 +30,10 @@
           {% assign image_count = image_count | plus: 1 %}
 
           <div class="{{c}}__slide {{c}}__slide--variant-image-slide swiper-slide">
-            <img class="{{c}}__image {{c}}__image--variant-image swiper-lazy js-featuredImage"
+            <img 
+              class="{{c}}__image {{c}}__image--variant-image swiper-lazy js-featuredImage"
               data-src="{{ featured_image | image_url: width: 1024 }}" 
-              alt="{{ featured_image.alt | escape }}"
+              alt="{{ product.title }}, {{ current_variant.title | replace: ' / ', ', ' }}, {{ rose_type }}, {{ shop.name }}"
               width="{{ featured_image.width }}"
               height="{{ featured_image.height }}"
               loading="lazy"
@@ -50,7 +52,8 @@
             {% assign image_count = image_count | plus: 1 %}
 
             <div class="{{c}}__slide swiper-slide">
-              <img class="{{c}}__image swiper-lazy"
+              <img 
+                class="{{c}}__image swiper-lazy"
                 data-src="{{ image | image_url: width: 1024 }}" 
                 alt="{{ image.alt | remove_first: 'image-with-thumbnail' }}"
                 width="{{ image.width }}"
@@ -71,7 +74,8 @@
 
   {% if image_count > 1 %}
     <div class="{{c}}__slider-navigation">
-      <button class="{{c}}__arrow {{c}}__arrow--prev js-prevImageBtn"
+      <button 
+        class="{{c}}__arrow {{c}}__arrow--prev js-prevImageBtn"
         aria-label="Previous image"
       >
         {%
@@ -82,7 +86,8 @@
 
       <div class="{{c}}__pagination js-imageSliderPagination"></div>
   
-      <button class="{{c}}__arrow {{c}}__arrow--next js-nextImageBtn"
+      <button 
+        class="{{c}}__arrow {{c}}__arrow--next js-nextImageBtn"
         aria-label="Next image"
       >
         {%

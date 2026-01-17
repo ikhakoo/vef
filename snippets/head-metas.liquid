@@ -34,8 +34,8 @@
 <meta name="p:domain_verify" content="cfc5328e2720fb988f4a8cd4b99bfa68"/>
 
 {%- if page_image -%}
-<meta property="og:image" content="http:{{ page_image | image_url: 'master' }}">
-<meta property="og:image:secure_url" content="https:{{ page_image | image_url: 'master' }}">
+<meta property="og:image" content="http:{{ page_image | image_url: width: page_image.width }}">
+<meta property="og:image:secure_url" content="https:{{ page_image | image_url: width: page_image.width }}">
 <meta property="og:image:width" content="{{ page_image.width }}">
 <meta property="og:image:height" content="{{ page_image.height }}">
 {%- endif -%}
@@ -59,3 +59,4 @@
 {%- endif -%}
 
 {% comment %} <link rel="manifest" href="{{ 'manifest.json' | asset_url }}"> {% endcomment %}
+

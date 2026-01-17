@@ -1,9 +1,10 @@
-{% render 'product',
+{%
+  render 'product',
   settings: section.settings,
   blocks: section.blocks,
   card_image: settings.card_image,
   card_title: settings.card_title,
-  card_message_placeholder: settings.card_message_placeholder
+  card_message_placeholder: settings.card_message_placeholder,
 %}
 
 {% schema %}
@@ -215,8 +216,8 @@
       "settings": [
         {
           "type": "text",
-          "id": "product_id",
-          "label": "Product ID"
+          "id": "plan_id",
+          "label": "Selling Plan Id"
         },
         {
           "type": "text",

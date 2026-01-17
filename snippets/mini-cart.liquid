@@ -72,9 +72,13 @@
         checkout
       </a>
 
-      <div class="{{c}}__message body-s">
-        Shipping & taxes calculated at checkout
-      </div>
+      {% if additional_checkout_buttons %}
+        <div class="{{c}}__additional-checkout-buttons js-acceleratedCheckout" id="accelerated-checkout">
+          {{ content_for_additional_checkout_buttons }}
+        </div>
+      {% endif %%}
+
+      <div class="js-miniCartAfterpay"></div>
     </div>
   </div>
 </div>

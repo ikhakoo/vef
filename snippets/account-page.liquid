@@ -2,8 +2,6 @@
   assign c = "AccountPage"
   assign settings = settings
   assign order_detail = order_detail | default: false
-  assign loyalty_text = settings.loyalty_text | default: false
-  assign loyalty_url = settings.loyalty_url | default: false
 %}
 
 <div
@@ -64,16 +62,6 @@
                 Addresses
               </a>
             </li>
-            {% if loyalty_url != blank %}
-              <li class="{{c}}__item">
-                <a
-                  href="{{ loyalty_url }}"
-                  class="{{c}}__link body js-toggle"
-                >
-                  {{ loyalty_text }}
-                </a>
-              </li>
-            {% endif %}
           </ul>
         </div>
         <a
@@ -97,14 +85,6 @@
         >
           addresses
         </a>
-        {% if loyalty_url != blank %}
-          <a
-            class="{{c}}__toggle-button link js-toggle"
-            href="{{ loyalty_url }}"
-          >
-            {{ loyalty_text }}
-          </a>
-        {% endif %}
       </div>
     </div>
     <div class="{{c}}__main">

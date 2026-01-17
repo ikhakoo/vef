@@ -94,7 +94,7 @@
                   </div>
                 {% endif %}
 
-                <div class="{{c}}__product-price body" data-variant-id="{{ product.selected_or_first_available_variant.id }}">
+                <div class="{{c}}__product-price body">
                   {{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}
                 </div>
               </div>

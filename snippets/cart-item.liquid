@@ -1,5 +1,5 @@
 {% liquid
-  assign c = 'CartItem'
+  assign c = "CartItem"
   assign item = item
   assign upsell_keys = upsell_keys
   assign item_image = item.image
@@ -17,8 +17,8 @@
     assign cart_no_follow = true
   endif
 
-  if item.properties._thumbnail != blank
-    assign item_image = item.properties._thumbnail
+  if item.properties['_thumbnail'] != blank
+    assign item_image = item.properties['_thumbnail']
     assign image_class = c | append: '__custom-image'
     assign direct_src = true
   endif
@@ -30,7 +30,7 @@
 
   assign gwp_qualifier = ''
   assign gwp_gift = ''
-  for tag in item.product.tags
+  for tag in item.product.tags 
     if tag contains 'gwp-qualifier:'
       assign gwp_qualifier = gwp_qualifier | append: tag | remove: 'gwp-qualifier:' | append: ','
     endif
@@ -63,7 +63,8 @@
       href="{{ item.url }}"
     {% endunless %}
   >
-    {% render 'image',
+    {%
+      render 'image',
       component_class: image_component_class,
       class: image_class,
       image: item_image,
@@ -92,7 +93,9 @@
       {% for option in item.options_with_values %}
         {% unless option.name == 'Title' %}
           <div class="{{c}}__line-item body-s">
-            {% render 'product-option-name', option_name: option.name %}: {{ option.value }}
+            {% render 'product-option-name',
+              option_name: option.name
+            %}: {{ option.value }}
           </div>
         {% endunless %}
       {% endfor %}
@@ -103,57 +106,30 @@
         {% unless first_char == '_' %}
           {% assign key = property.first | split: '_' %}
 
+
           {% capture first_capitalized %}
             {% for word in key %}
               {{ word | capitalize }}
             {% endfor %}
           {% endcapture %}
 
-          <div class="{{c}}__line-item {{ property.first }} body-s">{{ first_capitalized }}: {{ property.last }}</div>
+          <div class="{{c}}__line-item {{ property.first }} body-s">
+            {{ first_capitalized }}: {{ property.last }}
+          </div>
         {% endunless %}
       {% endfor %}
       {% if has_selling_plan %}
         <div class="{{c}}__selling-plan">
-          <select
-            class="{{c}}__selling-plan-selector body-s js-sellingPlanSelector"
-            name="selling-plan"
-            data-line="{{ forloop.index }}"
-            data-quantity="{{ item.quantity }}"
-          >
+          <select class="{{c}}__selling-plan-selector body-s js-sellingPlanSelector" name="selling-plan" data-line="{{ forloop.index }}" data-quantity="{{ item.quantity }}">
             {% for selling_plan_allocation in item.variant.selling_plan_allocations %}
-              {% assign target_app_id = '5859381' %}
-              {% assign show_option = false %}
-
-              {% for group in item.product.selling_plan_groups %}
-                {% if group.app_id == target_app_id %}
-                  {% for plan in group.selling_plans %}
-                    {% if plan.id == selling_plan_allocation.selling_plan.id %}
-                      {% assign show_option = true %}
-                      {% break %}
-                    {% endif %}
-                  {% endfor %}
-                {% endif %}
-              {% endfor %}
-
-              {% if show_option %}
-                <option
-                  value="{{ selling_plan_allocation.selling_plan.id }}"
-                  {% if item.selling_plan_allocation.selling_plan.id == selling_plan_allocation.selling_plan.id %}
-                    selected="selected"
-                  {% endif %}
-                >
-                  {{ selling_plan_allocation.selling_plan.name }}
-                </option>
-              {% endif %}
+              <option
+                value="{{ selling_plan_allocation.selling_plan.id }}"
+                {% if item.selling_plan_allocation.selling_plan.id == selling_plan_allocation.selling_plan.id %}selected="selected"{% endif %}
+              >
+                {{ selling_plan_allocation.selling_plan.name }}
+              </option>
             {% endfor %}
-            <option
-              value=""
-              {% if item.selling_plan_allocation.selling_plan.id == null %}
-                selected="selected"
-              {% endif %}
-            >
-              One-time purchase
-            </option>
+            <option value="" {% if item.selling_plan_allocation.selling_plan.id == nil %}selected="selected"{% endif %}>One-time purchase</option>
           </select>
         </div>
       {% endif %}
@@ -166,7 +142,10 @@
             class="{{c}}__quantity-btn js-minusQtyBtn"
             aria-label="Remove a {{ item.title }} from cart"
           >
-            {% render 'component-icon', icon: 'quantity-minus' %}
+            {%
+              render 'component-icon',
+              icon: 'quantity-minus'
+            %}
           </button>
 
           <div class="{{c}}__quantity-value body-s">
@@ -177,7 +156,10 @@
             class="{{c}}__quantity-btn js-addQtyBtn"
             aria-label="Add a {{ item.title }} from cart"
           >
-            {% render 'component-icon', icon: 'quantity-plus' %}
+            {%
+              render 'component-icon',
+              icon: 'quantity-plus'
+            %}
           </button>
         </div>
       {% endunless %}
